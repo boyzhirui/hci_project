@@ -4,8 +4,37 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c374bd40468442fead43f370d88fca3d" Name="Diagram1">
-        <EntityTypeShape EntityType="hciModel.user" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="c374bd40468442fead43f370d88fca3d" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="hciModel.user" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="hciModel.degree_level" Width="1.5" PointX="0.75" PointY="6" />
+        <AssociationConnector Association="hciModel.FK_users_degreelevels" />
+        <EntityTypeShape EntityType="hciModel.major" Width="1.5" PointX="0.75" PointY="12.375" />
+        <EntityTypeShape EntityType="hciModel.schedule" Width="1.5" PointX="0.75" PointY="9.125" />
+        <AssociationConnector Association="hciModel.FK_users_majors" />
+        <AssociationConnector Association="hciModel.FK_users_classschedules" />
+        <EntityTypeShape EntityType="hciModel.event_schedule" Width="1.5" PointX="5.25" PointY="13.875" />
+        <EntityTypeShape EntityType="hciModel.event" Width="1.5" PointX="3" PointY="13.875" />
+        <AssociationConnector Association="hciModel.FK_eventschedules_events" />
+        <AssociationConnector Association="hciModel.FK_events_schedules" />
+        <EntityTypeShape EntityType="hciModel.group_membership" Width="1.875" PointX="10.5" PointY="8" />
+        <EntityTypeShape EntityType="hciModel.group" Width="1.5" PointX="5.25" PointY="8.25" />
+        <EntityTypeShape EntityType="hciModel.meeting_attender" Width="2" PointX="9.75" PointY="11.375" />
+        <EntityTypeShape EntityType="hciModel.meeting_schedule" Width="1.5" PointX="9.75" PointY="17.25" />
+        <EntityTypeShape EntityType="hciModel.meeting" Width="1.5" PointX="7.5" PointY="14.375" />
+        <EntityTypeShape EntityType="hciModel.rel_group_studyfield" Width="1.5" PointX="7.5" PointY="9" />
+        <EntityTypeShape EntityType="hciModel.request" Width="1.5" PointX="7.5" PointY="5.875" />
+        <EntityTypeShape EntityType="hciModel.study_field" Width="1.5" PointX="5.25" PointY="5.125" />
+        <AssociationConnector Association="hciModel.FK_groupmemberships_groups" />
+        <AssociationConnector Association="hciModel.FK_groupmemberships_users" />
+        <AssociationConnector Association="hciModel.FK_groups_users" />
+        <AssociationConnector Association="hciModel.FK_meetings_groups" />
+        <AssociationConnector Association="hciModel.FK_rel_groupsstudyfields_groups" />
+        <AssociationConnector Association="hciModel.FK_requests_groups" />
+        <AssociationConnector Association="hciModel.FK_meetingattenders_meetings" />
+        <AssociationConnector Association="hciModel.FK_meetingattenders_users" />
+        <AssociationConnector Association="hciModel.FK_meetingschedules_meetings" />
+        <AssociationConnector Association="hciModel.FK_rel_groupsstudyfields_studyfields" />
+        <AssociationConnector Association="hciModel.FK_requests_senderusers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

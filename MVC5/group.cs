@@ -12,33 +12,28 @@ namespace MVC5
     using System;
     using System.Collections.Generic;
     
-    public partial class user
+    public partial class group
     {
-        public user()
+        public group()
         {
             this.group_memberships = new HashSet<group_membership>();
-            this.groups = new HashSet<group>();
-            this.meeting_attenders = new HashSet<meeting_attender>();
+            this.meetings = new HashSet<meeting>();
+            this.rel_groups_studyfields = new HashSet<rel_group_studyfield>();
             this.requests = new HashSet<request>();
         }
     
         public int id { get; set; }
         public string name { get; set; }
-        public string password { get; set; }
-        public string email { get; set; }
-        public string phone { get; set; }
-        public string addr { get; set; }
-        public Nullable<int> degree_level_id { get; set; }
-        public byte[] photo { get; set; }
-        public int major_id { get; set; }
-        public int schedule_id { get; set; }
+        public int owner_id { get; set; }
+        public string description { get; set; }
+        public string course_no { get; set; }
+        public int is_closed_open { get; set; }
+        public int max_member_number { get; set; }
     
-        public virtual degree_level degree_levels { get; set; }
-        public virtual major majors { get; set; }
-        public virtual schedule schedules { get; set; }
         public virtual ICollection<group_membership> group_memberships { get; set; }
-        public virtual ICollection<group> groups { get; set; }
-        public virtual ICollection<meeting_attender> meeting_attenders { get; set; }
+        public virtual user user { get; set; }
+        public virtual ICollection<meeting> meetings { get; set; }
+        public virtual ICollection<rel_group_studyfield> rel_groups_studyfields { get; set; }
         public virtual ICollection<request> requests { get; set; }
     }
 }

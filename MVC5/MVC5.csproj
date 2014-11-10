@@ -165,8 +165,23 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="degree_level.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="event.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="event_schedule.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="group.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="group_membership.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
     </Compile>
     <Compile Include="hci_db.Context.cs">
       <AutoGen>True</AutoGen>
@@ -183,10 +198,34 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>hci_db.edmx</DependentUpon>
     </Compile>
+    <Compile Include="major.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="meeting.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="meeting_attender.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="meeting_schedule.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="rel_group_studyfield.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="request.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
+    <Compile Include="schedule.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="study_field.cs">
+      <DependentUpon>hci_db.tt</DependentUpon>
+    </Compile>
     <Compile Include="user.cs">
       <DependentUpon>hci_db.tt</DependentUpon>
     </Compile>

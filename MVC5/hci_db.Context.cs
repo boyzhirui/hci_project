@@ -26,5 +26,18 @@ namespace MVC5
         }
     
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<degree_level> degree_level { get; set; }
+        public virtual DbSet<major> majors { get; set; }
+        public virtual DbSet<schedule> schedules { get; set; }
+        public virtual DbSet<event_schedule> event_schedule { get; set; }
+        public virtual DbSet<@event> events { get; set; }
+        public virtual DbSet<group_membership> group_membership { get; set; }
+        public virtual DbSet<group> groups { get; set; }
+        public virtual DbSet<meeting_attender> meeting_attender { get; set; }
+        public virtual DbSet<meeting_schedule> meeting_schedule { get; set; }
+        public virtual DbSet<meeting> meetings { get; set; }
+        public virtual DbSet<rel_group_studyfield> rel_group_studyfield { get; set; }
+        public virtual DbSet<request> requests { get; set; }
+        public virtual DbSet<study_field> study_field { get; set; }
     }
 }
