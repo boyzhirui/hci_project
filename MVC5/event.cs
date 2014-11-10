@@ -14,18 +14,16 @@ namespace MVC5
     
     public partial class @event
     {
-        public @event()
-        {
-            this.event_schedules = new HashSet<event_schedule>();
-        }
-    
         public int id { get; set; }
         public string name { get; set; }
         public int schedule_id { get; set; }
         public System.DateTime start_date { get; set; }
         public System.DateTime end_date { get; set; }
+        public string interval_type { get; set; }
+        public string occur_day { get; set; }
+        public System.TimeSpan start_time { get; set; }
+        public System.TimeSpan end_time { get; set; }
     
-        public virtual ICollection<event_schedule> event_schedules { get; set; }
         public virtual schedule schedule { get; set; }
     }
 }

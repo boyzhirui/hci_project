@@ -171,9 +171,6 @@
     <Compile Include="event.cs">
       <DependentUpon>hci_db.tt</DependentUpon>
     </Compile>
-    <Compile Include="event_schedule.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -205,9 +202,6 @@
       <DependentUpon>hci_db.tt</DependentUpon>
     </Compile>
     <Compile Include="meeting_attender.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="meeting_schedule.cs">
       <DependentUpon>hci_db.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
