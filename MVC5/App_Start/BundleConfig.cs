@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace MVC5
+namespace HCI
 {
     public class BundleConfig
     {

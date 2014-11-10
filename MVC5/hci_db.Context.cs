@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MVC5
+namespace HCI
 {
     using System;
     using System.Data.Entity;

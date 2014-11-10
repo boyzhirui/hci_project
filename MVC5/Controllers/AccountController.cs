@@ -10,9 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
-using MVC5.Models;
+using HCI.Models;
 
-namespace MVC5.Controllers
+namespace HCI.Controllers
 {
     [Authorize]
     public class AccountController : Controller

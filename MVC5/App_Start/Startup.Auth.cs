@@ -7,9 +7,9 @@ using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
-using MVC5.Models;
+using HCI.Models;
 
-namespace MVC5
+namespace HCI
 {
     public partial class Startup
     {

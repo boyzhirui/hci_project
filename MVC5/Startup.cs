@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(MVC5.Startup))]
-namespace MVC5
+[assembly: OwinStartupAttribute(typeof(HCI.Startup))]
+namespace HCI
 {
     public partial class Startup
     {
