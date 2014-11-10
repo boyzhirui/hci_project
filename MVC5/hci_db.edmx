@@ -12,17 +12,6 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="degree_level_desc" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="event_schedules">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="event_id" Type="int" Nullable="false" />
-          <Property Name="interval_type" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="occur_day" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="start_time" Type="time" Precision="7" Nullable="false" />
-          <Property Name="end_time" Type="time" Precision="7" Nullable="false" />
-        </EntityType>
         <EntityType Name="events">
           <Key>
             <PropertyRef Name="id" />
@@ -32,6 +21,10 @@
           <Property Name="schedule_id" Type="int" Nullable="false" />
           <Property Name="start_date" Type="date" Nullable="false" />
           <Property Name="end_date" Type="date" Nullable="false" />
+          <Property Name="interval_type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="occur_day" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="start_time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="end_time" Type="time" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="group_memberships">
           <Key>
@@ -68,17 +61,6 @@
           <Property Name="meeting_id" Type="int" Nullable="false" />
           <Property Name="user_id" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="meeting_schedules">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="meeting_id" Type="int" Nullable="false" />
-          <Property Name="interval_type" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="occur_day" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="start_time" Type="time" Precision="7" Nullable="false" />
-          <Property Name="end_time" Type="time" Precision="7" Nullable="false" />
-        </EntityType>
         <EntityType Name="meetings">
           <Key>
             <PropertyRef Name="id" />
@@ -88,6 +70,10 @@
           <Property Name="group_id" Type="int" Nullable="false" />
           <Property Name="start_date" Type="date" Nullable="false" />
           <Property Name="end_date" Type="date" Nullable="false" />
+          <Property Name="interval_type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="occur_day" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="start_time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="end_time" Type="time" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="rel_groups_studyfields">
           <Key>
@@ -145,18 +131,6 @@
             </Principal>
             <Dependent Role="events">
               <PropertyRef Name="schedule_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_eventschedules_events">
-          <End Role="events" Type="Self.events" Multiplicity="1" />
-          <End Role="event_schedules" Type="Self.event_schedules" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="events">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="event_schedules">
-              <PropertyRef Name="event_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -229,18 +203,6 @@
             </Principal>
             <Dependent Role="meetings">
               <PropertyRef Name="group_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_meetingschedules_meetings">
-          <End Role="meetings" Type="Self.meetings" Multiplicity="1" />
-          <End Role="meeting_schedules" Type="Self.meeting_schedules" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="meetings">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="meeting_schedules">
-              <PropertyRef Name="meeting_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -330,13 +292,11 @@
         </Association>
         <EntityContainer Name="hciModelStoreContainer">
           <EntitySet Name="degree_levels" EntityType="Self.degree_levels" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="event_schedules" EntityType="Self.event_schedules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="events" EntityType="Self.events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="group_memberships" EntityType="Self.group_memberships" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="groups" EntityType="Self.groups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="majors" EntityType="Self.majors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="meeting_attenders" EntityType="Self.meeting_attenders" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="meeting_schedules" EntityType="Self.meeting_schedules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="meetings" EntityType="Self.meetings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rel_groups_studyfields" EntityType="Self.rel_groups_studyfields" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="requests" EntityType="Self.requests" Schema="dbo" store:Type="Tables" />
@@ -346,10 +306,6 @@
           <AssociationSet Name="FK_events_schedules" Association="Self.FK_events_schedules">
             <End Role="schedules" EntitySet="schedules" />
             <End Role="events" EntitySet="events" />
-          </AssociationSet>
-          <AssociationSet Name="FK_eventschedules_events" Association="Self.FK_eventschedules_events">
-            <End Role="events" EntitySet="events" />
-            <End Role="event_schedules" EntitySet="event_schedules" />
           </AssociationSet>
           <AssociationSet Name="FK_groupmemberships_groups" Association="Self.FK_groupmemberships_groups">
             <End Role="groups" EntitySet="groups" />
@@ -374,10 +330,6 @@
           <AssociationSet Name="FK_meetings_groups" Association="Self.FK_meetings_groups">
             <End Role="groups" EntitySet="groups" />
             <End Role="meetings" EntitySet="meetings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_meetingschedules_meetings" Association="Self.FK_meetingschedules_meetings">
-            <End Role="meetings" EntitySet="meetings" />
-            <End Role="meeting_schedules" EntitySet="meeting_schedules" />
           </AssociationSet>
           <AssociationSet Name="FK_rel_groupsstudyfields_groups" Association="Self.FK_rel_groupsstudyfields_groups">
             <End Role="groups" EntitySet="groups" />
@@ -451,12 +403,7 @@
             <End Role="schedule" EntitySet="schedules" />
             <End Role="user" EntitySet="users" />
           </AssociationSet>
-          <EntitySet Name="event_schedule" EntityType="hciModel.event_schedule" />
           <EntitySet Name="events" EntityType="hciModel.event" />
-          <AssociationSet Name="FK_eventschedules_events" Association="hciModel.FK_eventschedules_events">
-            <End Role="event" EntitySet="events" />
-            <End Role="event_schedules" EntitySet="event_schedule" />
-          </AssociationSet>
           <AssociationSet Name="FK_events_schedules" Association="hciModel.FK_events_schedules">
             <End Role="schedule" EntitySet="schedules" />
             <End Role="event" EntitySet="events" />
@@ -464,7 +411,6 @@
           <EntitySet Name="group_membership" EntityType="hciModel.group_membership" />
           <EntitySet Name="groups" EntityType="hciModel.group" />
           <EntitySet Name="meeting_attender" EntityType="hciModel.meeting_attender" />
-          <EntitySet Name="meeting_schedule" EntityType="hciModel.meeting_schedule" />
           <EntitySet Name="meetings" EntityType="hciModel.meeting" />
           <EntitySet Name="rel_group_studyfield" EntityType="hciModel.rel_group_studyfield" />
           <EntitySet Name="requests" EntityType="hciModel.request" />
@@ -500,10 +446,6 @@
           <AssociationSet Name="FK_meetingattenders_users" Association="hciModel.FK_meetingattenders_users">
             <End Role="user" EntitySet="users" />
             <End Role="meeting_attenders" EntitySet="meeting_attender" />
-          </AssociationSet>
-          <AssociationSet Name="FK_meetingschedules_meetings" Association="hciModel.FK_meetingschedules_meetings">
-            <End Role="meeting" EntitySet="meetings" />
-            <End Role="meeting_schedules" EntitySet="meeting_schedule" />
           </AssociationSet>
           <AssociationSet Name="FK_rel_groupsstudyfields_studyfields" Association="hciModel.FK_rel_groupsstudyfields_studyfields">
             <End Role="study_fields" EntitySet="study_field" />
@@ -575,18 +517,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="event_schedule">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="event_id" Type="Int32" Nullable="false" />
-          <Property Name="interval_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="occur_day" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="start_time" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="end_time" Type="Time" Nullable="false" Precision="7" />
-          <NavigationProperty Name="event" Relationship="hciModel.FK_eventschedules_events" FromRole="event_schedules" ToRole="event" />
-        </EntityType>
         <EntityType Name="event">
           <Key>
             <PropertyRef Name="id" />
@@ -596,21 +526,12 @@
           <Property Name="schedule_id" Type="Int32" Nullable="false" />
           <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="event_schedules" Relationship="hciModel.FK_eventschedules_events" FromRole="event" ToRole="event_schedules" />
           <NavigationProperty Name="schedule" Relationship="hciModel.FK_events_schedules" FromRole="event" ToRole="schedule" />
+          <Property Name="interval_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="occur_day" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="start_time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="end_time" Type="Time" Nullable="false" Precision="7" />
         </EntityType>
-        <Association Name="FK_eventschedules_events">
-          <End Type="hciModel.event" Role="event" Multiplicity="1" />
-          <End Type="hciModel.event_schedule" Role="event_schedules" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="event">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="event_schedules">
-              <PropertyRef Name="event_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_events_schedules">
           <End Type="hciModel.schedule" Role="schedule" Multiplicity="1" />
           <End Type="hciModel.event" Role="event" Multiplicity="*" />
@@ -660,18 +581,6 @@
           <NavigationProperty Name="meeting" Relationship="hciModel.FK_meetingattenders_meetings" FromRole="meeting_attenders" ToRole="meeting" />
           <NavigationProperty Name="user" Relationship="hciModel.FK_meetingattenders_users" FromRole="meeting_attenders" ToRole="user" />
         </EntityType>
-        <EntityType Name="meeting_schedule">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="meeting_id" Type="Int32" Nullable="false" />
-          <Property Name="interval_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="occur_day" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="start_time" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="end_time" Type="Time" Nullable="false" Precision="7" />
-          <NavigationProperty Name="meeting" Relationship="hciModel.FK_meetingschedules_meetings" FromRole="meeting_schedules" ToRole="meeting" />
-        </EntityType>
         <EntityType Name="meeting">
           <Key>
             <PropertyRef Name="id" />
@@ -683,7 +592,10 @@
           <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="group" Relationship="hciModel.FK_meetings_groups" FromRole="meeting" ToRole="group" />
           <NavigationProperty Name="meeting_attenders" Relationship="hciModel.FK_meetingattenders_meetings" FromRole="meeting" ToRole="meeting_attenders" />
-          <NavigationProperty Name="meeting_schedules" Relationship="hciModel.FK_meetingschedules_meetings" FromRole="meeting" ToRole="meeting_schedules" />
+          <Property Name="interval_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="occur_day" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="start_time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="end_time" Type="Time" Nullable="false" Precision="7" />
         </EntityType>
         <EntityType Name="rel_group_studyfield">
           <Key>
@@ -811,18 +723,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_meetingschedules_meetings">
-          <End Type="hciModel.meeting" Role="meeting" Multiplicity="1" />
-          <End Type="hciModel.meeting_schedule" Role="meeting_schedules" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="meeting">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="meeting_schedules">
-              <PropertyRef Name="meeting_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_rel_groupsstudyfields_studyfields">
           <End Type="hciModel.study_field" Role="study_fields" Multiplicity="1" />
           <End Type="hciModel.rel_group_studyfield" Role="rel_groups_studyfields" Multiplicity="*" />
@@ -893,21 +793,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="event_schedule">
-            <EntityTypeMapping TypeName="hciModel.event_schedule">
-              <MappingFragment StoreEntitySet="event_schedules">
+          <EntitySetMapping Name="events">
+            <EntityTypeMapping TypeName="hciModel.event">
+              <MappingFragment StoreEntitySet="events">
                 <ScalarProperty Name="end_time" ColumnName="end_time" />
                 <ScalarProperty Name="start_time" ColumnName="start_time" />
                 <ScalarProperty Name="occur_day" ColumnName="occur_day" />
                 <ScalarProperty Name="interval_type" ColumnName="interval_type" />
-                <ScalarProperty Name="event_id" ColumnName="event_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="events">
-            <EntityTypeMapping TypeName="hciModel.event">
-              <MappingFragment StoreEntitySet="events">
                 <ScalarProperty Name="end_date" ColumnName="end_date" />
                 <ScalarProperty Name="start_date" ColumnName="start_date" />
                 <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
@@ -947,21 +839,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="meeting_schedule">
-            <EntityTypeMapping TypeName="hciModel.meeting_schedule">
-              <MappingFragment StoreEntitySet="meeting_schedules">
+          <EntitySetMapping Name="meetings">
+            <EntityTypeMapping TypeName="hciModel.meeting">
+              <MappingFragment StoreEntitySet="meetings">
                 <ScalarProperty Name="end_time" ColumnName="end_time" />
                 <ScalarProperty Name="start_time" ColumnName="start_time" />
                 <ScalarProperty Name="occur_day" ColumnName="occur_day" />
                 <ScalarProperty Name="interval_type" ColumnName="interval_type" />
-                <ScalarProperty Name="meeting_id" ColumnName="meeting_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="meetings">
-            <EntityTypeMapping TypeName="hciModel.meeting">
-              <MappingFragment StoreEntitySet="meetings">
                 <ScalarProperty Name="end_date" ColumnName="end_date" />
                 <ScalarProperty Name="start_date" ColumnName="start_date" />
                 <ScalarProperty Name="group_id" ColumnName="group_id" />

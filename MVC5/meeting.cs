@@ -17,7 +17,6 @@ namespace MVC5
         public meeting()
         {
             this.meeting_attenders = new HashSet<meeting_attender>();
-            this.meeting_schedules = new HashSet<meeting_schedule>();
         }
     
         public int id { get; set; }
@@ -25,9 +24,12 @@ namespace MVC5
         public int group_id { get; set; }
         public System.DateTime start_date { get; set; }
         public System.DateTime end_date { get; set; }
+        public string interval_type { get; set; }
+        public string occur_day { get; set; }
+        public System.TimeSpan start_time { get; set; }
+        public System.TimeSpan end_time { get; set; }
     
         public virtual group group { get; set; }
         public virtual ICollection<meeting_attender> meeting_attenders { get; set; }
-        public virtual ICollection<meeting_schedule> meeting_schedules { get; set; }
     }
 }
