@@ -27,8 +27,8 @@ namespace MVC5
         public int owner_id { get; set; }
         public string description { get; set; }
         public string course_no { get; set; }
-        public int is_closed_open { get; set; }
         public int max_member_number { get; set; }
+        public int is_closed { get; set; }
     
         public virtual ICollection<group_membership> group_memberships { get; set; }
         public virtual user user { get; set; }

@@ -18,6 +18,7 @@ namespace MVC5
         public string type { get; set; }
         public int sender_id { get; set; }
         public int group_id { get; set; }
+        public int status { get; set; }
     
         public virtual group group { get; set; }
         public virtual user user { get; set; }
