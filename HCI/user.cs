@@ -29,16 +29,16 @@ namespace HCI
         public string phone { get; set; }
         public string addr { get; set; }
         public Nullable<int> degree_level_id { get; set; }
+        public int schedule_id { get; set; }
         public byte[] photo { get; set; }
         public int major_id { get; set; }
-        public int schedule_id { get; set; }
     
         public virtual degree_level degree_levels { get; set; }
-        public virtual major majors { get; set; }
-        public virtual schedule schedules { get; set; }
         public virtual ICollection<group_membership> group_memberships { get; set; }
         public virtual ICollection<group> groups { get; set; }
+        public virtual major major { get; set; }
         public virtual ICollection<meeting_attender> meeting_attenders { get; set; }
         public virtual ICollection<request> requests { get; set; }
+        public virtual schedule schedule { get; set; }
     }
 }

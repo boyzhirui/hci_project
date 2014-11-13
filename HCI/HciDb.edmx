@@ -1,0 +1,909 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="hciModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="degree_levels">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="degree_level_desc" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="events">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="schedule_id" Type="int" Nullable="false" />
+          <Property Name="start_date" Type="date" Nullable="false" />
+          <Property Name="end_date" Type="date" Nullable="false" />
+          <Property Name="interval_type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="occur_day" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="start_time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="end_time" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="group_memberships">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="group_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="groups">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="owner_id" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="course_no" Type="varchar" MaxLength="50" />
+          <Property Name="is_closed" Type="int" Nullable="false" />
+          <Property Name="max_member_number" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="majors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="major_name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="meeting_attenders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="meeting_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="meetings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="group_id" Type="int" Nullable="false" />
+          <Property Name="start_date" Type="date" Nullable="false" />
+          <Property Name="end_date" Type="date" Nullable="false" />
+          <Property Name="interval_type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="occur_day" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="start_time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="end_time" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rel_groups_studyfields">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="group_id" Type="int" Nullable="false" />
+          <Property Name="study_field_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="requests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="sender_id" Type="int" Nullable="false" />
+          <Property Name="group_id" Type="int" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="schedules">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="study_fields">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="addr" Type="nvarchar(max)" />
+          <Property Name="degree_level_id" Type="int" />
+          <Property Name="schedule_id" Type="int" Nullable="false" />
+          <Property Name="photo" Type="image" />
+          <Property Name="major_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_events_schedules">
+          <End Role="schedules" Type="Self.schedules" Multiplicity="1" />
+          <End Role="events" Type="Self.events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="schedules">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="events">
+              <PropertyRef Name="schedule_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groupmemberships_groups">
+          <End Role="groups" Type="Self.groups" Multiplicity="1" />
+          <End Role="group_memberships" Type="Self.group_memberships" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="group_memberships">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groupmemberships_users">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="group_memberships" Type="Self.group_memberships" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="group_memberships">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groups_users">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="groups" Type="Self.groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="groups">
+              <PropertyRef Name="owner_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_meetingattenders_meetings">
+          <End Role="meetings" Type="Self.meetings" Multiplicity="1" />
+          <End Role="meeting_attenders" Type="Self.meeting_attenders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="meetings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="meeting_attenders">
+              <PropertyRef Name="meeting_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_meetingattenders_users">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="meeting_attenders" Type="Self.meeting_attenders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="meeting_attenders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_meetings_groups">
+          <End Role="groups" Type="Self.groups" Multiplicity="1" />
+          <End Role="meetings" Type="Self.meetings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="meetings">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rel_groupsstudyfields_groups">
+          <End Role="groups" Type="Self.groups" Multiplicity="1" />
+          <End Role="rel_groups_studyfields" Type="Self.rel_groups_studyfields" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rel_groups_studyfields">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rel_groupsstudyfields_studyfields">
+          <End Role="study_fields" Type="Self.study_fields" Multiplicity="1" />
+          <End Role="rel_groups_studyfields" Type="Self.rel_groups_studyfields" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="study_fields">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rel_groups_studyfields">
+              <PropertyRef Name="study_field_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_requests_groups">
+          <End Role="groups" Type="Self.groups" Multiplicity="1" />
+          <End Role="requests" Type="Self.requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="requests">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_requests_senderusers">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="requests" Type="Self.requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="requests">
+              <PropertyRef Name="sender_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_classschedules">
+          <End Role="schedules" Type="Self.schedules" Multiplicity="1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="schedules">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="schedule_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_degreelevels">
+          <End Role="degree_levels" Type="Self.degree_levels" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="degree_levels">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="degree_level_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_majors">
+          <End Role="majors" Type="Self.majors" Multiplicity="1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="majors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="major_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="hciModelStoreContainer">
+          <EntitySet Name="degree_levels" EntityType="Self.degree_levels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="events" EntityType="Self.events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="group_memberships" EntityType="Self.group_memberships" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="groups" EntityType="Self.groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="majors" EntityType="Self.majors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="meeting_attenders" EntityType="Self.meeting_attenders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="meetings" EntityType="Self.meetings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rel_groups_studyfields" EntityType="Self.rel_groups_studyfields" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="requests" EntityType="Self.requests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="schedules" EntityType="Self.schedules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="study_fields" EntityType="Self.study_fields" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_events_schedules" Association="Self.FK_events_schedules">
+            <End Role="schedules" EntitySet="schedules" />
+            <End Role="events" EntitySet="events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groupmemberships_groups" Association="Self.FK_groupmemberships_groups">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="group_memberships" EntitySet="group_memberships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groupmemberships_users" Association="Self.FK_groupmemberships_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="group_memberships" EntitySet="group_memberships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groups_users" Association="Self.FK_groups_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="groups" EntitySet="groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_meetingattenders_meetings" Association="Self.FK_meetingattenders_meetings">
+            <End Role="meetings" EntitySet="meetings" />
+            <End Role="meeting_attenders" EntitySet="meeting_attenders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_meetingattenders_users" Association="Self.FK_meetingattenders_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="meeting_attenders" EntitySet="meeting_attenders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_meetings_groups" Association="Self.FK_meetings_groups">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="meetings" EntitySet="meetings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rel_groupsstudyfields_groups" Association="Self.FK_rel_groupsstudyfields_groups">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="rel_groups_studyfields" EntitySet="rel_groups_studyfields" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rel_groupsstudyfields_studyfields" Association="Self.FK_rel_groupsstudyfields_studyfields">
+            <End Role="study_fields" EntitySet="study_fields" />
+            <End Role="rel_groups_studyfields" EntitySet="rel_groups_studyfields" />
+          </AssociationSet>
+          <AssociationSet Name="FK_requests_groups" Association="Self.FK_requests_groups">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="requests" EntitySet="requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_requests_senderusers" Association="Self.FK_requests_senderusers">
+            <End Role="users" EntitySet="users" />
+            <End Role="requests" EntitySet="requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_classschedules" Association="Self.FK_users_classschedules">
+            <End Role="schedules" EntitySet="schedules" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_degreelevels" Association="Self.FK_users_degreelevels">
+            <End Role="degree_levels" EntitySet="degree_levels" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_majors" Association="Self.FK_users_majors">
+            <End Role="majors" EntitySet="majors" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="hciModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="degree_level">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="degree_level_desc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="users" Relationship="Self.FK_users_degreelevels" FromRole="degree_levels" ToRole="users" />
+        </EntityType>
+        <EntityType Name="event">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="schedule_id" Type="Int32" Nullable="false" />
+          <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="interval_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="occur_day" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="start_time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="end_time" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="schedule" Relationship="Self.FK_events_schedules" FromRole="events" ToRole="schedules" />
+        </EntityType>
+        <EntityType Name="group_membership">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="group_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="group" Relationship="Self.FK_groupmemberships_groups" FromRole="group_memberships" ToRole="groups" />
+          <NavigationProperty Name="user" Relationship="Self.FK_groupmemberships_users" FromRole="group_memberships" ToRole="users" />
+        </EntityType>
+        <EntityType Name="group">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="owner_id" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="course_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="is_closed" Type="Int32" Nullable="false" />
+          <Property Name="max_member_number" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="group_memberships" Relationship="Self.FK_groupmemberships_groups" FromRole="groups" ToRole="group_memberships" />
+          <NavigationProperty Name="user" Relationship="Self.FK_groups_users" FromRole="groups" ToRole="users" />
+          <NavigationProperty Name="meetings" Relationship="Self.FK_meetings_groups" FromRole="groups" ToRole="meetings" />
+          <NavigationProperty Name="rel_groups_studyfields" Relationship="Self.FK_rel_groupsstudyfields_groups" FromRole="groups" ToRole="rel_groups_studyfields" />
+          <NavigationProperty Name="requests" Relationship="Self.FK_requests_groups" FromRole="groups" ToRole="requests" />
+        </EntityType>
+        <EntityType Name="major">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="major_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="users" Relationship="Self.FK_users_majors" FromRole="majors" ToRole="users" />
+        </EntityType>
+        <EntityType Name="meeting_attender">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="meeting_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="meeting" Relationship="Self.FK_meetingattenders_meetings" FromRole="meeting_attenders" ToRole="meetings" />
+          <NavigationProperty Name="user" Relationship="Self.FK_meetingattenders_users" FromRole="meeting_attenders" ToRole="users" />
+        </EntityType>
+        <EntityType Name="meeting">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="group_id" Type="Int32" Nullable="false" />
+          <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="interval_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="occur_day" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="start_time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="end_time" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="group" Relationship="Self.FK_meetings_groups" FromRole="meetings" ToRole="groups" />
+          <NavigationProperty Name="meeting_attenders" Relationship="Self.FK_meetingattenders_meetings" FromRole="meetings" ToRole="meeting_attenders" />
+        </EntityType>
+        <EntityType Name="rel_groups_studyfield">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="group_id" Type="Int32" Nullable="false" />
+          <Property Name="study_field_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="group" Relationship="Self.FK_rel_groupsstudyfields_groups" FromRole="rel_groups_studyfields" ToRole="groups" />
+          <NavigationProperty Name="study_fields" Relationship="Self.FK_rel_groupsstudyfields_studyfields" FromRole="rel_groups_studyfields" ToRole="study_fields" />
+        </EntityType>
+        <EntityType Name="request">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sender_id" Type="Int32" Nullable="false" />
+          <Property Name="group_id" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="group" Relationship="Self.FK_requests_groups" FromRole="requests" ToRole="groups" />
+          <NavigationProperty Name="user" Relationship="Self.FK_requests_senderusers" FromRole="requests" ToRole="users" />
+        </EntityType>
+        <EntityType Name="schedule">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="events" Relationship="Self.FK_events_schedules" FromRole="schedules" ToRole="events" />
+          <NavigationProperty Name="users" Relationship="Self.FK_users_classschedules" FromRole="schedules" ToRole="users" />
+        </EntityType>
+        <EntityType Name="study_fields">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="rel_groups_studyfields" Relationship="Self.FK_rel_groupsstudyfields_studyfields" FromRole="study_fields" ToRole="rel_groups_studyfields" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="addr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="degree_level_id" Type="Int32" />
+          <Property Name="schedule_id" Type="Int32" Nullable="false" />
+          <Property Name="photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="major_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="degree_levels" Relationship="Self.FK_users_degreelevels" FromRole="users" ToRole="degree_levels" />
+          <NavigationProperty Name="group_memberships" Relationship="Self.FK_groupmemberships_users" FromRole="users" ToRole="group_memberships" />
+          <NavigationProperty Name="groups" Relationship="Self.FK_groups_users" FromRole="users" ToRole="groups" />
+          <NavigationProperty Name="major" Relationship="Self.FK_users_majors" FromRole="users" ToRole="majors" />
+          <NavigationProperty Name="meeting_attenders" Relationship="Self.FK_meetingattenders_users" FromRole="users" ToRole="meeting_attenders" />
+          <NavigationProperty Name="requests" Relationship="Self.FK_requests_senderusers" FromRole="users" ToRole="requests" />
+          <NavigationProperty Name="schedule" Relationship="Self.FK_users_classschedules" FromRole="users" ToRole="schedules" />
+        </EntityType>
+        <Association Name="FK_users_degreelevels">
+          <End Role="degree_levels" Type="hciModel.degree_level" Multiplicity="0..1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="degree_levels">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="degree_level_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_events_schedules">
+          <End Role="schedules" Type="Self.schedule" Multiplicity="1" />
+          <End Role="events" Type="Self.event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="schedules">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="events">
+              <PropertyRef Name="schedule_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groupmemberships_groups">
+          <End Role="groups" Type="Self.group" Multiplicity="1" />
+          <End Role="group_memberships" Type="hciModel.group_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="group_memberships">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groupmemberships_users">
+          <End Role="users" Type="Self.user" Multiplicity="1" />
+          <End Role="group_memberships" Type="hciModel.group_membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="group_memberships">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groups_users">
+          <End Role="users" Type="Self.user" Multiplicity="1" />
+          <End Role="groups" Type="Self.group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="groups">
+              <PropertyRef Name="owner_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_meetings_groups">
+          <End Role="groups" Type="Self.group" Multiplicity="1" />
+          <End Role="meetings" Type="Self.meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="meetings">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rel_groupsstudyfields_groups">
+          <End Role="groups" Type="Self.group" Multiplicity="1" />
+          <End Role="rel_groups_studyfields" Type="hciModel.rel_groups_studyfield" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rel_groups_studyfields">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_requests_groups">
+          <End Role="groups" Type="Self.group" Multiplicity="1" />
+          <End Role="requests" Type="Self.request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="requests">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_majors">
+          <End Role="majors" Type="Self.major" Multiplicity="1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="majors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="major_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_meetingattenders_meetings">
+          <End Role="meetings" Type="Self.meeting" Multiplicity="1" />
+          <End Role="meeting_attenders" Type="hciModel.meeting_attender" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="meetings">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="meeting_attenders">
+              <PropertyRef Name="meeting_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_meetingattenders_users">
+          <End Role="users" Type="Self.user" Multiplicity="1" />
+          <End Role="meeting_attenders" Type="hciModel.meeting_attender" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="meeting_attenders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rel_groupsstudyfields_studyfields">
+          <End Role="study_fields" Type="Self.study_fields" Multiplicity="1" />
+          <End Role="rel_groups_studyfields" Type="hciModel.rel_groups_studyfield" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="study_fields">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rel_groups_studyfields">
+              <PropertyRef Name="study_field_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_requests_senderusers">
+          <End Role="users" Type="Self.user" Multiplicity="1" />
+          <End Role="requests" Type="Self.request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="requests">
+              <PropertyRef Name="sender_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_classschedules">
+          <End Role="schedules" Type="Self.schedule" Multiplicity="1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="schedules">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="schedule_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HciDb" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="degree_level" EntityType="hciModel.degree_level" />
+          <EntitySet Name="events" EntityType="Self.event" />
+          <EntitySet Name="group_membership" EntityType="hciModel.group_membership" />
+          <EntitySet Name="groups" EntityType="Self.group" />
+          <EntitySet Name="majors" EntityType="Self.major" />
+          <EntitySet Name="meeting_attender" EntityType="hciModel.meeting_attender" />
+          <EntitySet Name="meetings" EntityType="Self.meeting" />
+          <EntitySet Name="rel_groups_studyfield" EntityType="hciModel.rel_groups_studyfield" />
+          <EntitySet Name="requests" EntityType="Self.request" />
+          <EntitySet Name="schedules" EntityType="Self.schedule" />
+          <EntitySet Name="study_fields" EntityType="Self.study_fields" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK_users_degreelevels" Association="Self.FK_users_degreelevels">
+            <End Role="degree_levels" EntitySet="degree_level" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_events_schedules" Association="Self.FK_events_schedules">
+            <End Role="schedules" EntitySet="schedules" />
+            <End Role="events" EntitySet="events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groupmemberships_groups" Association="Self.FK_groupmemberships_groups">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="group_memberships" EntitySet="group_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groupmemberships_users" Association="Self.FK_groupmemberships_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="group_memberships" EntitySet="group_membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groups_users" Association="Self.FK_groups_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="groups" EntitySet="groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_meetings_groups" Association="Self.FK_meetings_groups">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="meetings" EntitySet="meetings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rel_groupsstudyfields_groups" Association="Self.FK_rel_groupsstudyfields_groups">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="rel_groups_studyfields" EntitySet="rel_groups_studyfield" />
+          </AssociationSet>
+          <AssociationSet Name="FK_requests_groups" Association="Self.FK_requests_groups">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="requests" EntitySet="requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_majors" Association="Self.FK_users_majors">
+            <End Role="majors" EntitySet="majors" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_meetingattenders_meetings" Association="Self.FK_meetingattenders_meetings">
+            <End Role="meetings" EntitySet="meetings" />
+            <End Role="meeting_attenders" EntitySet="meeting_attender" />
+          </AssociationSet>
+          <AssociationSet Name="FK_meetingattenders_users" Association="Self.FK_meetingattenders_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="meeting_attenders" EntitySet="meeting_attender" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rel_groupsstudyfields_studyfields" Association="Self.FK_rel_groupsstudyfields_studyfields">
+            <End Role="study_fields" EntitySet="study_fields" />
+            <End Role="rel_groups_studyfields" EntitySet="rel_groups_studyfield" />
+          </AssociationSet>
+          <AssociationSet Name="FK_requests_senderusers" Association="Self.FK_requests_senderusers">
+            <End Role="users" EntitySet="users" />
+            <End Role="requests" EntitySet="requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_classschedules" Association="Self.FK_users_classschedules">
+            <End Role="schedules" EntitySet="schedules" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="hciModelStoreContainer" CdmEntityContainer="HciDb">
+          <EntitySetMapping Name="degree_level">
+            <EntityTypeMapping TypeName="hciModel.degree_level">
+              <MappingFragment StoreEntitySet="degree_levels">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="degree_level_desc" ColumnName="degree_level_desc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="events">
+            <EntityTypeMapping TypeName="hciModel.event">
+              <MappingFragment StoreEntitySet="events">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+                <ScalarProperty Name="interval_type" ColumnName="interval_type" />
+                <ScalarProperty Name="occur_day" ColumnName="occur_day" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="group_membership">
+            <EntityTypeMapping TypeName="hciModel.group_membership">
+              <MappingFragment StoreEntitySet="group_memberships">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="groups">
+            <EntityTypeMapping TypeName="hciModel.group">
+              <MappingFragment StoreEntitySet="groups">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="owner_id" ColumnName="owner_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="course_no" ColumnName="course_no" />
+                <ScalarProperty Name="is_closed" ColumnName="is_closed" />
+                <ScalarProperty Name="max_member_number" ColumnName="max_member_number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="majors">
+            <EntityTypeMapping TypeName="hciModel.major">
+              <MappingFragment StoreEntitySet="majors">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="major_name" ColumnName="major_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="meeting_attender">
+            <EntityTypeMapping TypeName="hciModel.meeting_attender">
+              <MappingFragment StoreEntitySet="meeting_attenders">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="meeting_id" ColumnName="meeting_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="meetings">
+            <EntityTypeMapping TypeName="hciModel.meeting">
+              <MappingFragment StoreEntitySet="meetings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+                <ScalarProperty Name="interval_type" ColumnName="interval_type" />
+                <ScalarProperty Name="occur_day" ColumnName="occur_day" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rel_groups_studyfield">
+            <EntityTypeMapping TypeName="hciModel.rel_groups_studyfield">
+              <MappingFragment StoreEntitySet="rel_groups_studyfields">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="study_field_id" ColumnName="study_field_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="requests">
+            <EntityTypeMapping TypeName="hciModel.request">
+              <MappingFragment StoreEntitySet="requests">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="sender_id" ColumnName="sender_id" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="schedules">
+            <EntityTypeMapping TypeName="hciModel.schedule">
+              <MappingFragment StoreEntitySet="schedules">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="study_fields">
+            <EntityTypeMapping TypeName="hciModel.study_fields">
+              <MappingFragment StoreEntitySet="study_fields">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="hciModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="addr" ColumnName="addr" />
+                <ScalarProperty Name="degree_level_id" ColumnName="degree_level_id" />
+                <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="major_id" ColumnName="major_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
