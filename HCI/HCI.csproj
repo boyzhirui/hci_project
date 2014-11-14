@@ -176,69 +176,37 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\TestWebAPIController.cs" />
-    <Compile Include="degree_level.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="event.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="group.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
+    <Compile Include="HciDbMigrations\201411140450023_seed_data_01.cs" />
+    <Compile Include="HciDbMigrations\201411140450023_seed_data_01.Designer.cs">
+      <DependentUpon>201411140450023_seed_data_01.cs</DependentUpon>
     </Compile>
-    <Compile Include="group_membership.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="HciDb.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HciDb.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="HciDb.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="HciDb.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HciDb.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="major.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="meeting.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="meeting_attender.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
+    <Compile Include="HciDbMigrations\Configuration.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.Designer.cs">
       <DependentUpon>201411140119031_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Database\AspNetUser.cs" />
+    <Compile Include="Models\Database\DegreeLevels.cs" />
+    <Compile Include="Models\Database\Event.cs" />
+    <Compile Include="Models\Database\Group.cs" />
+    <Compile Include="Models\Database\GroupMembership.cs" />
+    <Compile Include="Models\Database\HciDb.cs" />
+    <Compile Include="Models\Database\Major.cs" />
+    <Compile Include="Models\Database\Meeting.cs" />
+    <Compile Include="Models\Database\MeetingAttender.cs" />
+    <Compile Include="Models\Database\RelGroupsStudyfield.cs" />
+    <Compile Include="Models\Database\Request.cs" />
+    <Compile Include="Models\Database\Schedule.cs" />
+    <Compile Include="Models\Database\StudyField.cs" />
+    <Compile Include="Models\Database\User.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="rel_groups_studyfield.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="request.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="schedule.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="study_fields.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="user.cs">
-      <DependentUpon>HciDb.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -248,23 +216,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="HciDb.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>HciDb.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="HciDb.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HciDb.edmx</DependentUpon>
-      <LastGenOutput>HciDb.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="HciDb.edmx.diagram">
-      <DependentUpon>HciDb.edmx</DependentUpon>
-    </Content>
-    <Content Include="HciDb.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>HciDb.edmx</DependentUpon>
-      <LastGenOutput>HciDb.cs</LastGenOutput>
-    </Content>
     <None Include="Properties\PublishProfiles\Debug.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -326,6 +277,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="HciDbMigrations\201411140450023_seed_data_01.resx">
+      <DependentUpon>201411140450023_seed_data_01.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411140119031_InitialCreate.resx">
       <DependentUpon>201411140119031_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>

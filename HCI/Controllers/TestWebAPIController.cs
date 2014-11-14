@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HCI.Models.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -17,7 +18,12 @@ namespace HCI.Controllers
         // GET: api/TestWebAPI
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            User user = null;
+            using (HciDb ctx = new HciDb())
+            {
+                 user = ctx.Users.Include("DegreeLevel").FirstOrDefault();
+            }
+            return new string[] { user.name, user.DegreeLevel.degree_level_desc };
         }
 
         // GET: api/TestWebAPI/5
