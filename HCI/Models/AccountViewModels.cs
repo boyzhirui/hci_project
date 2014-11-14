@@ -38,9 +38,9 @@ namespace HCI.Models
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "User Name or Email")]
+        [RegularExpression("^[a-zA-Z0-9]+(@ncsu.edu)?$", ErrorMessage = "User Name should be your unity ID or your NCSU email address." )]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -54,7 +54,7 @@ namespace HCI.Models
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
+        [RegularExpression("^[a-zA-Z0-9]+@ncsu.edu$", ErrorMessage = "Only NCSU email address is allowed to register.")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

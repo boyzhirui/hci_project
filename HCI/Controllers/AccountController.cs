@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
 using HCI.Models;
+using HCI.Models.Database;
+using System.Text.RegularExpressions;
 
 namespace HCI.Controllers
 {
@@ -57,7 +59,11 @@ namespace HCI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(model.Email, model.Password);
+                if (model.UserName.Contains("@"))
+                {
+                    model.UserName = model.UserName.Split('@')[0];
+                }
+                var user = await UserManager.FindAsync(model.UserName, model.Password);
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
@@ -90,10 +96,31 @@ namespace HCI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                string name = model.Email.Split('@')[0];
+                var user = new ApplicationUser() { UserName = name, Email = model.Email };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    using (HciDb dbCtx = new HciDb())
+                    {
+                        Major csMajor = dbCtx.Majors.Where(x => x.major_name == "Computer Science").FirstOrDefault();
+                        Schedule defaultSchedule = dbCtx.Schedules.Where(x => x.description == "test's schedule").FirstOrDefault();
+                        DegreeLevel ugDegLev = dbCtx.DegreeLevels.Where(x => x.degree_level_desc == "Undergraduate").FirstOrDefault();
+
+                        User dbUser = dbCtx.Users.Where(x => x.name == name).FirstOrDefault();
+                        if (dbUser == null)
+                        {
+                            dbCtx.Users.Add(
+                                new User { name = name, 
+                                           DegreeLevel = ugDegLev, 
+                                           Schedule = defaultSchedule, 
+                                           Major = csMajor, 
+                                           phone = "9191234567", 
+                                           addr = "1910 Entrepreneur Drive, Raleigh, NC 27606" 
+                                         });
+                            dbCtx.SaveChanges();
+                        }
+                    }
 
                     await SignInAsync(user, isPersistent: false);
 
@@ -115,6 +142,7 @@ namespace HCI.Controllers
             return View(model);
         }
 
+        /*
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -231,7 +259,8 @@ namespace HCI.Controllers
         {
             return View();
         }
-
+        */
+        
         //
         // POST: /Account/Disassociate
         [HttpPost]
@@ -321,6 +350,7 @@ namespace HCI.Controllers
             return View(model);
         }
 
+        /*
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
@@ -430,6 +460,7 @@ namespace HCI.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
+        */
 
         //
         // POST: /Account/LogOff
@@ -441,6 +472,7 @@ namespace HCI.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        /*
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
@@ -456,6 +488,7 @@ namespace HCI.Controllers
             ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
             return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
         }
+        */
 
         protected override void Dispose(bool disposing)
         {
