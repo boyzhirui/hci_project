@@ -7,7 +7,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{201097F3-E103-4962-A5EC-F9AADCA94596}</ProjectGuid>
+    <ProjectGuid>{8C87B1F4-5366-4F37-82E4-CFE033052296}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -59,30 +59,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -100,8 +76,32 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -115,6 +115,15 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.1.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -162,126 +171,108 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TestWebAPIController.cs" />
     <Compile Include="degree_level.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
     <Compile Include="event.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="group.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
     <Compile Include="group_membership.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="hci_db.Context.cs">
+    <Compile Include="HciDb.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>hci_db.Context.tt</DependentUpon>
+      <DependentUpon>HciDb.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="hci_db.cs">
+    <Compile Include="HciDb.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>hci_db.tt</DependentUpon>
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="hci_db.Designer.cs">
+    <Compile Include="HciDb.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>hci_db.edmx</DependentUpon>
+      <DependentUpon>HciDb.edmx</DependentUpon>
     </Compile>
     <Compile Include="major.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
     <Compile Include="meeting.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
     <Compile Include="meeting_attender.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="rel_group_studyfield.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+    <Compile Include="rel_groups_studyfield.cs">
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
     <Compile Include="request.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
     <Compile Include="schedule.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="study_field.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+    <Compile Include="study_fields.cs">
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
     <Compile Include="user.cs">
-      <DependentUpon>hci_db.tt</DependentUpon>
+      <DependentUpon>HciDb.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\megafish.css" />
-    <Content Include="Content\reset.css" />
-    <Content Include="Content\styles-flame.css" />
-    <Content Include="Content\superfish-navbar.css" />
-    <Content Include="Content\superfish-vertical.css" />
-    <Content Include="Content\superfish.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Others\hci.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="hci_db.edmx">
+    <EntityDeploy Include="HciDb.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>hci_db.Designer.cs</LastGenOutput>
+      <LastGenOutput>HciDb.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="hci_db.Context.tt">
+    <Content Include="HciDb.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>hci_db.edmx</DependentUpon>
-      <LastGenOutput>hci_db.Context.cs</LastGenOutput>
+      <DependentUpon>HciDb.edmx</DependentUpon>
+      <LastGenOutput>HciDb.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="hci_db.edmx.diagram">
-      <DependentUpon>hci_db.edmx</DependentUpon>
+    <Content Include="HciDb.edmx.diagram">
+      <DependentUpon>HciDb.edmx</DependentUpon>
     </Content>
-    <Content Include="hci_db.tt">
+    <Content Include="HciDb.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>hci_db.edmx</DependentUpon>
-      <LastGenOutput>hci_db.cs</LastGenOutput>
+      <DependentUpon>HciDb.edmx</DependentUpon>
+      <LastGenOutput>HciDb.cs</LastGenOutput>
     </Content>
-    <None Include="Properties\PublishProfiles\Debug_IIS.pubxml" />
-    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
-    <Content Include="Scripts\custom.js" />
-    <Content Include="Scripts\hoverIntent.js" />
-    <Content Include="Scripts\jquery-2.1.1.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.map" />
+    <None Include="Properties\PublishProfiles\Debug.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\jquery_woodply.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\slider.js" />
-    <Content Include="Scripts\superfish.js" />
-    <Content Include="Scripts\superfish.min.js" />
-    <Content Include="Scripts\supersubs.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="superfish_example.html" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -295,6 +286,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
@@ -310,21 +302,20 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Shared\_MyLayOut.cshtml" />
-    <Content Include="Views\Example\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -342,9 +333,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1687</DevelopmentServerPort>
+          <DevelopmentServerPort>2163</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1687/</IISUrl>
+          <IISUrl>http://localhost:2015/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

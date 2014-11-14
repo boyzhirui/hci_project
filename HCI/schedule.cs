@@ -16,14 +16,14 @@ namespace HCI
     {
         public schedule()
         {
-            this.users = new HashSet<user>();
             this.events = new HashSet<@event>();
+            this.users = new HashSet<user>();
         }
     
         public int id { get; set; }
         public string description { get; set; }
     
-        public virtual ICollection<user> users { get; set; }
         public virtual ICollection<@event> events { get; set; }
+        public virtual ICollection<user> users { get; set; }
     }
 }

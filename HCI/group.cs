@@ -18,7 +18,7 @@ namespace HCI
         {
             this.group_memberships = new HashSet<group_membership>();
             this.meetings = new HashSet<meeting>();
-            this.rel_groups_studyfields = new HashSet<rel_group_studyfield>();
+            this.rel_groups_studyfields = new HashSet<rel_groups_studyfield>();
             this.requests = new HashSet<request>();
         }
     
@@ -27,13 +27,13 @@ namespace HCI
         public int owner_id { get; set; }
         public string description { get; set; }
         public string course_no { get; set; }
-        public int max_member_number { get; set; }
         public int is_closed { get; set; }
+        public int max_member_number { get; set; }
     
         public virtual ICollection<group_membership> group_memberships { get; set; }
         public virtual user user { get; set; }
         public virtual ICollection<meeting> meetings { get; set; }
-        public virtual ICollection<rel_group_studyfield> rel_groups_studyfields { get; set; }
+        public virtual ICollection<rel_groups_studyfield> rel_groups_studyfields { get; set; }
         public virtual ICollection<request> requests { get; set; }
     }
 }
