@@ -104,7 +104,7 @@ namespace HCI.Controllers
                     using (HciDb dbCtx = new HciDb())
                     {
                         Major csMajor = dbCtx.Majors.Where(x => x.major_name == "Computer Science").FirstOrDefault();
-                        Schedule defaultSchedule = dbCtx.Schedules.Where(x => x.description == "test's schedule").FirstOrDefault();
+                        Schedule defaultSchedule = dbCtx.Schedules.Where(x => x.description == "default schedule").FirstOrDefault();
                         DegreeLevel ugDegLev = dbCtx.DegreeLevels.Where(x => x.degree_level_desc == "Undergraduate").FirstOrDefault();
 
                         User dbUser = dbCtx.Users.Where(x => x.name == name).FirstOrDefault();
