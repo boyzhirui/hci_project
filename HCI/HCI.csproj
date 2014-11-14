@@ -178,6 +178,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HciDbMigrations\201411140450023_seed_data_01.cs" />
+    <Compile Include="HciDbMigrations\201411140450023_seed_data_01.Designer.cs">
+      <DependentUpon>201411140450023_seed_data_01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HciDbMigrations\Configuration.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.Designer.cs">
       <DependentUpon>201411140119031_InitialCreate.cs</DependentUpon>
@@ -269,6 +274,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="HciDbMigrations\201411140450023_seed_data_01.resx">
+      <DependentUpon>201411140450023_seed_data_01.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411140119031_InitialCreate.resx">
       <DependentUpon>201411140119031_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
