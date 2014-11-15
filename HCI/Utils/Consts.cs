@@ -25,4 +25,10 @@ namespace HCI.Utils
             public static readonly string Sunday = "Sun";
         }
     }
+
+    public enum YesNo
+    {
+        No = 0,
+        Yes = 1
+    }
 }

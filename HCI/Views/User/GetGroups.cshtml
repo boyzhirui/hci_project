@@ -1,0 +1,105 @@
+﻿@model HCI.Models.UserGroupListModel
+
+@{
+    ViewBag.Title = "My Groups";
+}
+
+<h2>My Groups</h2>
+
+<style>
+    .list-item-min-height{
+        height:40px
+    }
+</style>
+<div class="container body-content">
+    
+    @foreach (var group in Model.Groups)
+    {
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    @group.name
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-8">
+                        <ul class="list-group">
+                            <li class="list-group-item list-item-min-height">
+                                <div class="col-md-4">
+                                    Description:
+                                </div>
+                                <div class="col-md-8">
+                                    @group.description
+                                </div>
+                            </li>
+                            <li class="list-group-item list-item-min-height">
+                                <div class="col-md-4">
+                                    Study Fields:
+                                </div>
+                                <div class="col-md-8">
+                                    @String.Join(",", group.RelGroupsStudyfields.Select(x => x.StudyField.name))
+                                </div>
+                            </li>
+                            <li class="list-group-item list-item-min-height">
+                                <div class="col-md-4">
+                                    Course Number:
+                                </div>
+                                <div class="col-md-8">
+                                    @group.course_no
+                                </div>
+                            </li>
+                            <li class="list-group-item list-item-min-height">
+                                <div class="col-md-4">
+                                    Group Type:
+                                </div>
+                                <div class="col-md-8">
+                                    @group.is_closed.ToString()
+                                </div>
+                            </li>
+                            <li class="list-group-item list-item-min-height">
+                                <div class="col-md-4">
+                                    Max Member Number:
+                                </div>
+                                <div class="col-md-8">
+                                    @group.max_member_number
+                                </div>
+                            </li>
+                            <li class="list-group-item list-item-min-height">
+                                <div class="col-md-4">
+                                    Owner:
+                                </div>
+                                <div class="col-md-8">
+                                    @group.Owner.name
+                                </div>
+                            </li>
+                            
+                            
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <div style="height:40px">
+                            @if (group.IsOwner(User.Identity.Name))
+                            {
+                                <button type="button" class="btn btn-default" style="min-width:150px">
+                                    Schedule a Meeting
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-default" style="min-width:150px" disabled>
+                                    Schedule a Meeting
+                                </button>
+                            }
+                        </div>
+                        <div style="height:40px">
+                            <button type="button" class="btn btn-default" style="min-width:150px">
+                                Quit the Group
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    }
+</div>
+

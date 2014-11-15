@@ -151,7 +151,7 @@ namespace HCI.Models.Database
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Groups)
-                .WithRequired(e => e.User)
+                .WithRequired(e => e.Owner)
                 .HasForeignKey(e => e.owner_id)
                 .WillCascadeOnDelete(false);
 
