@@ -43,6 +43,31 @@ namespace HCI.HciDbMigrations
 
             #endregion
 
+            #region Study Fields
+            StudyField csSF = context.StudyFields.Where(x => x.name == "Computer Science").FirstOrDefault();
+            if (csSF == null)
+            {
+                csSF = new StudyField { name = "Computer Science" };
+                context.StudyFields.Add(csSF);
+                context.SaveChanges();
+            }
+
+            StudyField ceSF = context.StudyFields.Where(x => x.name == "Computer Engineering").FirstOrDefault();
+            if (ceSF == null)
+            {
+                ceSF = new StudyField { name = "Computer Engineering" };
+                context.StudyFields.Add(ceSF);
+                context.SaveChanges();
+            }
+
+            StudyField mathSF = context.StudyFields.Where(x => x.name == "Mathematics").FirstOrDefault();
+            if (mathSF == null)
+            {
+                mathSF = new StudyField { name = "Mathematics" };
+                context.StudyFields.Add(mathSF);
+                context.SaveChanges();
+            }
+            #endregion
             #region Schedule init
             Schedule defaultSchedule = context.Schedules.Where(x => x.description == "default schedule").FirstOrDefault();
 
@@ -142,7 +167,7 @@ namespace HCI.HciDbMigrations
             Group grp1 = context.Groups.Where(x => x.name == "Group 1").FirstOrDefault();
             if (grp1 == null)
             {
-                grp1 = new Group { name = "Group 1", course_no = "CSC 554", description = "Group 1 Description", is_closed = 0, max_member_number = 10, User = user1};
+                grp1 = new Group { name = "Group 1", course_no = "CSC 554", description = "Group 1 Description", is_closed = YesNo.No, max_member_number = 10, Owner = user1};
                 context.Groups.Add(grp1);
                 context.SaveChanges();
             }
@@ -150,7 +175,7 @@ namespace HCI.HciDbMigrations
             Group grp2 = context.Groups.Where(x => x.name == "Group 2").FirstOrDefault();
             if (grp2 == null)
             {
-                grp2 = new Group { name = "Group 2", course_no = "CSC 520", description = "Group 2 Description", is_closed = 1, max_member_number = 10, User = user2 };
+                grp2 = new Group { name = "Group 2", course_no = "CSC 520", description = "Group 2 Description", is_closed = YesNo.Yes, max_member_number = 10, Owner = user2 };
                 context.Groups.Add(grp2);
                 context.SaveChanges();
             }
@@ -158,12 +183,30 @@ namespace HCI.HciDbMigrations
             Group grp3 = context.Groups.Where(x => x.name == "Group 3").FirstOrDefault();
             if (grp3 == null)
             {
-                grp3 = new Group { name = "Group 3", course_no = "CSC 600", description = "Group 3 Description", is_closed = 0, max_member_number = 10, User = user3 };
+                grp3 = new Group { name = "Group 3", course_no = "CSC 600", description = "Group 3 Description", is_closed = YesNo.No, max_member_number = 10, Owner = user3 };
                 context.Groups.Add(grp3);
+                context.SaveChanges();
+            }
+
+            Group grp4 = context.Groups.Where(x => x.name == "Group 4").FirstOrDefault();
+            if (grp4 == null)
+            {
+                grp4 = new Group { name = "Group 4", course_no = "CSC 501", description = "Group 4 Description", is_closed = YesNo.No, max_member_number = 10, Owner = user1 };
+                context.Groups.Add(grp4);
                 context.SaveChanges();
             }
             #endregion
 
+            #region Group StudyFields
+            context.RelGroupsStudyfields.AddOrUpdate(
+                x => new { x.group_id, x.study_field_id },
+                new RelGroupsStudyfield { group_id = grp1.id, study_field_id = csSF.id },
+                new RelGroupsStudyfield { group_id = grp1.id, study_field_id = ceSF.id },
+                new RelGroupsStudyfield { group_id = grp2.id, study_field_id = csSF.id },
+                new RelGroupsStudyfield { group_id = grp2.id, study_field_id = ceSF.id },
+                new RelGroupsStudyfield { group_id = grp3.id, study_field_id = mathSF.id });
+            context.SaveChanges();
+            #endregion
             #region GroupMembership
             context.GroupMemberships.AddOrUpdate(x => new { x.group_id, x.user_id }, 
                 new GroupMembership { group_id = grp1.id, user_id = user1.id },
