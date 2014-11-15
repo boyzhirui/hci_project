@@ -34,7 +34,14 @@ namespace HCI.Models
                                 .Include("GroupMemberships.Group.RelGroupsStudyfields.StudyField")
                                 .Where(x => x.name == userName).First();
 
-            Groups = user.GroupMemberships.Select(x=>x.Group).ToList();
+            if (user.GroupMemberships != null)
+            {
+                Groups = user.GroupMemberships.Select(x => x.Group).ToList();
+            }
+            else
+            {
+                Groups = new List<Group>();
+            }
         }
 
         
