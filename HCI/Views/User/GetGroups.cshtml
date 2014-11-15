@@ -4,6 +4,16 @@
     ViewBag.Title = "My Groups";
 }
 
+<script type="text/javascript">
+    function quitGroupPreparation(handle)
+    {
+        var groupId = jQuery(handle).parent('#quitGroupBtn').children("#groupId").text();
+        var groupName = jQuery(handle).parents('#groupPanel').children("#groupName").text();
+        jQuery("#modalGroupId").val(groupId);
+        jQuery("#modalBody").text("You are going to leave the group [" + groupName + "]. Are you sure?");
+    }
+</script>
+
 <h2>My Groups</h2>
 
 <style>
@@ -16,18 +26,18 @@
     @foreach (var group in Model.Groups)
     {
         <div class="row">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="panel panel-primary" id="groupPanel">
+                <div class="panel-heading" id="groupName">
                     @group.name
                 </div>
                 <div class="panel-body">
                     <div class="col-md-8">
                         <ul class="list-group">
                             <li class="list-group-item list-item-min-height">
-                                <div class="col-md-4">
+                                <div class="col-md-4" id="descLabel">
                                     Description:
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8" id="descValue">
                                     @group.description
                                 </div>
                             </li>
@@ -79,19 +89,23 @@
                         <div style="height:40px">
                             @if (group.IsOwner(User.Identity.Name))
                             {
-                                <button type="button" class="btn btn-default" style="min-width:150px">
-                                    Schedule a Meeting
-                                </button>
+                                using (Html.BeginForm("ScheduleMeeting", "User", FormMethod.Post))
+                                {
+                                    <button type="submit" class="btn btn-default" style="min-width:150px">
+                                        Schedule a Meeting
+                                    </button>
+                                }
                             }
                             else
                             {
-                                <button type="button" class="btn btn-default" style="min-width:150px" disabled>
+                                <button type="submit" class="btn btn-default" style="min-width:150px" disabled>
                                     Schedule a Meeting
                                 </button>
                             }
                         </div>
-                        <div style="height:40px">
-                            <button type="button" class="btn btn-default" style="min-width:150px">
+                        <div style="height:40px" id="quitGroupBtn">
+                            <div id="groupId" style="display:none">@group.id</div>
+                            <button type="submit" class="btn btn-default" style="min-width:150px" data-toggle="modal" data-target="#QuitGroupConfirmation" onclick="quitGroupPreparation(this)">
                                 Quit the Group
                             </button>
                         </div>
@@ -101,5 +115,30 @@
             </div>
         </div>
     }
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="QuitGroupConfirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="modalTitle">Quit the Group?</h4>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    You are going to leave the group. Are you sure?
+                </div>
+                <div class="modal-footer">
+                    @using (Html.BeginForm("QuitGroup", "User", FormMethod.Post))
+                    {
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    
+                        @Html.Hidden("modalGroupId")
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
