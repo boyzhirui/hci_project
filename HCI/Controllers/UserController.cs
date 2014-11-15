@@ -27,6 +27,8 @@ namespace HCI.Controllers
 
         public ActionResult GetMeetings()
         {
+            string userName = User.Identity.Name;
+
             return View();
         }
 
