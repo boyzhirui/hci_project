@@ -41,5 +41,19 @@ namespace HCI.Controllers
         {
             return View();
         }
+
+        public ActionResult UserUpdateInfo()
+        {
+            string userName = User.Identity.Name;
+
+            UserGroupListModel model;
+            using (HciDb ctx = new HciDb())
+            {
+                model = new UserGroupListModel(ctx);
+                model.InitList(userName);
+            }
+            return View(model);
+            return View();
+        }
     }
 }
