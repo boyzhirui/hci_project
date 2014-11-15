@@ -176,6 +176,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\TestWebAPIController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -183,10 +184,18 @@
     <Compile Include="HciDbMigrations\201411140450023_seed_data_01.Designer.cs">
       <DependentUpon>201411140450023_seed_data_01.cs</DependentUpon>
     </Compile>
+    <Compile Include="HciDbMigrations\201411142112124_seed_data_02.cs" />
+    <Compile Include="HciDbMigrations\201411142112124_seed_data_02.Designer.cs">
+      <DependentUpon>201411142112124_seed_data_02.cs</DependentUpon>
+    </Compile>
     <Compile Include="HciDbMigrations\Configuration.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.Designer.cs">
       <DependentUpon>201411140119031_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411142206533_seed_data_01.cs" />
+    <Compile Include="Migrations\201411142206533_seed_data_01.Designer.cs">
+      <DependentUpon>201411142206533_seed_data_01.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -205,8 +214,10 @@
     <Compile Include="Models\Database\StudyField.cs" />
     <Compile Include="Models\Database\User.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\UserGroupListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\Consts.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -259,8 +270,7 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Group\SearchGroup.cshtml" />
-    <Content Include="Views\Group\_SearchResults.cshtml" />
+    <Content Include="Views\User\GetGroups.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -280,8 +290,14 @@
     <EmbeddedResource Include="HciDbMigrations\201411140450023_seed_data_01.resx">
       <DependentUpon>201411140450023_seed_data_01.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HciDbMigrations\201411142112124_seed_data_02.resx">
+      <DependentUpon>201411142112124_seed_data_02.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411140119031_InitialCreate.resx">
       <DependentUpon>201411140119031_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411142206533_seed_data_01.resx">
+      <DependentUpon>201411142206533_seed_data_01.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

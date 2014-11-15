@@ -31,11 +31,25 @@ namespace HCI.Migrations
             //    );
             //
 
-            if (!context.Users.Any(x=> x.UserName == "test01@ncsu.edu"))
+            if (!context.Users.Any(x=> x.UserName == "test01"))
             {
                 var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-                manager.Create(new ApplicationUser { UserName = "test01@ncsu.edu", Email = "test01@ncsu.edu" }, "password");
+                manager.Create(new ApplicationUser { UserName = "test01", Email = "test01@ncsu.edu" }, "password");
+            }
+
+            if (!context.Users.Any(x => x.UserName == "test02"))
+            {
+                var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+                manager.Create(new ApplicationUser { UserName = "test02", Email = "test02@ncsu.edu" }, "password");
+            }
+
+            if (!context.Users.Any(x => x.UserName == "test03"))
+            {
+                var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+                manager.Create(new ApplicationUser { UserName = "test03", Email = "test03@ncsu.edu" }, "password");
             }
         }
     }

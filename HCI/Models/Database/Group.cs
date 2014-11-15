@@ -1,10 +1,13 @@
 namespace HCI.Models.Database
 {
+    using HCI.Utils;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+
+    
 
     [Table("groups")]
     public partial class Group
@@ -34,18 +37,30 @@ namespace HCI.Models.Database
         [StringLength(50)]
         public string course_no { get; set; }
 
-        public int is_closed { get; set; }
+        public YesNo is_closed { get; set; }
 
         public int max_member_number { get; set; }
 
         public virtual ICollection<GroupMembership> GroupMemberships { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User Owner { get; set; }
 
         public virtual ICollection<Meeting> Meetings { get; set; }
 
         public virtual ICollection<RelGroupsStudyfield> RelGroupsStudyfields { get; set; }
 
         public virtual ICollection<Request> Requests { get; set; }
+
+        
+        public bool IsOwner(string userName)
+        {
+            if (Owner != null && Owner.name == userName)
+            {
+                return true;
+            }
+
+            return false;
+
+        }
     }
 }
