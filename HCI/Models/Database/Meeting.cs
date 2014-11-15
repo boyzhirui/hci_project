@@ -40,8 +40,13 @@ namespace HCI.Models.Database
         public TimeSpan start_time { get; set; }
 
         public TimeSpan end_time { get; set; }
+        
+        [Required]
+        public int location_id { get; set; }
 
         public virtual Group Group { get; set; }
+
+        public virtual Location Location { get; set; }
 
         public virtual ICollection<MeetingAttender> MeetingAttenders { get; set; }
     }

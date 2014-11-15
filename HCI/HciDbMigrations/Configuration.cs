@@ -220,6 +220,33 @@ namespace HCI.HciDbMigrations
                 new GroupMembership { group_id = grp3.id, user_id = user3.id });
             #endregion
 
+            #region Location init
+
+            Location location1 = context.Locations.Where(x => x.name == "Room 1").FirstOrDefault();
+            if (location1 == null)
+            {
+                location1 = new Location { name = "Room 1", address = "Room 1, Hunt Lib, North Carolina State University" };
+                context.Locations.Add(location1);
+                context.SaveChanges();
+            }
+
+            Location location2 = context.Locations.Where(x => x.name == "Room 2").FirstOrDefault();
+            if (location2 == null)
+            {
+                location2 = new Location { name = "Room 2", address = "Room 2, Hunt Lib, North Carolina State University" };
+                context.Locations.Add(location2);
+                context.SaveChanges();
+            }
+
+            Location location3 = context.Locations.Where(x => x.name == "Room 3").FirstOrDefault();
+            if (location3 == null)
+            {
+                location3 = new Location { name = "Room 3", address = "Room 3, Hunt Lib, North Carolina State University" };
+                context.Locations.Add(location2);
+                context.SaveChanges();
+            }
+
+            #endregion
             #region Meeting
 
             Meeting meeting1_1 = context.Meetings.Where(x => x.name == "Group 1's meeting 1").FirstOrDefault();
@@ -234,7 +261,8 @@ namespace HCI.HciDbMigrations
                     start_date = new DateTime(2014, 1, 1),
                     end_date = new DateTime(2014, 12, 31),
                     start_time = new TimeSpan(19, 0, 0),
-                    end_time = new TimeSpan(21, 0, 0)
+                    end_time = new TimeSpan(21, 0, 0),
+                    Location = location1
                 };
 
                 context.Meetings.Add(meeting1_1);
@@ -253,7 +281,8 @@ namespace HCI.HciDbMigrations
                     start_date = new DateTime(2014, 1, 1),
                     end_date = new DateTime(2014, 12, 31),
                     start_time = new TimeSpan(19, 0, 0),
-                    end_time = new TimeSpan(21, 0, 0)
+                    end_time = new TimeSpan(21, 0, 0),
+                    Location = location2
                 };
 
                 context.Meetings.Add(meeting1_2);
@@ -272,7 +301,8 @@ namespace HCI.HciDbMigrations
                     start_date = new DateTime(2014, 1, 1),
                     end_date = new DateTime(2014, 12, 31),
                     start_time = new TimeSpan(19, 0, 0),
-                    end_time = new TimeSpan(21, 0, 0)
+                    end_time = new TimeSpan(21, 0, 0),
+                    Location = location3
                 };
 
                 context.Meetings.Add(meeting2_1);
@@ -291,25 +321,15 @@ namespace HCI.HciDbMigrations
                     start_date = new DateTime(2014, 1, 1),
                     end_date = new DateTime(2014, 12, 31),
                     start_time = new TimeSpan(19, 0, 0),
-                    end_time = new TimeSpan(21, 0, 0)
+                    end_time = new TimeSpan(21, 0, 0),
+                    Location = location1
                 };
 
                 context.Meetings.Add(meeting3_1);
                 context.SaveChanges();
             }
             #endregion
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+           
         }
     }
 }
