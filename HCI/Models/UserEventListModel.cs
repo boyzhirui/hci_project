@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using HCI.Models.Database;
+using HCI.Utils;
 
 namespace HCI.Models
 {
     public class UserEventListModel : ModelBase
     {
-        
+
         public UserEventListModel()
         {
 
@@ -24,33 +25,221 @@ namespace HCI.Models
             get;
             set;
         }
-        public void InitList(string userName)
+        public void InitList(string userName, DateTime start, DateTime end)
         {
+            List<UserEvent> events = new List<UserEvent>();
+            Events = events;
+
             User user = Context.Users
                                 .Include("Schedule.Events")
                                 .Include("GroupMemberships.Group.Meetings.Location")
                                 .Where(x => x.name == userName).First();
 
-            Events = new List<UserEvent>();
+
             if (user.Schedule != null)
             {
                 foreach (var e in user.Schedule.Events)
                 {
-                    Events.Add(new UserEvent(e));
+                    events.AddRange(GetEvent(e, start, end));
                 }
             }
 
             if (user.GroupMemberships != null)
             {
-                foreach (var e in user.GroupMemberships.Select(x=>x.Group).SelectMany(x=>x.Meetings))
+                foreach (var e in user.GroupMemberships.Select(x => x.Group).SelectMany(x => x.Meetings))
                 {
-                    Events.Add(new UserEvent(e));
+                    events.AddRange(GetEvent(e, start, end));
                 }
             }
-}
+        }
+
+        private IList<DateTime> GetDatesFromDayOfWeek(DateTime start, DateTime end, DayOfWeek day)
+        {
+            List<DateTime> dates = new List<DateTime>();
+
+            int diff = day - start.DayOfWeek;
+            if (diff < 0)
+                diff += 7;
+
+            DateTime date = start + TimeSpan.FromDays(diff);
+
+            while(date <= end)
+            {
+                dates.Add(date);
+                date = date.AddDays(7);
+            }
+
+            return dates;
+        }
+
+        private IList<DateTime> GetDatesFromEveryDay(DateTime start, DateTime end)
+        {
+            List<DateTime> dates = new List<DateTime>();
+
+            DateTime date = start;
+
+            while (date <= end)
+            {
+                dates.Add(date);
+                date = date.AddDays(1);
+            }
+
+            return dates;
+        }
+
+        private IList<DateTime> GetDatesFromEveryMonth(DateTime start, DateTime end, int day)
+        {
+            List<DateTime> dates = new List<DateTime>();
+
+            DateTime date = new DateTime(start.Year, start.Month, day);
+
+            if (date>=start && date <= end)
+            {
+                dates.Add(date);
+            }
+            
+            date = date.AddMonths(1);
+
+            while (date <= end)
+            {
+                dates.Add(date);
+                date = date.AddMonths(1);
+            }
+
+            return dates;
+        }
+
+        private IList<UserEvent> GenerateUserEvents(IList<DateTime> dateTimes, TimeSpan startTime, TimeSpan endTime, string title, bool isMeeting = false, string address  = "" )
+        {
+            List<UserEvent> events = new List<UserEvent>();
+            foreach(var dt in dateTimes)
+            {
+                events.Add(new UserEvent { IsMeeting = isMeeting, Title = title, Start = (dt + startTime).ToString("o"), End = (dt + endTime).ToString("o"), Location = address });
+            }
+
+            return events;
+        }
+        private IList<UserEvent> GetEvent(Event evt, DateTime start, DateTime end)
+        {
+            List<UserEvent> events = new List<UserEvent>();
+
+            if (end >= evt.start_date && start <= evt.end_date)
+            {
+
+                DateTime actualStart = start > evt.start_date ? start : evt.start_date;
+                DateTime actualEnd = end > evt.end_date ? evt.end_date : end;
+
+                if (evt.interval_type == Consts.IntervalType.Day)
+                {
+                    events.AddRange(GenerateUserEvents(GetDatesFromEveryDay(actualStart, actualEnd), evt.start_time, evt.end_time, evt.name, false, string.Empty));
+                }
+                else if(evt.interval_type == Consts.IntervalType.Week)
+                {
+                    foreach (var dayOfWeek in ParseDay(evt.occur_day))
+                    {
+                        events.AddRange(GenerateUserEvents(GetDatesFromDayOfWeek(actualStart, actualEnd, dayOfWeek), evt.start_time, evt.end_time, evt.name, false, string.Empty));
+                    }
+                }
+                else if (evt.interval_type == Consts.IntervalType.Month)
+                {
+                    foreach (var days in ParseMonthDay(evt.occur_day))
+                    {
+                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, false, string.Empty));
+                    }
+                }
+            }
+
+            return events;
+        }
+
+        private IList<UserEvent> GetEvent(Meeting evt, DateTime start, DateTime end)
+        {
+            List<UserEvent> events = new List<UserEvent>();
+
+            if (end >= evt.start_date && start <= evt.end_date)
+            {
+                DateTime actualStart = start > evt.start_date ? start : evt.start_date;
+                DateTime actualEnd = end > evt.end_date ? evt.end_date : end;
+
+                if (evt.interval_type == Consts.IntervalType.Day)
+                {
+                    events.AddRange(GenerateUserEvents(GetDatesFromEveryDay(actualStart, actualEnd), evt.start_time, evt.end_time, evt.name, true, evt.Location.address));
+                }
+                else if (evt.interval_type == Consts.IntervalType.Week)
+                {
+                    foreach (var dayOfWeek in ParseDay(evt.occur_day))
+                    {
+                        events.AddRange(GenerateUserEvents(GetDatesFromDayOfWeek(actualStart, actualEnd, dayOfWeek), evt.start_time, evt.end_time, evt.name, true, evt.Location.address));
+                    }
+                }
+                else if (evt.interval_type == Consts.IntervalType.Month)
+                {
+                    foreach (var days in ParseMonthDay(evt.occur_day))
+                    {
+                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, true, evt.Location.address));
+                    }
+                }
+            }
+
+            return events;
+        }
+
+        private IList<DayOfWeek> ParseDay(string days)
+        {
+            List<DayOfWeek> daysOfWeek = new List<DayOfWeek>();
+
+            if (!string.IsNullOrWhiteSpace(days))
+            {
+                DayOfWeek dayOfWeek;
+                foreach (var day in days.Split(','))
+                {
+
+                    if (Consts.DayOfWeek.TryGetValue(day, out dayOfWeek))
+                    {
+                        daysOfWeek.Add(dayOfWeek);
+                    }
+                }
+                daysOfWeek = daysOfWeek.Distinct().ToList();
+            }
+
+            return daysOfWeek;
+        }
+
+        private IList<int> ParseMonthDay(string days)
+        {
+            List<int> monthDays = new List<int>();
+
+            if (!string.IsNullOrWhiteSpace(days))
+            {
+                int rst;
+                foreach (var day in days.Split(','))
+                {
+
+                    if (Int32.TryParse(day, out rst))
+                    {
+                        monthDays.Add(rst);
+                    }
+                }
+                monthDays = monthDays.Distinct().ToList();
+            }
+
+            return monthDays;
+        }
+        
     }
 
     public class UserEvent
+    {
+        public string Title { get; set; }
+        public string Start { get; set; }
+        public string End { get; set; }
+
+        public string Location { get; set; }
+
+        public bool IsMeeting { get; set; }
+    }
+
+    /*public class UserEvent
     {
         public UserEvent(Event _event)
         {
@@ -119,5 +308,5 @@ namespace HCI.Models
 
         public Location Location { get; set; }
         public bool IsMeeting { get; set; }
-    }
+    }*/
 }

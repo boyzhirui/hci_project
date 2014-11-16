@@ -27,14 +27,7 @@ namespace HCI.Controllers
 
         public ActionResult GetSchedules()
         {
-            UserEventListModel model = null;
-            string userName = User.Identity.Name;
-            using (HciDb ctx = new HciDb())
-            {
-                model = new UserEventListModel(ctx);
-                model.InitList(userName);
-            }
-            return View(model);
+            return View();
         }
 
         [HttpPost]

@@ -109,7 +109,7 @@ namespace HCI.HciDbMigrations
                     start_time = new TimeSpan(13, 0, 0),
                     end_time = new TimeSpan(15, 0, 0),
                     interval_type = Consts.IntervalType.Week,
-                    occur_day = string.Join(",", Consts.Days.Tuesday, Consts.Days.Thusday),
+                    occur_day = string.Join(",", Consts.Days.Tuesday, Consts.Days.Thursday),
                     schedule = defaultSchedule
                 };
                 context.Events.Add(event2);
@@ -296,7 +296,7 @@ namespace HCI.HciDbMigrations
                 {
                     name = "Group 2's meeting 1",
                     Group = grp2,
-                    occur_day = Consts.Days.Thusday,
+                    occur_day = Consts.Days.Thursday,
                     interval_type = Consts.IntervalType.Week,
                     start_date = new DateTime(2014, 1, 1),
                     end_date = new DateTime(2014, 12, 31),
