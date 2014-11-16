@@ -19,6 +19,7 @@ textarea {
 .category-header{
     background: rgb(196,0,0);
     font-size:120%;
+    font-weight:bold;
 }
 .navbar-header>a, .nav>li>a
 {

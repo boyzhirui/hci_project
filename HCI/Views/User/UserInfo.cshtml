@@ -1,0 +1,198 @@
+﻿@model HCI.Models.UserInfoModel
+
+@section Scripts{
+<script type="text/javascript">
+
+$('#bt-edit-phone').click(function () {
+    var text = $('#lb-user-phone').text();
+    $('#lb-user-phone').hide();
+    $('#user-new-phone').show().focus();
+    $('#user-new-phone').val(text);
+    $('#bt-edit-phone').hide();
+    $('#bt-edit-phone-ok').show();
+});
+
+$('#bt-edit-phone-ok').click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        type:"POST",
+        url: "/User/UserUpdateInfo",
+        data: {phone:$('#user-new-phone').val()},
+        success: function (result) {
+
+            $('#lb-user-phone').show();
+            $('#lb-user-phone').text($('#user-new-phone').val());
+            $('#user-new-phone').hide();
+            $('#bt-edit-phone').show();
+            $('#bt-edit-phone-ok').hide();
+        }
+    });
+});
+
+$('#user-new-phone').keyup(function (e) {
+    if (e.keyCode == 13) {
+        $.ajax({
+            type: "POST",
+            url: "/User/UserUpdateInfo",
+            data: { phone: $('#user-new-phone').val() },
+            success: function (result) {
+
+                $('#lb-user-phone').show();
+                $('#lb-user-phone').text($('#user-new-phone').val());
+                $('#user-new-phone').hide();
+                $('#bt-edit-phone').show();
+                $('#bt-edit-phone-ok').hide();
+            }
+        });
+    }
+});
+
+
+$('#bt-edit-address').click(function () {
+    var text = $('#lb-user-address').text();
+    $('#lb-user-address').hide();
+    $('#user-new-address').show().focus();
+    $('#user-new-address').val(text);
+    $('#bt-edit-address').hide();
+    $('#bt-edit-address-ok').show();
+});
+
+$('#bt-edit-address-ok').click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "/User/UserUpdateInfo",
+        data: { address: $('#user-new-address').val() },
+        success: function (result) {
+
+            $('#lb-user-address').show();
+            $('#lb-user-address').text($('#user-new-address').val());
+            $('#user-new-address').hide();
+            $('#bt-edit-address').show();
+            $('#bt-edit-address-ok').hide();
+        }
+    });
+});
+
+$('#user-new-address').keyup(function (e) {
+    if (e.keyCode == 13) {
+        $.ajax({
+            type: "POST",
+            url: "/User/UserUpdateInfo",
+            data: { address: $('#user-new-address').val() },
+            success: function (result) {
+
+                $('#lb-user-address').show();
+                $('#lb-user-address').text($('#user-new-address').val());
+                $('#user-new-address').hide();
+                $('#bt-edit-address').show();
+                $('#bt-edit-address-ok').hide();
+            }
+        });
+    }
+});
+</script>
+}
+
+<style>
+    .list-item-min-height {
+        height: 60px;
+    }
+    .edit-input{
+        display:none;
+    }
+</style>
+
+<div class="container body-content">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h1 class="panel-title">Personal Information</h1>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="list-group">
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Name:
+                            </div>
+                            <div class="col-md-6">
+                                <label>Jhon Smith</label>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Email:
+                            </div>
+                            <div class="col-md-6">
+                                <label id="user-name">@Model.user.name</label>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Major:
+                            </div>
+                            <div class="col-md-6">
+                                <label>@Model.user.Major.major_name</label>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Degree Level:
+                            </div>
+                            <div class="col-md-6">
+                                <label>@Model.user.DegreeLevel.degree_level_desc</label>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Phone Number:
+                            </div>
+                            <div class="col-md-4">
+                                <label id="lb-user-phone">@Model.user.phone</label>
+
+                                <input type="text" class="edit-input" id="user-new-phone" />
+                            </div>
+                            <div class="col-md-2">
+                                <button id="bt-edit-phone" class="btn btn-default" style="min-width:150px">
+                                    Edit
+                                </button>
+                                <button id="bt-edit-phone-ok" class="btn btn-default edit-input" style="min-width:150px">
+                                    OK
+                                </button>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Address:
+                            </div>
+                            <div class="col-md-4">
+                                <label id="lb-user-address">@Model.user.addr</label>
+                                <input type="text" class="edit-input" id="user-new-address" />
+                            </div>
+                            <div class="col-md-2">
+                                <button id="bt-edit-address"class="btn btn-default" style="min-width:150px">
+                                    Edit
+                                </button>
+                                <button id="bt-edit-address-ok" class="btn btn-default edit-input" style="min-width:150px">
+                                    OK
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <form action="~/Account/Manage">
+                        <button type="submit" class="btn btn-default" style="min-width:150px" data-toggle="modal" data-target="#QuitGroupConfirmation" onclick="quitGroupPreparation(this)">
+                            Change Password
+                        </button>
+                        </form>
+                </div>
+            </div>       
+        </div>
+    </div>
+
+</div>
+

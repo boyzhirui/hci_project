@@ -1,27 +1,22 @@
-﻿using HCI.Models.Database;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using HCI.Models.Database;
 
 namespace HCI.Models
 {
-    public class UserGroupListModel : ModelBase
+    public class UserEventListModel : ModelBase
     {
         
-        public UserGroupListModel()
+        public UserEventListModel()
         {
 
         }
 
-        public UserGroupListModel(HciDb ctx):base(ctx)
+        public UserEventListModel(HciDb ctx)
+            : base(ctx)
         {
-        }
-
-        public IList<Group> Groups
-        {
-            get;
-            set;
         }
 
         public void InitList(string userName)
@@ -34,10 +29,11 @@ namespace HCI.Models
                                 .Include("GroupMemberships.Group.RelGroupsStudyfields.StudyField")
                                 .Where(x => x.name == userName).First();
 
-            Groups = user.GroupMemberships.Select(x=>x.Group).ToList();
         }
-
-        
     }
 
+    public class UserEvent
+    {
+
+    }
 }

@@ -27,6 +27,8 @@ namespace HCI.Controllers
 
         public ActionResult GetMeetings()
         {
+            string userName = User.Identity.Name;
+
             return View();
         }
 
@@ -42,18 +44,35 @@ namespace HCI.Controllers
             return View();
         }
 
-        public ActionResult UserUpdateInfo()
+
+        public ActionResult UserInfo()
         {
             string userName = User.Identity.Name;
 
-            UserGroupListModel model;
+            UserInfoModel model;
             using (HciDb ctx = new HciDb())
             {
-                model = new UserGroupListModel(ctx);
-                model.InitList(userName);
+                model = new UserInfoModel(ctx);
+                model.getUserInfo(userName);
             }
             return View(model);
-            return View();
+
+        }
+        [HttpPost]
+        public ActionResult UserUpdateInfo(string phone="",string address="")
+        {
+            string userName = User.Identity.Name;
+
+            UserInfoModel model;
+            using (HciDb ctx = new HciDb())
+            {
+                model = new UserInfoModel(ctx);
+                model.getUserInfo(userName);
+                model.updateUserInfo(phone, address);
+                ctx.SaveChanges();
+            }
+            return UserInfo();
+
         }
     }
 }
