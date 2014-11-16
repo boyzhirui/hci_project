@@ -173,6 +173,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EventListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\TestWebAPIController.cs" />
@@ -187,6 +188,10 @@
     <Compile Include="HciDbMigrations\201411142112124_seed_data_02.cs" />
     <Compile Include="HciDbMigrations\201411142112124_seed_data_02.Designer.cs">
       <DependentUpon>201411142112124_seed_data_02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HciDbMigrations\201411152239280_add_location.cs" />
+    <Compile Include="HciDbMigrations\201411152239280_add_location.Designer.cs">
+      <DependentUpon>201411152239280_add_location.cs</DependentUpon>
     </Compile>
     <Compile Include="HciDbMigrations\Configuration.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.cs" />
@@ -205,6 +210,7 @@
     <Compile Include="Models\Database\Group.cs" />
     <Compile Include="Models\Database\GroupMembership.cs" />
     <Compile Include="Models\Database\HciDb.cs" />
+    <Compile Include="Models\Database\Location.cs" />
     <Compile Include="Models\Database\Major.cs" />
     <Compile Include="Models\Database\Meeting.cs" />
     <Compile Include="Models\Database\MeetingAttender.cs" />
@@ -323,6 +329,7 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\User\GetGroups.cshtml" />
+    <Content Include="Views\User\GetSchedules.cshtml" />
     <Content Include="Views\User\UserUpdateInfo.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
   </ItemGroup>
@@ -342,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HciDbMigrations\201411142112124_seed_data_02.resx">
       <DependentUpon>201411142112124_seed_data_02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HciDbMigrations\201411152239280_add_location.resx">
+      <DependentUpon>201411152239280_add_location.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411140119031_InitialCreate.resx">
       <DependentUpon>201411140119031_InitialCreate.cs</DependentUpon>

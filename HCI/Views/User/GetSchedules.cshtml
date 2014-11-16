@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "My Schedule";
+}
+
+<h2>My Schedules</h2>
+
+@section css{
+    @Styles.Render("~/Content/fullcalendar_css")
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/fullcalendar_js")
+
+<script>
+    function getDateString(date)
+    {
+        var dd = date.getDate();
+        var mm = date.getMonth() + 1; //January is 0!
+        var yyyy = date.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        dateStr = yyyy + '-' + mm + '-' + dd;
+        return dateStr;
+    }
+
+    $(document).ready(function () {
+        
+        today = getDateString(new Date());
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            timeFormat: 'H:mm',
+            defaultDate: today,
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: function (start, end, callback) {
+                var startStr = getDateString(start);
+                var endStr = getDateString(end);
+                $.ajax({
+                    url: '/api/EventList/Get',
+                    dataType: 'json',
+                    data: {
+                        // our hypothetical feed requires UNIX timestamps
+                        start: startStr,
+                        end: endStr,
+                        userName: "@User.Identity.Name"
+
+                    },
+                    success: function (data) {
+                        var events = [];
+                        var i =0;
+                        var color = "#9A9CFF";
+
+                        for (i = 0; i < data.length; i++)
+                        {
+                            if (data[i].IsMeeting) {
+                                color = "#59b953";
+                            }
+                            else
+                            {
+                                color = "#9A9CFF"
+                            }
+                            events.push({
+                                title: data[i].Title,
+                                start: data[i].Start,
+                                end: data[i].End,
+                                color: color,
+                                allDay: false
+                            })
+                        }
+                        callback(events);
+                    }
+                });
+            }
+        });
+
+    });
+
+</script>
+}
+
+<div id='calendar'></div>
+
+@*
+@foreach (var _event in Model.Events)
+{
+    <div>
+        @_event.Name
+    </div>
+    if(_event.IsMeeting)
+    {
+    <div>
+        @_event.Location.name
+    </div>
+    <div>
+        @_event.Location.address
+    </div>
+    }
+}*@
+

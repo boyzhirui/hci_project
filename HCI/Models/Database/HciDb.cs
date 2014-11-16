@@ -26,6 +26,8 @@ namespace HCI.Models.Database
         public virtual DbSet<StudyField> StudyFields { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
+        public virtual DbSet<Location> Locations { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DegreeLevel>()
@@ -165,6 +167,20 @@ namespace HCI.Models.Database
                 .HasMany(e => e.Requests)
                 .WithRequired(e => e.User)
                 .HasForeignKey(e => e.sender_id)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Location>()
+                .Property(e => e.name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Location>()
+                .Property(e => e.address)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Location>()
+                .HasMany(e => e.Meetings)
+                .WithRequired(e => e.Location)
+                .HasForeignKey(e => e.location_id)
                 .WillCascadeOnDelete(false);
 
         }

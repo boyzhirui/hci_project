@@ -25,10 +25,8 @@ namespace HCI.Controllers
             return View(model);
         }
 
-        public ActionResult GetMeetings()
+        public ActionResult GetSchedules()
         {
-            string userName = User.Identity.Name;
-
             return View();
         }
 

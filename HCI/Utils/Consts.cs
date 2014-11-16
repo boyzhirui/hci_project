@@ -5,7 +5,7 @@ using System.Web;
 
 namespace HCI.Utils
 {
-    public class Consts
+    public static class Consts
     {
         public static class IntervalType
         {
@@ -19,10 +19,23 @@ namespace HCI.Utils
             public static readonly string Monday = "Mon";
             public static readonly string Tuesday = "Tue";
             public static readonly string Wednesday = "Wed";
-            public static readonly string Thusday = "Thu";
+            public static readonly string Thursday = "Thu";
             public static readonly string Friday = "Fri";
             public static readonly string Saturday = "Sat";
             public static readonly string Sunday = "Sun";
+        }
+
+        public static IDictionary<string, DayOfWeek> DayOfWeek = new Dictionary<string, DayOfWeek>(7);
+
+        static Consts()
+        {
+            DayOfWeek.Add(Days.Sunday, System.DayOfWeek.Sunday);
+            DayOfWeek.Add(Days.Monday, System.DayOfWeek.Monday);
+            DayOfWeek.Add(Days.Tuesday, System.DayOfWeek.Tuesday);
+            DayOfWeek.Add(Days.Wednesday, System.DayOfWeek.Wednesday);
+            DayOfWeek.Add(Days.Thursday, System.DayOfWeek.Thursday);
+            DayOfWeek.Add(Days.Friday, System.DayOfWeek.Friday);
+            DayOfWeek.Add(Days.Saturday, System.DayOfWeek.Saturday);
         }
     }
 
