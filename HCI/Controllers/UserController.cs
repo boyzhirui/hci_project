@@ -25,11 +25,16 @@ namespace HCI.Controllers
             return View(model);
         }
 
-        public ActionResult GetMeetings()
+        public ActionResult GetSchedules()
         {
+            UserEventListModel model = null;
             string userName = User.Identity.Name;
-
-            return View();
+            using (HciDb ctx = new HciDb())
+            {
+                model = new UserEventListModel(ctx);
+                model.InitList(userName);
+            }
+            return View(model);
         }
 
         [HttpPost]
