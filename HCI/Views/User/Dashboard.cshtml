@@ -1,0 +1,56 @@
+﻿
+@model HCI.Models.UserDashboardModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .row{
+        margin-left:0;
+        margin-right:0;
+    }
+    .col-md-6
+    {
+        padding-left:0;
+    }
+</style>
+<div class="row">
+    <div class="col-md-6" id="groups">
+        <div class="panel panel-primary">
+            <div class="panel-heading" id="groupName">My Group</div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    @foreach (var group in Model.GroupModel.Groups)
+                    {
+                        <tr>
+                            <td>
+                                <a href="#">@group.name</a>
+                            </td>
+                        </tr>
+                    }
+                    </table>
+            </div>
+            </div>
+                
+    </div>
+    <div class="col-md-6" id="events">
+        <div class="panel panel-primary">
+            <div class="panel-heading" id="groupName">My Events</div>
+            <div class="panel-body" id="Eventlist">
+                <table class="table table-hover">
+                    @foreach(var userEvent in Model.EventModel.Events.Take(7).OrderBy(x=>x.Start))
+                    {
+                        <tr>
+                            <td>
+                                <b>@userEvent.Start</b>
+                            </td>
+                            <td>
+                                <a href="#">@userEvent.Title</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

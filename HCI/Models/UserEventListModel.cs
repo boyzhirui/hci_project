@@ -109,12 +109,12 @@ namespace HCI.Models
             return dates;
         }
 
-        private IList<UserEvent> GenerateUserEvents(IList<DateTime> dateTimes, TimeSpan startTime, TimeSpan endTime, string title, bool isMeeting = false, string address  = "" )
+        private IList<UserEvent> GenerateUserEvents(IList<DateTime> dateTimes, TimeSpan startTime, TimeSpan endTime, string title, int eventID,bool isMeeting = false, string address  = "")
         {
             List<UserEvent> events = new List<UserEvent>();
             foreach(var dt in dateTimes)
             {
-                events.Add(new UserEvent { IsMeeting = isMeeting, Title = title, Start = (dt + startTime).ToString("o"), End = (dt + endTime).ToString("o"), Location = address });
+                events.Add(new UserEvent { IsMeeting = isMeeting, Title = title, Start = (dt + startTime).ToString("o"), End = (dt + endTime).ToString("o"), Location = address,EventID=eventID });
             }
 
             return events;
@@ -131,20 +131,20 @@ namespace HCI.Models
 
                 if (evt.interval_type == Consts.IntervalType.Day)
                 {
-                    events.AddRange(GenerateUserEvents(GetDatesFromEveryDay(actualStart, actualEnd), evt.start_time, evt.end_time, evt.name, false, string.Empty));
+                    events.AddRange(GenerateUserEvents(GetDatesFromEveryDay(actualStart, actualEnd), evt.start_time, evt.end_time, evt.name,evt.id,false, string.Empty));
                 }
                 else if(evt.interval_type == Consts.IntervalType.Week)
                 {
                     foreach (var dayOfWeek in ParseDay(evt.occur_day))
                     {
-                        events.AddRange(GenerateUserEvents(GetDatesFromDayOfWeek(actualStart, actualEnd, dayOfWeek), evt.start_time, evt.end_time, evt.name, false, string.Empty));
+                        events.AddRange(GenerateUserEvents(GetDatesFromDayOfWeek(actualStart, actualEnd, dayOfWeek), evt.start_time, evt.end_time, evt.name, evt.id,false, string.Empty));
                     }
                 }
                 else if (evt.interval_type == Consts.IntervalType.Month)
                 {
                     foreach (var days in ParseMonthDay(evt.occur_day))
                     {
-                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, false, string.Empty));
+                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name,evt.id, false, string.Empty));
                     }
                 }
             }
@@ -163,20 +163,20 @@ namespace HCI.Models
 
                 if (evt.interval_type == Consts.IntervalType.Day)
                 {
-                    events.AddRange(GenerateUserEvents(GetDatesFromEveryDay(actualStart, actualEnd), evt.start_time, evt.end_time, evt.name, true, evt.Location.address));
+                    events.AddRange(GenerateUserEvents(GetDatesFromEveryDay(actualStart, actualEnd), evt.start_time, evt.end_time, evt.name,evt.id, true, evt.Location.address));
                 }
                 else if (evt.interval_type == Consts.IntervalType.Week)
                 {
                     foreach (var dayOfWeek in ParseDay(evt.occur_day))
                     {
-                        events.AddRange(GenerateUserEvents(GetDatesFromDayOfWeek(actualStart, actualEnd, dayOfWeek), evt.start_time, evt.end_time, evt.name, true, evt.Location.address));
+                        events.AddRange(GenerateUserEvents(GetDatesFromDayOfWeek(actualStart, actualEnd, dayOfWeek), evt.start_time, evt.end_time, evt.name,evt.id, true, evt.Location.address));
                     }
                 }
                 else if (evt.interval_type == Consts.IntervalType.Month)
                 {
                     foreach (var days in ParseMonthDay(evt.occur_day))
                     {
-                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, true, evt.Location.address));
+                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, evt.id,true, evt.Location.address));
                     }
                 }
             }
@@ -237,6 +237,8 @@ namespace HCI.Models
         public string Location { get; set; }
 
         public bool IsMeeting { get; set; }
+
+        public int EventID { get; set; }
     }
 
     /*public class UserEvent
