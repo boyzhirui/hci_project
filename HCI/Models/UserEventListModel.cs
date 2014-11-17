@@ -129,6 +129,7 @@ namespace HCI.Models
                 DateTime actualStart = start > evt.start_date ? start : evt.start_date;
                 DateTime actualEnd = end > evt.end_date ? evt.end_date : end;
 
+
                 if (evt.interval_type == Consts.IntervalType.Day)
                 {
                     events.AddRange(GenerateUserEvents(GetDatesFromEveryDay(actualStart, actualEnd), evt.start_time, evt.end_time, evt.name, false, string.Empty));
@@ -146,6 +147,17 @@ namespace HCI.Models
                     {
                         events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, false, string.Empty));
                     }
+                }
+                else if (evt.interval_type == Consts.IntervalType.OneDay)
+                {
+                    events.Add(new UserEvent
+                    {
+                        Title = evt.name,
+                        Location = string.Empty,
+                        IsMeeting = false,
+                        Start = (evt.start_date + evt.start_time).ToString("o"),
+                        End = (evt.end_date + evt.end_time).ToString("o")
+                    });
                 }
             }
 
@@ -176,8 +188,19 @@ namespace HCI.Models
                 {
                     foreach (var days in ParseMonthDay(evt.occur_day))
                     {
-                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, true, evt.Location.address));
+                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, true, evt.Location.name));
                     }
+                }
+                else if (evt.interval_type == Consts.IntervalType.OneDay)
+                {
+                    events.Add(new UserEvent
+                    {
+                        Title = evt.name,
+                        Location = evt.Location.name,
+                        IsMeeting = false,
+                        Start = (evt.start_date + evt.start_time).ToString("o"),
+                        End = (evt.end_date + evt.end_time).ToString("o")
+                    });
                 }
             }
 

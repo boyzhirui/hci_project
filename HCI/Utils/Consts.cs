@@ -9,6 +9,7 @@ namespace HCI.Utils
     {
         public static class IntervalType
         {
+            public static readonly string OneDay = "OneDay";
             public static readonly string Day = "Day";
             public static readonly string Month = "Month";
             public static readonly string Week = "Week";
