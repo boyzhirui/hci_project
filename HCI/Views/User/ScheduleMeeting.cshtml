@@ -54,7 +54,6 @@
 
                 $('#Repeat').change(function(event)
                 {
-                    var e = event;
                     if (this.checked) {
                         $('#RepeatSetup').modal('show');
                         $("#repeatText").show();
@@ -62,11 +61,148 @@
                     else {
                         $("#repeatText").hide();
                     }
-                    
+
                 })
+
+                $('#endsOnDateRadio').change(function (event) {
+                    if (this.checked) {
+                        $('#endsOnDateText').prop('disabled', false)
+                    }
+                    else {
+                        $('#endsOnDateText').prop('disabled', true)
+                    }
+
+                })
+
+                $('#endsOnNeverRadio').change(function (event) {
+                    if (this.checked) {
+                        $('#endsOnDateText').prop('disabled', true)
+                    }
+                    else {
+                        $('#endsOnDateText').prop('disabled', false)
+                    }
+
+                })
+
+                $('#repeatingType').change(function (event) {
+                    var selectedVal = $(this).children(':selected').prop('value');
+
+                    if (selectedVal == 'Weekly') {
+                        $('#weeklyRepeatsOn').prop('hidden', false);
+                        $('#monthlyRepeatsOn').prop('hidden', true);
+                    }
+                    else if (selectedVal == 'Monthly'){
+                        $('#weeklyRepeatsOn').prop('hidden', true);
+                        $('#monthlyRepeatsOn').prop('hidden', false);
+                    }
+                    else {
+                        $('#weeklyRepeatsOn').prop('hidden', true);
+                        $('#monthlyRepeatsOn').prop('hidden', true);
+                    }
+
+                })
+
+                $('#modalOK').click(function (event) {
+
+                    var intervalType = $('#repeatingType').children(':selected').prop('value');
+                    var occurDays = '';
+                    var firstDay = true;
+
+                    if (intervalType == 'Weekly')
+                    {
+                        if ($('#sunCheck').prop)
+                        {
+                            if (firstDay)
+                            {
+                                firstDay = false;
+                            }
+                            else {
+                                occurDays += ',';
+                            }
+                            occurDays += 'Sun';
+                        }
+
+                        if ($('#monCheck').prop) {
+                            if (firstDay) {
+                                firstDay = false;
+                            }
+                            else {
+                                occurDays += ',';
+                            }
+                            occurDays += 'Mon';
+                        }
+
+                        if ($('#tueCheck').prop) {
+                            if (firstDay) {
+                                firstDay = false;
+                            }
+                            else {
+                                occurDays += ',';
+                            }
+                            occurDays += 'Tue';
+                        }
+
+                        if ($('#wedCheck').prop) {
+                            if (firstDay) {
+                                firstDay = false;
+                            }
+                            else {
+                                occurDays += ',';
+                            }
+                            occurDays += 'Wed';
+                        }
+
+                        if ($('#thuCheck').prop) {
+                            if (firstDay) {
+                                firstDay = false;
+                            }
+                            else {
+                                occurDays += ',';
+                            }
+                            occurDays += 'Thu';
+                        }
+
+                        if ($('#friCheck').prop) {
+                            if (firstDay) {
+                                firstDay = false;
+                            }
+                            else {
+                                occurDays += ',';
+                            }
+                            occurDays += 'Fri';
+                        }
+
+                        if ($('#satCheck').prop) {
+                            if (firstDay) {
+                                firstDay = false;
+                            }
+                            else {
+                                occurDays += ',';
+                            }
+                            occurDays += 'Sat';
+                        }
+                    }
+                    else if (intervalType == 'Monthly')
+                    {
+                        occurDays = $('#monthlyRepeatsOnText').prop('value');
+                    }
+
+                    var neverEnds = $('#endsOnNeverRadio').prop('checked');
+                    var endDate = '';
+
+                    if (!neverEnds)
+                    {
+                        endDate = $('#endsOnDateText').prop('value');
+                    }
+
+                    
+
+                })
+                
             })
         });
     </script>
+    
 }
 
 <style>
@@ -78,6 +214,14 @@
     .form-control{
         height: 30px;
     }
+
+    input {
+        max-width: 270px;
+    }
+
+    textarea {
+        max-width: 560px;
+    }
 </style>
 
 <div class="container body-content">
@@ -87,62 +231,68 @@
             <div class="panel-heading" id="heading">
                 Meeting Information
             </div>
+            @using (Html.BeginForm("ScheduleMeeting", "User", FormMethod.Post))
+            {
             <div class="panel-body">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <ul class="list-group">
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4" id="groupName">
+                            <div class="col-md-2" id="groupName">
                                 Group Name:
                             </div>
-                            <div class="col-md-8" id="groupNameValue">
+                            <div class="col-md-10" id="groupNameValue">
                                 @Html.DisplayTextFor(m => m.GroupName)
                                 @Html.HiddenFor(m => m.GroupID)
                             </div>
                         </li>
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4">
-                                Title:
+                            <div class="col-md-2">
+                                Title (*):
                             </div>
-                            <div class="col-md-8">
-                                @Html.TextBoxFor(m => m.Title, new { @class = "form-control"})
-                                @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+                            <div class="col-md-10">
+                                <div class="col-md-4" style="padding-left:0px">
+                                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+                                </div>
                             </div>
                         </li>
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4">
-                                Start Time:
+                            <div class="col-md-2">
+                                Start Time (*):
                             </div>
-                            <div class="col-md-8">
-                                <div class="col-md-4" style="padding-left:0px">
+                            <div class="col-md-10">
+                                <div class="col-md-4" style="padding-left:0px; width:120px">
                                     @Html.TextBoxFor(m => m.StartDate, "", new { @class = "form-control", @placeholder = "YYYY-MM-DD" })
                                     @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" style="padding-left:0px; width:130px">
                                     @Html.DropDownListFor(m => m.StartTime, new SelectList(HCI.Utils.Consts.MeetingTimeOptions, "Index", "Text"), new { @class = "form-control" })
                                     @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4">
-                                End Time:
+                            <div class="col-md-2">
+                                End Time (*):
                             </div>
-                            <div class="col-md-8">
-                                <div class="col-md-4" style="padding-left:0px">
+                            <div class="col-md-10">
+                                <div class="col-md-2" style="padding-left:0px; width:120px">
                                     @Html.TextBoxFor(m => m.EndDate, "", new { @class = "form-control", @placeholder = "YYYY-MM-DD" })
                                     @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-md-4">
-                                    @Html.DropDownListFor(m => m.EndTime, new SelectList(HCI.Utils.Consts.MeetingTimeOptions, "Index", "Text"), new { @class = "form-control"})
+                                <div class="col-md-2" style="padding-left:0px; width:130px">
+                                    @Html.DropDownListFor(m => m.EndTime, new SelectList(HCI.Utils.Consts.MeetingTimeOptions, "Index", "Text"), new { @class = "form-control" })
                                     @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 Repeat?
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-10">
                                 <div class="col-md-4">
                                     @Html.CheckBoxFor(m => m.Repeat, new { @class = "checkbox" })
                                     @Html.HiddenFor(m => m.NeverEnd)
@@ -157,11 +307,11 @@
                         </li>
 
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4">
-                                Location:
+                            <div class="col-md-2">
+                                Location (*):
                             </div>
-                            <div class="col-md-8">
-                                <select class="form-control" data-val="true" data-val-required="The Location field is required." id="LocationID" name="LocationID"
+                            <div class="col-md-10">
+                                <select class="form-control" style="padding-left:0px" data-val="true" data-val-required="The Location field is required." id="LocationID" name="LocationID"
                                         data-toggle="tooltip" data-placement="right" title="Please select time first so that we can let you know which rooms are available.">
                                     @*Just a placeholder here, the data will be populated by ajax*@
                                 </select>
@@ -169,24 +319,29 @@
                         </li>
 
                         <li class="list-group-item" style="height:90px;">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 Description:
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-10">
                                 <div>
-                                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = "3"}) 
+                                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = "3", @style = "padding-left:0px" })
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div class="col-md-12">
-                    <button type="button" class="col-md-2 col-md-push-1 btn btn-default">OK</button>
-                    <div class="col-md-2 col-md-push-1">
-                    </div><button type="button" class="col-md-2 col-md-push-1 btn btn-default">Cancel</button>
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-9">
+                        <button type="button" class="col-md-2 col-md-push-2 btn btn-default">OK</button>
+                        <div class="col-md-2 col-md-push-1">
+                        </div><button type="button" class="col-md-2 col-md-push-1 btn btn-default">Cancel</button>
+                    </div>
+
                 </div>
             </div>
-            
+            }
             
     </div>
 </div>
@@ -204,11 +359,11 @@
                 <form>
                     <div class="form-group col-md-12">
                         <label class="control-label col-md-4">
-                            Repeating Type:
+                            Repeating Type (*):
                         </label>
                         <select class="form-control col-md-8" data-val="true" data-val-required="The Repeating Type field is required." id="repeatingType" name="repeatingType">
                             <option value="Daily">Daily</option>
-                            <option value="Weekly" selected="">Weekly</option>
+                            <option value="Weekly" selected>Weekly</option>
                             <option value="Monthly">Monthly</option>
                         </select>
                     </div>
@@ -246,17 +401,16 @@
                                 <label class="control-label">Sat</label>
                             </span>
                         </div>
+                        
                     </div>
-
                     <div class="form-group col-md-12" id="monthlyRepeatsOn" hidden>
                         <label class="control-label col-md-4">
                             Repeats on:
                         </label>
                         <input class="form-control col-md-8" data-val="true" data-val-regex="Only numbers between 01 and 31 and commas are valid."
-                               data-val-regex-pattern="^((0?[1-9])|[1-2][0-9]|(30)|(31))(,((0?[1-9])|[1-2][0-9]|(30)|(31)))*$" id="weeklyRepeatsOnText"
+                               data-val-regex-pattern="^((0?[1-9])|[1-2][0-9]|(30)|(31))(,((0?[1-9])|[1-2][0-9]|(30)|(31)))*$" id="monthlyRepeatsOnText"
                                name="monthlyRepeatsOnText" type="text" value="" placeholder="01,02,03,...">
                     </div>
-
                     <div class="form-group col-md-12" id="startsOn">
                         <label class="control-label col-md-4">
                             Starts on:
@@ -270,21 +424,28 @@
                         </label>
                         <div class="col-md-8">
                             <span class="col-md-12">
-                                <input type="radio" id="endsOnNever" name="endsOnRadios" class="col-md-1 col-md-pull-1">
+                                <input type="radio" id="endsOnNeverRadio" name="endsOnRadios" class="col-md-1 col-md-pull-1" checked>
                                 <label class="control-label col-md-11 col-md-pull-1">Never</label>
                             </span>
                             <span class="col-md-12">
-                                <input type="radio" id="endsOnDate" name="endsOnRadios" class="col-md-1 col-md-pull-1">
+                                <input type="radio" id="endsOnDateRadio" name="endsOnRadios" class="col-md-1 col-md-pull-1">
                                 <label class="control-label col-md-3 col-md-pull-1">On</label>
-                                <input class="form-control col-md-8 col-md-pull-1" id="endsOnDateText" name="endsOnDateText" placeholder="YYYY-MM-DD" type="text" value="">
+                                <input class="form-control col-md-8 col-md-pull-1" id="endsOnDateText" name="endsOnDateText" placeholder="YYYY-MM-DD" type="text" value="" style="max-width:150px" disabled>
                             </span>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-default">OK</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <div class="col-md-12">
+                    <div class="col-md-7">
+                        <span class="text-danger field-validation-valid" id="modalErrorMsg" style="word-wrap:break-word;text-align:left;"></span>
+                    </div>
+                    <div class="col-md-5">
+                        <button type="button" id="modalOk" class="col-md-5 col-md-push-1 btn btn-default">OK</button>
+                        <button type="button" id="modalCancel" class="col-md-5 col-md-push-1 btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
