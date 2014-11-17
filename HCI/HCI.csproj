@@ -221,6 +221,7 @@
     <Compile Include="Models\Database\User.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\QuitGroupResultModel.cs" />
     <Compile Include="Models\UserGroupListModel.cs" />
     <Compile Include="Models\UserEventListModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
@@ -333,6 +334,7 @@
     <Content Include="Views\User\GetSchedules.cshtml" />
     <Content Include="Views\User\UserUpdateInfo.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
+    <Content Include="Views\User\QuitGroupResult.cshtml" />
     <Content Include="Views\Shared\_IndexLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>

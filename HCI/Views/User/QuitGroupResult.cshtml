@@ -1,0 +1,20 @@
+﻿@model HCI.Models.QuitGroupResultModel
+
+@{
+    ViewBag.Title = "Quit Group Result";
+}
+
+<h2>Quit Group Result</h2>
+
+@if (Model.Success)
+{
+    <div class="alert alert-success" role="alert">
+        You have quitted the group [@Model.GroupName].
+    </div>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        Oops, something went wrong. Please try it again.
+    </div>
+}
