@@ -30,11 +30,57 @@ namespace HCI.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult ScheduleMeeting()
+        [HttpGet]
+        public ActionResult ScheduleMeeting(string groupId)
         {
-            return View();
+            ScheduleMeetingModel model;
+            using (HciDb ctx = new HciDb())
+            {
+                model = new ScheduleMeetingModel(ctx);
+                if (groupId == null)
+                    groupId = "4";
+                int gid = Int32.Parse(groupId);
+                model.Init(gid);
+            }
+            return View(model);
         }
+
+        [HttpPost]
+        public ActionResult ScheduleMeeting(ScheduleMeetingModel model)
+        {
+            bool success = false;
+            Exception e = null;
+
+            try
+            {
+                using (HciDb ctx = new HciDb())
+                {
+                    model.Save(ctx);
+                }
+            }
+            catch (Exception ex)
+            {
+                e = ex;
+            }
+
+            ScheduleMeetingResultModel rstModel = new ScheduleMeetingResultModel
+            {
+                Success = success,
+                GroupName = model.GroupName,
+                Title = model.Title,
+                ErrorMessage = success ? string.Empty : e.ToString()
+            };
+
+            return RedirectToAction("ScheduleMeetingResult", rstModel);
+
+        }
+
+        [HttpGet]
+        public ActionResult ScheduleMeetingResult(ScheduleMeetingResultModel model)
+        {
+            return View(model);
+        }
+
 
         [HttpPost]
         public ActionResult QuitGroup(string modalGroupId)
@@ -88,6 +134,7 @@ namespace HCI.Controllers
             return View(model);
 
         }
+
         [HttpPost]
         public ActionResult UserUpdateInfo(string phone="",string address="")
         {

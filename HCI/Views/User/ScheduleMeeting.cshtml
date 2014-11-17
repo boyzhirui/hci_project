@@ -1,0 +1,162 @@
+﻿@model HCI.Models.ScheduleMeetingModel
+
+@{
+    ViewBag.Title = "Schedule Meeting";
+}
+
+<h2>Schedule Meeting</h2>
+
+@section css
+{
+    @Styles.Render("~/Content/bootstrap-datepicker")
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap-datepicker")
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+            $(function () {
+                $('#StartDate').datepicker({
+                    format: "yyyy-mm-dd",
+                    weekStart: 0,
+                    todayBtn: "linked",
+                    forceParse: false,
+                    autoclose: true,
+                    todayHighlight: true
+                });
+
+                $('#EndDate').datepicker({
+                    format: "yyyy-mm-dd",
+                    weekStart: 0,
+                    todayBtn: "linked",
+                    forceParse: false,
+                    autoclose: true,
+                    todayHighlight: true
+                });
+
+                $('#Repeat').change(function(event)
+                {
+                    var e = event;
+                    $('#RepeatSetup')
+                })
+            })
+        });
+    </script>
+}
+
+<style>
+    .list-item-min-height {
+        height: 40px;
+        padding-top: 5px;
+    }
+
+    .form-control{
+        height: 30px;
+    }
+</style>
+
+<div class="container body-content">
+
+    <div class="row">
+        <div class="panel panel-primary" id="panel">
+            <div class="panel-heading" id="heading">
+                Meeting Information
+            </div>
+            <div class="panel-body">
+                <div class="col-md-8">
+                    <ul class="list-group">
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4" id="groupName">
+                                Group Name:
+                            </div>
+                            <div class="col-md-8" id="groupNameValue">
+                                @Html.DisplayTextFor(m => m.GroupName)
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Title:
+                            </div>
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.Title, new { @class = "form-control"})
+                                @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                End Time
+                            </div>
+                            <div class="col-md-8">
+                                <div class="col-md-4" style="padding-left:0px">
+                                    @Html.TextBoxFor(m => m.StartDate, "", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.StartTime, new SelectList(HCI.Utils.Consts.MeetingTimeOptions, "Index", "Text"), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                End Time
+                            </div>
+                            <div class="col-md-8">
+                                <div class="col-md-4" style="padding-left:0px">
+                                    @Html.TextBoxFor(m => m.EndDate, "", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.EndTime, new SelectList(HCI.Utils.Consts.MeetingTimeOptions, "Index", "Text"), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Repeat?
+                            </div>
+                            <div class="col-md-8">
+                                @Html.CheckBoxFor(m=> m.Repeat, new { @class = "form-control" })
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-12" style="padding-left: 10%;">
+                    <button type="button" class="col-md-2 btn btn-default">OK</button>
+                    <div class="col-md-2">
+                    </div><button type="button" class="col-md-2 btn btn-default">Cancel</button>
+                </div>
+            </div>
+            
+            
+    </div>
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal" style="top:30%" id="RepeatSetup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="modalTitle">Quit the Group?</h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                You are going to leave the group. Are you sure?
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm("QuitGroup", "User", FormMethod.Post))
+                {
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+
+                    @Html.Hidden("modalGroupId")
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -32,6 +32,13 @@ namespace HCI
 
             bundles.Add(new ScriptBundle("~/bundles/fullcalendar_js")
                 .Include("~/Scripts/fullcalendar.js"));
+
+            bundles.Add(new StyleBundle("~/Content/bootstrap-datepicker")
+                .Include("~/Content/datepicker3.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker")
+                .Include("~/Scripts/bootstrap-datepicker.js"));
+
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;
