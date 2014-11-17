@@ -130,7 +130,7 @@ namespace HCI.Models
                 DateTime actualEnd = end > evt.end_date ? evt.end_date : end;
 
                 actualStart = actualStart.Date;
-                actualEnd = actualEndt.Date;
+                actualEnd = actualEnd.Date;
 
                 if (evt.interval_type == Consts.IntervalType.Day)
                 {
