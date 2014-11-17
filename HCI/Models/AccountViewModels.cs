@@ -35,6 +35,38 @@ namespace HCI.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class indexViewModel
+    {
+        [Required]
+        [Display(Name = "User Name or Email")]
+        [RegularExpression("^[a-zA-Z0-9]+(@ncsu.edu)?$", ErrorMessage = "User Name should be your unity ID or your NCSU email address.")]
+        public string UserName { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [Display(Name = "Remember me")]
+        public bool RememberMe { get; set; }
+
+        [Required]
+        [RegularExpression("^[a-zA-Z0-9]+@ncsu.edu$", ErrorMessage = "Only NCSU email address is allowed to register.")]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string RegPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+    }
     public class LoginViewModel
     {
         [Required]

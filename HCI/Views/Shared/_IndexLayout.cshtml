@@ -4,9 +4,41 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - NCSU Group Finder</title>
-    @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
     @RenderSection("css", false)
+    <style>
+        /* Set width on the form input elements since they're 100% wide by default */
+    input,
+    select,
+    textarea {
+        max-width: 280px;
+    }
+
+    .category-header{
+        background: rgb(196,0,0);
+        font-size:120%;
+        font-weight:bold;
+    }
+    .navbar-header>a, .nav>li>a
+    {
+        color: rgb(255,255,255);  
+    }
+    .nav>li>a:hover
+    {
+        background-color: #303030;
+    }
+
+    .index-container {
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+   body{
+       padding-bottom:0px;
+   }
+    </style>
 </head>
 <body>
     <div class="category-header navbar navbar-fixed-top">
@@ -31,12 +63,8 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="index-container">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - NCSU Group Finder</p>
-        </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

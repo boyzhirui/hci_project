@@ -240,6 +240,7 @@
     <Content Include="Content\datepicker3.css" />
     <Content Include="Content\fullcalendar.css" />
     <Content Include="Content\fullcalendar.print.css" />
+    <Content Include="Content\img\index.jpg" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -390,6 +391,7 @@
     <Content Include="Views\User\UserUpdateInfo.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
     <Content Include="Views\User\QuitGroupResult.cshtml" />
+    <Content Include="Views\Shared\_IndexLayout.cshtml" />
     <Content Include="Views\User\ScheduleMeetingResult.cshtml" />
     <Content Include="Views\User\ScheduleMeeting.cshtml" />
   </ItemGroup>
