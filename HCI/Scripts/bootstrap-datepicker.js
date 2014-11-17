@@ -548,7 +548,9 @@
 				scrollTop = $window.scrollTop();
 
 			var zIndex = parseInt(this.element.parents().filter(function(){
-					return $(this).css('z-index') !== 'auto';
+			    //return $(this).css('z-index') !== 'auto'; //Get the ummerged fix from http://github.com/eternicode/bootstrap-datepicker/pull/609/files
+			    var zIndex = $(this).css('z-index');
+			    return zIndex != 'auto' && zIndex != '0';
 				}).first().css('z-index'))+10;
 			var offset = this.component ? this.component.parent().offset() : this.element.offset();
 			var height = this.component ? this.component.outerHeight(true) : this.element.outerHeight(false);

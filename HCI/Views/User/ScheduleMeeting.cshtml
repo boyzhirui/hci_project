@@ -16,6 +16,13 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap-datepicker")
     <script type="text/javascript">
+
+        $(document).ready(function ($) {
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        });
+
         $(document).ready(function ($) {
             $(function () {
                 $('#StartDate').datepicker({
@@ -36,10 +43,26 @@
                     todayHighlight: true
                 });
 
+                $('#endsOnDateText').datepicker({
+                    format: "yyyy-mm-dd",
+                    weekStart: 0,
+                    todayBtn: "linked",
+                    forceParse: false,
+                    autoclose: true,
+                    todayHighlight: true
+                });
+
                 $('#Repeat').change(function(event)
                 {
                     var e = event;
-                    $('#RepeatSetup')
+                    if (this.checked) {
+                        $('#RepeatSetup').modal('show');
+                        $("#repeatText").show();
+                    }
+                    else {
+                        $("#repeatText").hide();
+                    }
+                    
                 })
             })
         });
@@ -73,6 +96,7 @@
                             </div>
                             <div class="col-md-8" id="groupNameValue">
                                 @Html.DisplayTextFor(m => m.GroupName)
+                                @Html.HiddenFor(m => m.GroupID)
                             </div>
                         </li>
                         <li class="list-group-item list-item-min-height">
@@ -86,11 +110,11 @@
                         </li>
                         <li class="list-group-item list-item-min-height">
                             <div class="col-md-4">
-                                End Time
+                                Start Time:
                             </div>
                             <div class="col-md-8">
                                 <div class="col-md-4" style="padding-left:0px">
-                                    @Html.TextBoxFor(m => m.StartDate, "", new { @class = "form-control" })
+                                    @Html.TextBoxFor(m => m.StartDate, "", new { @class = "form-control", @placeholder = "YYYY-MM-DD" })
                                     @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-4">
@@ -101,15 +125,15 @@
                         </li>
                         <li class="list-group-item list-item-min-height">
                             <div class="col-md-4">
-                                End Time
+                                End Time:
                             </div>
                             <div class="col-md-8">
                                 <div class="col-md-4" style="padding-left:0px">
-                                    @Html.TextBoxFor(m => m.EndDate, "", new { @class = "form-control" })
+                                    @Html.TextBoxFor(m => m.EndDate, "", new { @class = "form-control", @placeholder = "YYYY-MM-DD" })
                                     @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-4">
-                                    @Html.DropDownListFor(m => m.EndTime, new SelectList(HCI.Utils.Consts.MeetingTimeOptions, "Index", "Text"), new { @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.EndTime, new SelectList(HCI.Utils.Consts.MeetingTimeOptions, "Index", "Text"), new { @class = "form-control"})
                                     @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -119,15 +143,47 @@
                                 Repeat?
                             </div>
                             <div class="col-md-8">
-                                @Html.CheckBoxFor(m=> m.Repeat, new { @class = "form-control" })
+                                <div class="col-md-4">
+                                    @Html.CheckBoxFor(m => m.Repeat, new { @class = "checkbox" })
+                                    @Html.HiddenFor(m => m.NeverEnd)
+                                    @Html.HiddenFor(m => m.OccurDays)
+                                    @Html.HiddenFor(m => m.IntervalType)
+                                    @Html.HiddenFor(m => m.EndDateForCycle)
+                                </div>
+                                <div class="col-md-8" id="repeatText" hidden>
+                                    XXX
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Location:
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" data-val="true" data-val-required="The Location field is required." id="LocationID" name="LocationID"
+                                        data-toggle="tooltip" data-placement="right" title="Please select time first so that we can let you know which rooms are available.">
+                                    @*Just a placeholder here, the data will be populated by ajax*@
+                                </select>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item" style="height:90px;">
+                            <div class="col-md-4">
+                                Description:
+                            </div>
+                            <div class="col-md-8">
+                                <div>
+                                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = "3"}) 
+                                </div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-12" style="padding-left: 10%;">
-                    <button type="button" class="col-md-2 btn btn-default">OK</button>
-                    <div class="col-md-2">
-                    </div><button type="button" class="col-md-2 btn btn-default">Cancel</button>
+                <div class="col-md-12">
+                    <button type="button" class="col-md-2 col-md-push-1 btn btn-default">OK</button>
+                    <div class="col-md-2 col-md-push-1">
+                    </div><button type="button" class="col-md-2 col-md-push-1 btn btn-default">Cancel</button>
                 </div>
             </div>
             
@@ -142,19 +198,93 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="modalTitle">Quit the Group?</h4>
+                <h4 class="modal-title" id="modalTitle">Repeat</h4>
             </div>
-            <div class="modal-body" id="modalBody">
-                You are going to leave the group. Are you sure?
+            <div class="modal-body" id="modalBody" style="height:250px">
+                <form>
+                    <div class="form-group col-md-12">
+                        <label class="control-label col-md-4">
+                            Repeating Type:
+                        </label>
+                        <select class="form-control col-md-8" data-val="true" data-val-required="The Repeating Type field is required." id="repeatingType" name="repeatingType">
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly" selected="">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12" id="weeklyRepeatsOn">
+                        <label class="control-label col-md-4">
+                            Repeats on:
+                        </label>
+                        <div class="col-md-8">
+                            <span>
+                                <input type="checkbox" id="sunCheck">
+                                <label class="control-label">Sun</label>
+                            </span>
+                            <span>
+                                <input type="checkbox" id="monCheck">
+                                <label class="control-label">Mon</label>
+                            </span>
+                            <span>
+                                <input type="checkbox" id="tueCheck">
+                                <label class="control-label">Tue</label>
+                            </span>
+                            <span>
+                                <input type="checkbox" id="wedCheck">
+                                <label class="control-label">Wed</label>
+                            </span>
+                            <span>
+                                <input type="checkbox" id="thuCheck">
+                                <label class="control-label">Thu</label>
+                            </span>
+                            <span>
+                                <input type="checkbox" id="friCheck">
+                                <label class="control-label">Fri</label>
+                            </span>
+                            <span>
+                                <input type="checkbox" id="satCheck">
+                                <label class="control-label">Sat</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12" id="monthlyRepeatsOn" hidden>
+                        <label class="control-label col-md-4">
+                            Repeats on:
+                        </label>
+                        <input class="form-control col-md-8" data-val="true" data-val-regex="Only numbers between 01 and 31 and commas are valid."
+                               data-val-regex-pattern="^((0?[1-9])|[1-2][0-9]|(30)|(31))(,((0?[1-9])|[1-2][0-9]|(30)|(31)))*$" id="weeklyRepeatsOnText"
+                               name="monthlyRepeatsOnText" type="text" value="" placeholder="01,02,03,...">
+                    </div>
+
+                    <div class="form-group col-md-12" id="startsOn">
+                        <label class="control-label col-md-4">
+                            Starts on:
+                        </label>
+                        <input class="form-control col-md-8" id="startsOnText" name="startsOnText" type="text" value="" disabled="">
+                    </div>
+
+                    <div class="form-group col-md-12" id="endsOn">
+                        <label class="control-label col-md-4">
+                            Ends:
+                        </label>
+                        <div class="col-md-8">
+                            <span class="col-md-12">
+                                <input type="radio" id="endsOnNever" name="endsOnRadios" class="col-md-1 col-md-pull-1">
+                                <label class="control-label col-md-11 col-md-pull-1">Never</label>
+                            </span>
+                            <span class="col-md-12">
+                                <input type="radio" id="endsOnDate" name="endsOnRadios" class="col-md-1 col-md-pull-1">
+                                <label class="control-label col-md-3 col-md-pull-1">On</label>
+                                <input class="form-control col-md-8 col-md-pull-1" id="endsOnDateText" name="endsOnDateText" placeholder="YYYY-MM-DD" type="text" value="">
+                            </span>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                @using (Html.BeginForm("QuitGroup", "User", FormMethod.Post))
-                {
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-
-                    @Html.Hidden("modalGroupId")
-                    <button type="submit" class="btn btn-danger">Yes</button>
-                }
+                <button type="submit" class="btn btn-default">OK</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

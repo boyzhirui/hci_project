@@ -1,4 +1,5 @@
 ﻿using HCI.Models.Database;
+using HCI.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,6 +27,10 @@ namespace HCI.Models
 
             this.GroupID = group.id;
             this.GroupName = group.name;
+            this.StartDate = DateTime.Now.ToString("yyyy-MM-dd");
+            this.EndDate = DateTime.Now.ToString("yyyy-MM-dd");
+            this.StartTime = "0";
+            this.EndTime = "47";
         }
 
         public void Save(HciDb ctx)
@@ -33,9 +38,13 @@ namespace HCI.Models
             DateTime startDt = DateTime.ParseExact(this.StartDate, "yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo);
 
             DateTime endDt = DateTime.MaxValue;
-            if (!this.NeverEnd)
+            if (IntervalType == Consts.IntervalType.OneDay)
             {
-                DateTime.ParseExact(this.EndDate, "yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo);
+                endDt = DateTime.ParseExact(this.EndDate, "yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo);
+            }
+            else if (!this.NeverEnd)
+            {
+                endDt = DateTime.ParseExact(this.EndDateForCycle, "yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo);
             }
 
             TimeSpan startTs = TimeSpan.ParseExact(this.StartTime, "HH:mm:ss", DateTimeFormatInfo.InvariantInfo);
@@ -46,7 +55,7 @@ namespace HCI.Models
                 name = this.Title,
                 occur_day = this.OccurDays,
                 start_date = startDt,
-                end_date = endDt,
+                end_date =  endDt,
                 start_time = startTs,
                 end_time = endTs,
                 interval_type = this.IntervalType,
@@ -86,6 +95,8 @@ namespace HCI.Models
 
         [Required]
         public String LocationName { get; set; }
+
+        public string EndDateForCycle { get; set; }
         
     }
 }
