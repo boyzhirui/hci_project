@@ -152,5 +152,23 @@ namespace HCI.Controllers
 
         }
 
+        public ActionResult Dashboard()
+        {
+
+            string userName = User.Identity.Name;
+
+
+            UserDashboardModel model;
+            DateTime start,end;
+            start=DateTime.Now;
+            end=start.AddMonths(1);
+            using (HciDb ctx = new HciDb())
+            {
+                model = new UserDashboardModel(ctx);
+                model.Init(userName,start,end,7);
+            }
+
+            return View(model);
+        }
     }
 }
