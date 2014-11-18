@@ -22,7 +22,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Dashboard", "Dashboard", "User")</li>
-                    <li>@Html.ActionLink("Search/Join Group", "About", "Home")</li>
+                    <li>@Html.ActionLink("Search/Join Group", "GeneralSearchGroup", "Group")</li>
                     <li>@Html.ActionLink("Create Group", "Contact", "Home")</li>
                     <li>@Html.ActionLink("My Groups", "GetGroups", "User")</li>
                     <li>@Html.ActionLink("My Schedule", "GetSchedules", "User")</li>
@@ -31,11 +31,12 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content" style="min-height:550px">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - NCSU Group Finder</p>
+    </div>
+    <div class="container">
+        <hr><footer>
+            <p>© 2014 - NCSU Group Finder</p>
         </footer>
     </div>
 

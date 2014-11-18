@@ -1,0 +1,182 @@
+﻿@model HCI.Models.SearchGroupResultModel
+
+@{
+    ViewBag.Title = "Search Group Result";
+}
+
+<h2>Search Group Result</h2>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+            $(function () {
+                $('#GeneralSearchKeyword').focus();
+            })
+        });
+
+        $(document).ready(function ($) {
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        });
+
+    </script>
+}
+
+@section css{
+    <style>
+        .list-item-min-height {
+            height: 40px;
+        }
+    </style>
+}
+
+
+<div style="height:30px"></div>
+@using (Html.BeginForm("SearchGroupResult", "Group", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal", @role = "form" }))
+{
+
+    <div class="form-group">
+        <label for="GeneralSearchKeyword" class="col-md-2 control-label">Search: </label>
+        <div class="col-md-6">
+            <input class="form-control" id="GeneralSearchKeyword" name="GeneralSearchKeyword" placeholder="Input keywords here" style="min-width:100%" type="text" value="@Model.Queries.GeneralSearchKeyword" />
+            <input id="IsAdvancedSearch" name="IsAdvancedSearch" type="hidden" value="false" />
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-default">
+                Search
+            </button>
+        </div>
+        <div class="col-md-2" style="padding-top: 7px;">
+            @Html.ActionLink("Advanced Search", "AdvancedSearchGroup", "Group")
+        </div>
+    </div>
+}
+
+@if(Model.Groups.FirstOrDefault() != null)
+{  
+foreach (var group in Model.Groups)
+{
+
+    <div class="row">
+        <div class="panel panel-primary" id="groupPanel">
+            <div class="panel-body">
+                <div class="col-md-1" style="min-width:15%"></div>
+                <div class="col-md-8">
+                    <ul class="list-group">
+                        <li class="list-group-item list-item-min-height" style="background-color:#e3e3e3;padding-top: 5px;">
+                            <div class="col-md-4" id="nameLabel" style="padding-top: 5px;">
+                                <strong>
+                                    Group Name:
+                                </strong>
+                            </div>
+                            <div class="col-md-5" id="nameValue" style="padding-top: 5px;">
+                                <strong>
+                                    @group.name
+                                </strong>
+                            </div>
+                            <div class="col-md-2">
+                                @using (Html.BeginForm("Join", "Group", FormMethod.Post))
+                                {
+                                    @Html.Hidden("groupId", group.id)
+                                    <button type="submit" class="btn btn-default" style="min-width:100px; height:30px;padding-top: 3px;">
+                                        Join
+                                    </button>
+                                }
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4" id="descLabel">
+                                Description:
+                            </div>
+                            <div class="col-md-8" id="descValue">
+                                @group.description
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Study Fields:
+                            </div>
+                            <div class="col-md-8">
+                                @String.Join(",", group.RelGroupsStudyfields.Select(x => x.StudyField.name))
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Course Number:
+                            </div>
+                            <div class="col-md-8">
+                                @group.course_no
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Closed Group:
+
+                            </div>
+                            <div class="col-md-8">
+                                @group.is_closed.ToString()
+                                @if (group.is_closed == HCI.Utils.YesNo.Yes)
+                                {
+                                    <a href="#" data-toggle="tooltip" data-placement="right" title="You have to get group owner's approval to join a closed group">&nbsp;(What's this)</a>
+                                }
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Max Member Number:
+                            </div>
+                            <div class="col-md-8">
+                                @group.max_member_number
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Owner:
+                            </div>
+                            <div class="col-md-8">
+                                @group.Owner.name
+                            </div>
+                        </li>
+
+
+                    </ul>
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+}
+}
+else
+{
+    <div style="height:30px"></div>
+    <h3 style="padding-left:20%">Oops! No group meets your high demand. Please search other groups.</h3>
+}
+
+
+<!-- Modal -->
+<div class="modal" style="top:30%" id="QuitGroupConfirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="modalTitle">Quit the Group?</h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+                You are going to leave the group. Are you sure?
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm("QuitGroup", "User", FormMethod.Post))
+                {
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+
+                    @Html.Hidden("modalGroupId")
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
