@@ -161,7 +161,7 @@ namespace HCI.Controllers
 
             UserDashboardModel model;
             DateTime start,end;
-            start=DateTime.Now;
+            start=DateTime.Now.Date;
             end=start.AddMonths(1);
             using (HciDb ctx = new HciDb())
             {
@@ -169,6 +169,20 @@ namespace HCI.Controllers
                 model.Init(userName,start,end,7);
             }
 
+            return View(model);
+        }
+        
+        public ActionResult GroupDetail(int ID=0)
+        {
+            UserGroupDetailModel model;
+           using(HciDb ctx = new HciDb())
+           {
+               model = new UserGroupDetailModel(ctx);
+               DateTime start, end;
+               start = DateTime.Now.Date;
+               end = start.AddMonths(1);
+               model.InitLiset(ID,start,end,7);
+           }
             return View(model);
         }
     }

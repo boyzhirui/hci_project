@@ -227,6 +227,7 @@
     <Compile Include="Models\ScheduleMeetingModel.cs" />
     <Compile Include="Models\ScheduleMeetingResultModel.cs" />
     <Compile Include="Models\UserDashboardModel.cs" />
+    <Compile Include="Models\UserGroupDetailModel.cs" />
     <Compile Include="Models\UserGroupListModel.cs" />
     <Compile Include="Models\UserEventListModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
@@ -398,6 +399,7 @@
     <Content Include="Views\User\ScheduleMeetingResult.cshtml" />
     <Content Include="Views\User\ScheduleMeeting.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
+    <Content Include="Views\User\GroupDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -444,7 +446,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2163</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2015</IISUrl>
+          <IISUrl>http://localhost:2015/HCI</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -24,7 +24,8 @@
                     {
                         <tr>
                             <td>
-                                <a href="#">@group.name</a>
+                                @Html.ActionLink(@group.name, "GroupDetail/"+@group.id, "User")
+
                             </td>
                         </tr>
                     }
@@ -38,7 +39,7 @@
             <div class="panel-heading" id="groupName">My Events</div>
             <div class="panel-body" id="Eventlist">
                 <table class="table table-hover">
-                    @foreach(var userEvent in Model.EventModel.Events.Take(7).OrderBy(x=>x.Start))
+                    @foreach(var userEvent in Model.EventModel.Events.OrderBy(x=>x.Start).Take(7))
                     {
                         <tr>
                             <td>

@@ -28,7 +28,7 @@
         margin-top:20px;
         color: black;
         display: block;
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-family: Verdana,'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-size: 23px;
         font-weight: 300;
         height: 124px;
@@ -52,12 +52,12 @@
         left:268px;
     }
     .about-container{
-        margin-top:50px;
+        margin-top:70px;
     }
     h1{
         color: black;
         display: block;
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-family: Verdana,"Lucida Console",'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-size: 38px;
         font-weight: bold;
         height: 44px;
@@ -93,13 +93,13 @@
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="form-group">
                                     <div class="col-md-10">
-                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Username or Email" })
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control input-lg", @placeholder = "Username or Email" })
                                         @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-10">
-                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", @placeholder = "Password" })
                                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -127,19 +127,19 @@
                             @Html.ValidationSummary("", new { @class = "text-danger" })
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", @placeholder = "Email" })
                                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", @placeholder = "Password" })
                                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control input-lg", @placeholder = "Confirm Password" })
                                     @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                                 </div>
                             </div>
