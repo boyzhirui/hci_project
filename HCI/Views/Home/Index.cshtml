@@ -11,12 +11,15 @@
 
 <style>
     .form-signin,.form-signup{
-        background-color:white;
+        background-color:rgb(240,240,240);
         margin-bottom:15px;
         color:black;
     }
+    .form-signin{
+        padding-top:15px;
+     }
     .index-container{
-        background-image: url(../../Content/img/index-background.jpg);
+        background-image: url("@Url.Content("~/Content/img/index-background.jpg")");
         height:1000px;
         left:0;
         right:0; 
@@ -71,6 +74,12 @@
         text-shadow: none;
 
     }
+    .input-lg{
+        width:260px;
+    }
+    .btn-lg{
+        font-weight:bold;
+    }
 </style>
 <div class="index-container">
     <div class="row">
@@ -89,7 +98,6 @@
                             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                             {
                                 @Html.AntiForgeryToken()
-                                <hr />
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="form-group">
                                     <div class="col-md-10">
@@ -104,11 +112,18 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-md-offset-1 col-md-10">
-                                        <div class="checkbox">
-                                            @Html.CheckBoxFor(m => m.RememberMe)
-                                            @Html.LabelFor(m => m.RememberMe)
-                                            <input type="submit" value="Log in" class="btn btn-default" />
+                                    <div class="col-md-12">
+                                        <div class="col-md-7">
+                                            <div class="checkbox">
+                                                <label>
+                                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                                    Remember Me
+                                                </label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="submit" value="Log in" class="btn btn-lg btn-default" />
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +138,6 @@
                         @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
-                            <hr />
                             @Html.ValidationSummary("", new { @class = "text-danger" })
                             <div class="form-group">
                                 <div class="col-md-10">
@@ -144,8 +158,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-md-offset-1 col-md-10">
-                                    <input type="submit" class="btn btn-default" value="Sign Up For Group Finder" />
+                                <div class="col-md-12">
+                                    <input type="submit" class="btn btn-lg btn-default" value="Sign Up For Group Finder" />
                                 </div>
                             </div>
                         }
