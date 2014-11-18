@@ -226,6 +226,8 @@
     <Compile Include="Models\QuitGroupResultModel.cs" />
     <Compile Include="Models\ScheduleMeetingModel.cs" />
     <Compile Include="Models\ScheduleMeetingResultModel.cs" />
+    <Compile Include="Models\SearchGroupQueryModel.cs" />
+    <Compile Include="Models\SearchGroupResultModel.cs" />
     <Compile Include="Models\UserDashboardModel.cs" />
     <Compile Include="Models\UserGroupDetailModel.cs" />
     <Compile Include="Models\UserGroupListModel.cs" />
@@ -401,6 +403,8 @@
     <Content Include="Views\User\ScheduleMeeting.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\User\GroupDetail.cshtml" />
+    <Content Include="Views\Group\GeneralSearchGroup.cshtml" />
+    <Content Include="Views\Group\SearchGroupResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

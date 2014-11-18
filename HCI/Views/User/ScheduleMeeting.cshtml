@@ -16,6 +16,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap-datepicker")
     <script type="text/javascript">
+
+
         var editRepeat = false;
 
         function setModalError(id ,msg)
@@ -238,6 +240,12 @@
                 $('<option value="-1" selected>No Available Room</option>').appendTo(locationID);
             }
         }
+
+        $(document).ready(function ($) {
+            $(function () {
+                $('#Title').focus();
+            })
+        });
 
         $(document).ready(function ($) {
             $(function () {
