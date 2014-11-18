@@ -45,7 +45,7 @@
             var occurDays = '';
             var firstDay = true;
             var neverEnds = $('#endsOnNeverRadio').prop('checked');
-            var startDate = $('#startsOnDateText').prop('value');
+            var startDate = $('#startsOnText').prop('value');
             var endDate = '';
 
             if (intervalType == 'Weekly') {
@@ -203,6 +203,7 @@
         {
             var isRepeat = $('#Repeats').prop('checked');
             var startDate, endDate, startTime, endTime, intervalType, occurDays, neverEnds;
+            var locationID = $('#LocationID');
 
             occurDays = '';
             intervalType = 'OneDay';
@@ -219,18 +220,23 @@
                 endDate = endDate$('#EndDateForCycle').prop('value');
             }
 
+
             $.ajax({
                 url: '/HCI/api/AvailableLocation?' + 'startDate=' + startDate + '&endDate=' + endDate + '&startTime=' + startTime + '&endTime=' + endTime + '&intervalType=' + intervalType + '&occurDays=' + occurDays + '&neverEnds=' + neverEnds,
                 dataType: 'json',
-                
+
                 success: function (data) {
-                    var locationID = $('#LocationID');
+                    
                     locationID.empty();
                     for (i = 0; i < data.length; i++) {
                         $("<option>").prop('value', data[i].ID).text(data[i].Name).appendTo(locationID);
                     }
                 }
-            })
+            });
+
+            if (locationID.children("option").length == 0) {
+                $('<option value="-1" selected>No Available Room</option>').appendTo(locationID);
+            }
         }
 
         $(document).ready(function ($) {
@@ -501,10 +507,12 @@
                                 Meeting Room (*):
                             </div>
                             <div class="col-md-10">
-                                <select class="form-control" style="padding-left:0px" data-val="true" data-val-required="The Location field is required." id="LocationID" name="LocationID"
+                                <select class="form-control col-md-5" style="padding-left:0px" data-val="true" data-val-required="The Location field is required." id="LocationID" name="LocationID"
                                         data-toggle="tooltip" data-placement="right" title="Only available rooms are shown in the list.">
+                                    <option value="-1" selected>No Available Room</option>
                                     @*Just a placeholder here, the data will be populated by ajax*@
                                 </select>
+                                <a href="http://www.lib.ncsu.edu/reservearoom" target="_blank" data-toggle="tooltip" data-placement="right" title="You will go to NCSU Hunt libarary website">&nbsp;Check room availability in other days.</a>
                             </div>
                         </li>
 
@@ -514,7 +522,7 @@
                             </div>
                             <div class="col-md-10">
                                 <div>
-                                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = "3", @style = "padding-left:0px" })
+                                    @Html.TextAreaFor(m => m.Description, htmlAttributes: new { @class = "form-control", @rows = "3", @style = "padding-left:0px" })
                                 </div>
                             </div>
                         </li>
@@ -561,7 +569,7 @@
                     <div id="repeatsOnGroup">
                     <div class="form-group col-md-12" id="weeklyRepeatsOn">
                         <label class="control-label col-md-4">
-                            Repeats on:
+                            Repeats on (*):
                         </label>
                         <div class="col-md-8" style="padding-left:0px;">
                             <div>
@@ -600,7 +608,7 @@
                     </div>
                     <div class="form-group col-md-12" id="monthlyRepeatsOn" hidden>
                         <label class="control-label col-md-4">
-                            Repeats on:
+                            Repeats on (*):
                         </label>
                         <div class="col-md-8" style="padding-left:0px">
                             <input class="form-control" id="monthlyRepeatsOnText"
@@ -619,7 +627,7 @@
 
                     <div class="form-group col-md-12" id="endsOn">
                         <label class="control-label col-md-4">
-                            Ends:
+                            Ends (*):
                         </label>
                         <div class="col-md-8">
                             <span class="col-md-12">
