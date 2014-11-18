@@ -16,6 +16,222 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap-datepicker")
     <script type="text/javascript">
+        var editRepeat = false;
+
+        function setModalError(id ,msg)
+        {
+            var msgDiv = $('#' + id);
+
+            msgDiv.text(msg);
+        }
+        function removeRepeatsOnError()
+        {
+            $('#repeatsOnGroup').removeClass('has-error');
+            $('#modalWeeklyRepeatsErrorMsg').text("");
+            $('#modalMonthlyRepeatsErrorMsg').text("");
+        }
+
+        function removeEndsOnDateError() {
+            $('#endsOnDateGroup').removeClass('has-error');
+            $('#modalEndsOnErrorMsg').text("");
+        }
+
+        function validateModal(displayErr, displaySummary)
+        {
+            $('#modalSummary').text('');
+
+            var error = false;
+            var intervalType = $('#repeatingType').children(':selected').prop('value');
+            var occurDays = '';
+            var firstDay = true;
+            var neverEnds = $('#endsOnNeverRadio').prop('checked');
+            var startDate = $('#startsOnDateText').prop('value');
+            var endDate = '';
+
+            if (intervalType == 'Weekly') {
+                if ($('#sunCheck').prop('checked')) {
+                    if (firstDay) {
+                        firstDay = false;
+                    }
+                    else {
+                        occurDays += ',';
+                    }
+                    occurDays += 'Sun';
+                }
+
+                if ($('#monCheck').prop('checked')) {
+                    if (firstDay) {
+                        firstDay = false;
+                    }
+                    else {
+                        occurDays += ',';
+                    }
+                    occurDays += 'Mon';
+                }
+
+                if ($('#tueCheck').prop('checked')) {
+                    if (firstDay) {
+                        firstDay = false;
+                    }
+                    else {
+                        occurDays += ',';
+                    }
+                    occurDays += 'Tue';
+                }
+
+                if ($('#wedCheck').prop('checked')) {
+                    if (firstDay) {
+                        firstDay = false;
+                    }
+                    else {
+                        occurDays += ',';
+                    }
+                    occurDays += 'Wed';
+                }
+
+                if ($('#thuCheck').prop('checked')) {
+                    if (firstDay) {
+                        firstDay = false;
+                    }
+                    else {
+                        occurDays += ',';
+                    }
+                    occurDays += 'Thu';
+                }
+
+                if ($('#friCheck').prop('checked')) {
+                    if (firstDay) {
+                        firstDay = false;
+                    }
+                    else {
+                        occurDays += ',';
+                    }
+                    occurDays += 'Fri';
+                }
+
+                if ($('#satCheck').prop('checked')) {
+                    if (firstDay) {
+                        firstDay = false;
+                    }
+                    else {
+                        occurDays += ',';
+                    }
+                    occurDays += 'Sat';
+                }
+            }
+            else if (intervalType == 'Monthly') {
+                occurDays = $('#monthlyRepeatsOnText').prop('value');
+            }
+
+            if (intervalType != 'Daily' && typeof occurDays != 'undefined' && occurDays != '') {
+                if (intervalType == 'Monthly') {
+                    var monthlyDaysPatt = /^((0?[1-9])|[1-2][0-9]|(30)|(31))(,((0?[1-9])|[1-2][0-9]|(30)|(31)))*$/;
+                    if (!monthlyDaysPatt.test(occurDays)) {
+                        error = true;
+                        if (displayErr) {
+                            $('#repeatsOnGroup').addClass('has-error');
+                            setModalError('modalMonthlyRepeatsErrorMsg', 'Only numbers between 01 and 31 and commas are valid.');
+                        }
+                    }
+                }
+            }
+            else if (intervalType != 'Daily') {
+                error = true;
+                if (displayErr) {
+                    $('#repeatsOnGroup').addClass('has-error');
+                    if (intervalType == 'Weekly') {
+                        setModalError('modalWeeklyRepeatsErrorMsg', '"Repeats on" field is required.');
+                    } else if (intervalType == 'Monthly') {
+                        setModalError('modalMonthlyRepeatsErrorMsg', '"Repeats on" field is required.');
+                    }
+                }
+            }
+
+
+
+            if (!neverEnds) {
+                endDate = $('#endsOnDateText').prop('value');
+
+                if (typeof endDate == 'undefined' || endDate == '') {
+                    error = true;
+                    if (displayErr) {
+                        $('#endsOnDateGroup').addClass('has-error');
+                        setModalError('modalEndsOnErrorMsg', '"Ends on" field is required.');
+                    }
+                }
+                else {
+                    if (startDate > endDate) {
+                        error = true;
+                        if (displayErr) {
+                            $('#endsOnDateGroup').addClass('has-error');
+                            setModalError('modalEndsOnErrorMsg', '"Ends on" field should not be earlier than "Starts on"');
+                        }
+                    }
+                }
+            }
+
+            if (!error)
+            {
+                if (displaySummary) {
+                    var summaryMsg = '';
+                    summaryMsg = intervalType;
+
+                    if (intervalType == 'Weekly') {
+                        summaryMsg += ' on ' + occurDays;
+                    }
+                    else if (intervalType == 'Monthly') {
+                        summaryMsg += ' on day ' + occurDays;
+                    }
+
+                    if (!neverEnds) {
+                        summaryMsg += " until " + endDate;
+                    }
+
+                    $('#modalSummary').text('Summary: ' + summaryMsg);
+                }
+
+                $('#NeverEnd').prop('value', neverEnds);
+                $('#OccurDays').prop('value', occurDays);
+                $('#IntervalType').prop('value', intervalType);
+                $('#EndDateForCycle').prop('value', endDate);
+            }
+
+            return { error: error, summary: summaryMsg };
+        }
+
+        function getLocation()
+        {
+            var isRepeat = $('#Repeats').prop('checked');
+            var startDate, endDate, startTime, endTime, intervalType, occurDays, neverEnds;
+
+            occurDays = '';
+            intervalType = 'OneDay';
+            startDate = $('#StartDate').prop('value');
+            endDate = $('#EndDate').prop('value');
+            startTime = $('#StartTime').prop('value');
+            endTime = $('#EndTime').prop('value');
+
+            if (isRepeat)
+            {
+                intervalType = $('#IntervalType').prop('value');
+                occurDays = $('#OccurDays').prop('value');
+                neverEnds = $('#NeverEnd').prop('value');
+                endDate = endDate$('#EndDateForCycle').prop('value');
+            }
+
+            $.ajax({
+                url: '/HCI/api/AvailableLocation?' + 'startDate=' + startDate + '&endDate=' + endDate + '&startTime=' + startTime + '&endTime=' + endTime + '&intervalType=' + intervalType + '&occurDays=' + occurDays + '&neverEnds=' + neverEnds,
+                dataType: 'json',
+                
+                success: function (data) {
+                    var locationID = $('#LocationID');
+                    locationID.empty();
+                    for (i = 0; i < data.length; i++) {
+                        $("<option>").prop('value', data[i].ID).text(data[i].Name).appendTo(locationID);
+                    }
+                }
+            })
+        }
 
         $(document).ready(function ($) {
             $(function () {
@@ -51,154 +267,126 @@
                     autoclose: true,
                     todayHighlight: true
                 });
+            }
+            )
+        });
 
-                $('#Repeat').change(function(event)
-                {
-                    if (this.checked) {
-                        $('#RepeatSetup').modal('show');
-                        $("#repeatText").show();
-                    }
-                    else {
-                        $("#repeatText").hide();
-                    }
+        $(document).ready(function ($) {
+                $(function () {
+                    $('#Repeat').change(function (event) {
+                        editRepeat = false;
 
-                })
+                        if (this.checked) {
+                            var startDate = $('#StartDate').prop('value');
+                            $('#startsOnText').prop('value', startDate);
+                            $('#RepeatSetup').modal('show');
+                            $("#repeatText").prop('hidden', false);
+                        }
+                        else {
+                            $("#repeatText").prop('hidden',true);
+                        }
 
-                $('#endsOnDateRadio').change(function (event) {
-                    if (this.checked) {
-                        $('#endsOnDateText').prop('disabled', false)
-                    }
-                    else {
-                        $('#endsOnDateText').prop('disabled', true)
-                    }
 
-                })
+                    });
 
-                $('#endsOnNeverRadio').change(function (event) {
-                    if (this.checked) {
-                        $('#endsOnDateText').prop('disabled', true)
-                    }
-                    else {
-                        $('#endsOnDateText').prop('disabled', false)
-                    }
+                    $('#repeatEdit').click(function (event) {
+                            editRepeat = true;
+                            var startDate = $('#StartDate').prop('value');
+                            $('#startsOnText').prop('value', startDate);
+                            $('#RepeatSetup').modal('show');
+                    });
 
-                })
+                    $('#endsOnDateRadio').change(function (event) {
+                        removeEndsOnDateError();
+                        if (this.checked) {
+                            $('#endsOnDateText').prop('disabled', false)
+                        }
+                        else {
+                            $('#endsOnDateText').prop('disabled', true)
+                        }
+                        validateModal(true, true);
+                    });
 
-                $('#repeatingType').change(function (event) {
-                    var selectedVal = $(this).children(':selected').prop('value');
+                    $('#endsOnNeverRadio').change(function (event) {
+                        removeEndsOnDateError();
+                        if (this.checked) {
+                            $('#endsOnDateText').prop('disabled', true)
+                        }
+                        else {
+                            $('#endsOnDateText').prop('disabled', false)
+                        }
+                        validateModal(true, true);
+                    });
 
-                    if (selectedVal == 'Weekly') {
-                        $('#weeklyRepeatsOn').prop('hidden', false);
-                        $('#monthlyRepeatsOn').prop('hidden', true);
-                    }
-                    else if (selectedVal == 'Monthly'){
-                        $('#weeklyRepeatsOn').prop('hidden', true);
-                        $('#monthlyRepeatsOn').prop('hidden', false);
-                    }
-                    else {
-                        $('#weeklyRepeatsOn').prop('hidden', true);
-                        $('#monthlyRepeatsOn').prop('hidden', true);
-                    }
+                    $('#endsOnDateText').change(function (event) {
+                        removeEndsOnDateError();
+                        validateModal(true, true);
+                    });
 
-                })
+                    $('#repeatingType').change(function (event) {
+                        var selectedVal = $(this).children(':selected').prop('value');
 
-                $('#modalOK').click(function (event) {
+                        removeRepeatsOnError();
 
-                    var intervalType = $('#repeatingType').children(':selected').prop('value');
-                    var occurDays = '';
-                    var firstDay = true;
+                        if (selectedVal == 'Weekly') {
+                            $('#weeklyRepeatsOn').prop('hidden', false);
+                            $('#monthlyRepeatsOn').prop('hidden', true);
+                        }
+                        else if (selectedVal == 'Monthly') {
+                            $('#weeklyRepeatsOn').prop('hidden', true);
+                            $('#monthlyRepeatsOn').prop('hidden', false);
+                        }
+                        else {
+                            $('#weeklyRepeatsOn').prop('hidden', true);
+                            $('#monthlyRepeatsOn').prop('hidden', true);
+                        }
 
-                    if (intervalType == 'Weekly')
-                    {
-                        if ($('#sunCheck').prop)
+                        validateModal(true, true);
+                    });
+
+                    $('#repeatsOnGroup').change(function (event) {
+                        removeRepeatsOnError();
+                        validateModal(true, true);
+                    });
+
+                    $('#modalOK').click(function (event) {
+                        var result = validateModal(true, true);
+                        if(!result.error)
                         {
-                            if (firstDay)
-                            {
-                                firstDay = false;
-                            }
-                            else {
-                                occurDays += ',';
-                            }
-                            occurDays += 'Sun';
+                            $('#repeatText').children("strong").text(result.summary);
+                            $('#RepeatSetup').modal('hide');
+                            getLocation();
                         }
+                    });
 
-                        if ($('#monCheck').prop) {
-                            if (firstDay) {
-                                firstDay = false;
-                            }
-                            else {
-                                occurDays += ',';
-                            }
-                            occurDays += 'Mon';
+                    $('#modalCancel').click(function (event) {
+
+                        if (!editRepeat) {
+                            $('#Repeat').prop('checked', false);
+                            $("#repeatText").prop('hidden', true);
                         }
+                        getLocation();
+                    });
 
-                        if ($('#tueCheck').prop) {
-                            if (firstDay) {
-                                firstDay = false;
-                            }
-                            else {
-                                occurDays += ',';
-                            }
-                            occurDays += 'Tue';
-                        }
+                    $('#StartDate').change(function (event) {
 
-                        if ($('#wedCheck').prop) {
-                            if (firstDay) {
-                                firstDay = false;
-                            }
-                            else {
-                                occurDays += ',';
-                            }
-                            occurDays += 'Wed';
-                        }
+                        getLocation();
+                    });
 
-                        if ($('#thuCheck').prop) {
-                            if (firstDay) {
-                                firstDay = false;
-                            }
-                            else {
-                                occurDays += ',';
-                            }
-                            occurDays += 'Thu';
-                        }
+                    $('#EndDate').change(function (event) {
 
-                        if ($('#friCheck').prop) {
-                            if (firstDay) {
-                                firstDay = false;
-                            }
-                            else {
-                                occurDays += ',';
-                            }
-                            occurDays += 'Fri';
-                        }
+                        getLocation();
+                    });
 
-                        if ($('#satCheck').prop) {
-                            if (firstDay) {
-                                firstDay = false;
-                            }
-                            else {
-                                occurDays += ',';
-                            }
-                            occurDays += 'Sat';
-                        }
-                    }
-                    else if (intervalType == 'Monthly')
-                    {
-                        occurDays = $('#monthlyRepeatsOnText').prop('value');
-                    }
+                    $('#StartTime').change(function (event) {
 
-                    var neverEnds = $('#endsOnNeverRadio').prop('checked');
-                    var endDate = '';
+                        getLocation();
+                    });
 
-                    if (!neverEnds)
-                    {
-                        endDate = $('#endsOnDateText').prop('value');
-                    }
+                    $('#EndTime').change(function (event) {
+                        getLocation();
+                    });
 
-                    
-
-                })
-                
             })
         });
     </script>
@@ -242,6 +430,7 @@
                             </div>
                             <div class="col-md-10" id="groupNameValue">
                                 @Html.DisplayTextFor(m => m.GroupName)
+                                @Html.HiddenFor(m => m.GroupName)
                                 @Html.HiddenFor(m => m.GroupID)
                             </div>
                         </li>
@@ -293,26 +482,27 @@
                                 Repeat?
                             </div>
                             <div class="col-md-10">
-                                <div class="col-md-4">
+                                <div class="col-md-1" style="width:20px">
                                     @Html.CheckBoxFor(m => m.Repeat, new { @class = "checkbox" })
                                     @Html.HiddenFor(m => m.NeverEnd)
                                     @Html.HiddenFor(m => m.OccurDays)
                                     @Html.HiddenFor(m => m.IntervalType)
                                     @Html.HiddenFor(m => m.EndDateForCycle)
                                 </div>
-                                <div class="col-md-8" id="repeatText" hidden>
-                                    XXX
+                                <div class="col-md-6" id="repeatText" hidden>
+                                    <strong></strong>
+                                    <a href="javascript:void(0)" id="repeatEdit">Edit</a>
                                 </div>
                             </div>
                         </li>
 
                         <li class="list-group-item list-item-min-height">
                             <div class="col-md-2">
-                                Location (*):
+                                Meeting Room (*):
                             </div>
                             <div class="col-md-10">
                                 <select class="form-control" style="padding-left:0px" data-val="true" data-val-required="The Location field is required." id="LocationID" name="LocationID"
-                                        data-toggle="tooltip" data-placement="right" title="Please select time first so that we can let you know which rooms are available.">
+                                        data-toggle="tooltip" data-placement="right" title="Only available rooms are shown in the list.">
                                     @*Just a placeholder here, the data will be populated by ajax*@
                                 </select>
                             </div>
@@ -334,7 +524,7 @@
                     <div class="col-md-3">
                     </div>
                     <div class="col-md-9">
-                        <button type="button" class="col-md-2 col-md-push-2 btn btn-default">OK</button>
+                        <button type="submit" class="col-md-2 col-md-push-2 btn btn-default">OK</button>
                         <div class="col-md-2 col-md-push-1">
                         </div><button type="button" class="col-md-2 col-md-push-1 btn btn-default">Cancel</button>
                     </div>
@@ -355,23 +545,26 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="modalTitle">Repeat</h4>
             </div>
-            <div class="modal-body" id="modalBody" style="height:250px">
+            <div class="modal-body" id="modalBody" style="height:270px">
                 <form>
                     <div class="form-group col-md-12">
                         <label class="control-label col-md-4">
                             Repeating Type (*):
                         </label>
-                        <select class="form-control col-md-8" data-val="true" data-val-required="The Repeating Type field is required." id="repeatingType" name="repeatingType">
+                        <select class="form-control col-md-8" id="repeatingType" name="repeatingType"
+                                style="max-width:255px;">
                             <option value="Daily">Daily</option>
                             <option value="Weekly" selected>Weekly</option>
                             <option value="Monthly">Monthly</option>
                         </select>
                     </div>
+                    <div id="repeatsOnGroup">
                     <div class="form-group col-md-12" id="weeklyRepeatsOn">
                         <label class="control-label col-md-4">
                             Repeats on:
                         </label>
-                        <div class="col-md-8">
+                        <div class="col-md-8" style="padding-left:0px;">
+                            <div>
                             <span>
                                 <input type="checkbox" id="sunCheck">
                                 <label class="control-label">Sun</label>
@@ -400,6 +593,8 @@
                                 <input type="checkbox" id="satCheck">
                                 <label class="control-label">Sat</label>
                             </span>
+                            </div>
+                            <div id="modalWeeklyRepeatsErrorMsg" class="text-danger"></div>
                         </div>
                         
                     </div>
@@ -407,15 +602,19 @@
                         <label class="control-label col-md-4">
                             Repeats on:
                         </label>
-                        <input class="form-control col-md-8" data-val="true" data-val-regex="Only numbers between 01 and 31 and commas are valid."
-                               data-val-regex-pattern="^((0?[1-9])|[1-2][0-9]|(30)|(31))(,((0?[1-9])|[1-2][0-9]|(30)|(31)))*$" id="monthlyRepeatsOnText"
-                               name="monthlyRepeatsOnText" type="text" value="" placeholder="01,02,03,...">
+                        <div class="col-md-8" style="padding-left:0px">
+                            <input class="form-control" id="monthlyRepeatsOnText"
+                                   name="monthlyRepeatsOnText" type="text" value="" placeholder="01,02,03..." style="max-width:255px;">
+                            <div id="modalMonthlyRepeatsErrorMsg" class="text-danger"></div>
+                        </div>
+                        
+                    </div>
                     </div>
                     <div class="form-group col-md-12" id="startsOn">
                         <label class="control-label col-md-4">
                             Starts on:
                         </label>
-                        <input class="form-control col-md-8" id="startsOnText" name="startsOnText" type="text" value="" disabled="">
+                        <input class="form-control col-md-8" id="startsOnText" name="startsOnText" type="text" value="" disabled style="max-width:255px">
                     </div>
 
                     <div class="form-group col-md-12" id="endsOn">
@@ -427,22 +626,26 @@
                                 <input type="radio" id="endsOnNeverRadio" name="endsOnRadios" class="col-md-1 col-md-pull-1" checked>
                                 <label class="control-label col-md-11 col-md-pull-1">Never</label>
                             </span>
-                            <span class="col-md-12">
+                            <div class="col-md-12" id="endsOnDateGroup">
                                 <input type="radio" id="endsOnDateRadio" name="endsOnRadios" class="col-md-1 col-md-pull-1">
-                                <label class="control-label col-md-3 col-md-pull-1">On</label>
-                                <input class="form-control col-md-8 col-md-pull-1" id="endsOnDateText" name="endsOnDateText" placeholder="YYYY-MM-DD" type="text" value="" style="max-width:150px" disabled>
-                            </span>
+                                <div>
+                                    <label class="control-label col-md-3 col-md-pull-1">On</label>
+                                    <input class="form-control col-md-9 col-md-pull-1" id="endsOnDateText" name="endsOnDateText" placeholder="YYYY-MM-DD" type="text" value="" style="max-width:150px" disabled>
+                                    <div id="modalEndsOnErrorMsg" class="text-danger col-md-9 col-md-pull-1" style="padding-left:0px"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-md-12 text-success"><div id="modalSummary" class="col-md-12" style="word-wrap:break-word;text-align:left;"></div></div>
                 </form>
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
                     <div class="col-md-7">
-                        <span class="text-danger field-validation-valid" id="modalErrorMsg" style="word-wrap:break-word;text-align:left;"></span>
+                        
                     </div>
                     <div class="col-md-5">
-                        <button type="button" id="modalOk" class="col-md-5 col-md-push-1 btn btn-default">OK</button>
+                        <button type="button" id="modalOK" class="col-md-5 col-md-push-1 btn btn-default">OK</button>
                         <button type="button" id="modalCancel" class="col-md-5 col-md-push-1 btn btn-default" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>

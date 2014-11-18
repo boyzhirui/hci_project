@@ -55,8 +55,9 @@ namespace HCI.Controllers
             {
                 using (HciDb ctx = new HciDb())
                 {
-                    model.Save(ctx);
+                    //model.Save(ctx);
                 }
+                success = true;
             }
             catch (Exception ex)
             {

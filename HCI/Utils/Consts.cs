@@ -28,7 +28,7 @@ namespace HCI.Utils
 
         public static IDictionary<string, DayOfWeek> DayOfWeek = new Dictionary<string, DayOfWeek>(7);
         public static IList<SelectableTime> MeetingTimeOptions = new List<SelectableTime>();
-        public static IDictionary<int, string> MeetingTimeOptionsDic = new Dictionary<int, string>();
+        public static IDictionary<string, string> MeetingTimeOptionsDic = new Dictionary<string, string>();
         static Consts()
         {
             DayOfWeek.Add(Days.Sunday, System.DayOfWeek.Sunday);
@@ -40,7 +40,6 @@ namespace HCI.Utils
             DayOfWeek.Add(Days.Saturday, System.DayOfWeek.Saturday);
 
             
-            int index = 0;
             string hourText = string.Empty;
             for (int hour = 0; hour < 24; hour++)
             {
@@ -50,8 +49,8 @@ namespace HCI.Utils
                     hourText = "0" + hour;
                 }
 
-                MeetingTimeOptions.Add(new SelectableTime { Index = index++, Text = hourText + ":00:00" });
-                MeetingTimeOptions.Add(new SelectableTime { Index = index++, Text = hourText + ":30:00" });
+                MeetingTimeOptions.Add(new SelectableTime { Index = hourText + ":00:00", Text = hourText + ":00:00" });
+                MeetingTimeOptions.Add(new SelectableTime { Index = hourText + ":30:00", Text = hourText + ":30:00" });
             }
 
             foreach(var item in MeetingTimeOptions)
@@ -64,7 +63,7 @@ namespace HCI.Utils
 
     public class SelectableTime
     {
-        public int Index { get; set; }
+        public string Index { get; set; }
         public string Text { get; set; }
     }
     public enum YesNo

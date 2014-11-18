@@ -173,6 +173,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AvailableLocationController.cs" />
     <Compile Include="Controllers\EventListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Models\Database\StudyField.cs" />
     <Compile Include="Models\Database\User.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LocationModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\QuitGroupResultModel.cs" />
     <Compile Include="Models\ScheduleMeetingModel.cs" />

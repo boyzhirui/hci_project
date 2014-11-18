@@ -29,8 +29,8 @@ namespace HCI.Models
             this.GroupName = group.name;
             this.StartDate = DateTime.Now.ToString("yyyy-MM-dd");
             this.EndDate = DateTime.Now.ToString("yyyy-MM-dd");
-            this.StartTime = "0";
-            this.EndTime = "47";
+            this.StartTime = "00:00:00";
+            this.EndTime = "23:30:00";
         }
 
         public void Save(HciDb ctx)
