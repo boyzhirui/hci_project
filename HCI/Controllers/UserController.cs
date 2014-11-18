@@ -166,7 +166,7 @@ namespace HCI.Controllers
             using (HciDb ctx = new HciDb())
             {
                 model = new UserDashboardModel(ctx);
-                model.Init(userName,start,end,7);
+                model.Init(userName,start,end);
             }
 
             return View(model);
@@ -181,7 +181,7 @@ namespace HCI.Controllers
                DateTime start, end;
                start = DateTime.Now.Date;
                end = start.AddMonths(1);
-               model.InitLiset(ID,start,end,7);
+               model.InitLiset(ID,start,end);
            }
             return View(model);
         }

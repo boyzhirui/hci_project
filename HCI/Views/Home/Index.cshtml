@@ -19,17 +19,18 @@
         padding-top:15px;
      }
     .index-container{
-        background-image: url("@Url.Content("~/Content/img/index-background2.jpg")");
-        height:1000px;
+        background-image: url("@Url.Content("~/Content/img/index-background.jpg")");
+        height:760px;
         left:0;
         right:0; 
         color:white;
         font-weight:bold;
-
+        background-size: auto 760px;
+        background-repeat: no-repeat;
     }
     .welcome-detail{
-        margin-top:20px;
-        color: black;
+        margin-top:50px;
+        color: white;
         display: block;
         font-family: Verdana,'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-size: 23px;
@@ -42,7 +43,7 @@
         text-align: left;
         text-shadow: none;
     }
-    .row{
+    .row-offset{
         margin-left:0;
         margin-right:0;
         padding-left:245px;
@@ -58,7 +59,7 @@
         margin-top:70px;
     }
     h1{
-        color: black;
+        color: white;
         display: block;
         font-family: Verdana,"Lucida Console",'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-size: 38px;
@@ -82,7 +83,7 @@
     }
 </style>
 <div class="index-container">
-    <div class="row">
+    <div class="row row-offset">
         <div class="about-container col-md-12">
             <div class="front-welcome col-md-6">
                 <h1>Welcome to NCSU Group Finder</h1>
@@ -90,10 +91,10 @@
                 
                 </p>
             </div>
-            <div class=" col-md-6">
+            <div class="col-md-offset-1 col-md-5">
             <div class="front-signin">
                 <div class="row">
-                    <div class="col-md-8 form-signin">
+                    <div class="col-md-9 form-signin">
                         <section id="loginForm">
                             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                             {
@@ -134,7 +135,7 @@
             </div>
             <div class="front-signup">
                 <div class="row">
-                    <div class="col-md-8 form-signup">
+                    <div class="col-md-9 form-signup">
                         @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
