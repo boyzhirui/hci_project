@@ -67,7 +67,8 @@ namespace HCI.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
+                    //login successfully, redirected to Dashboard
+                    return RedirectToLocal("/HCI/User/Dashboard");
                 }
                 else
                 {

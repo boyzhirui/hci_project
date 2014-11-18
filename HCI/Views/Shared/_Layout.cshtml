@@ -20,13 +20,6 @@
                 @Html.ActionLink("NCSU Study Group", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Dashboard", "Dashboard", "User")</li>
-                    <li>@Html.ActionLink("Search/Join Group", "GeneralSearchGroup", "Group")</li>
-                    <li>@Html.ActionLink("Create Group", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("My Groups", "GetGroups", "User")</li>
-                    <li>@Html.ActionLink("My Schedule", "GetSchedules", "User")</li>
-                </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
