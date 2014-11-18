@@ -53,6 +53,16 @@ namespace HCI.Models
             }
         }
 
+        public void InitGroupMeetingList(IList<Meeting> Meetings, DateTime start, DateTime end)
+        {
+            List<UserEvent> events = new List<UserEvent>();
+            Events = events;
+            foreach (var e in Meetings)
+            {
+                    events.AddRange(GetEvent(e, start, end));
+            }
+        }
+
         private IList<DateTime> GetDatesFromDayOfWeek(DateTime start, DateTime end, DayOfWeek day)
         {
             List<DateTime> dates = new List<DateTime>();

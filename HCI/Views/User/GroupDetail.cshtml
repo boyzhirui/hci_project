@@ -1,0 +1,115 @@
+﻿@model HCI.Models.UserGroupDetailModel
+@{
+    ViewBag.Title = "GroupDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>GroupDetail</h2>
+
+<div class="row">
+    <div class="col-md-6" id="group">
+        <div class="panel panel-primary">
+            @{
+                var group = @Model.Group;
+            }
+            <div class="panel-heading" id="groupName">@group.name.ToString().ToUpper()</div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <tr>
+                        <td>
+                            Description:
+                        </td>
+                        <td>
+                            @group.description
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td >
+                            Study Fields:
+                        </td>
+                        <td>
+                            @String.Join(",", group.RelGroupsStudyfields.Select(x => x.StudyField.name))
+                        </td>
+                    </tr>
+                        <tr >
+                            <td >
+                                Course Number:
+                            </td>
+                            <td>
+                                @group.course_no
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                Closed Group:
+
+                            </td>
+                            <td>
+                                @group.is_closed.ToString()
+                                @if (group.is_closed == HCI.Utils.YesNo.Yes)
+                                {
+                                    <a href="#" data-toggle="tooltip" data-placement="right" title="You have to get group owner's approval to join a closed group">&nbsp;(What's this)</a>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                Max Member Number:
+                            </td>
+                            <td class="col-md-8">
+                                @group.max_member_number
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Owner:
+                            </td>
+                            <td>
+                                @group.Owner.name
+                            </td>
+                        </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2" id="members">
+        <div class="panel panel-primary">
+            <div class="panel-heading" id="groupName">GROUP MEMBER</div>
+            <div class="panel-body" id="Eventlist">
+                <table class="table table-hover">
+                    @foreach (var user in Model.UserModel)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(@user.name, "GroupDetail/username=" + @user.name, "User")
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" id="events">
+        <div class="panel panel-primary">
+            <div class="panel-heading" id="groupName">GROUP EVENTS</div>
+            <div class="panel-body" id="Eventlist">
+                <table class="table table-hover">
+                    @foreach (var groupEvent in Model.EventModel.Events.OrderBy(x => x.Start).Take(7))
+                    {
+                        <tr>
+                            <td>
+                                <b>@groupEvent.Start</b>
+                                <b>&nbsp;~&nbsp;</b>
+                                <b>@groupEvent.End</b>
+                            </td>
+                            <td>
+                                <a href="#">@groupEvent.Title</a>
+                            </td>
+                        </tr>
+                    }   
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
