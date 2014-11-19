@@ -18,6 +18,7 @@ namespace HCI.Models
 
         public UserEventListModel EventModel { get; set; }
         public Group Group;
+
         public UserGroupDetailModel()
         {
 

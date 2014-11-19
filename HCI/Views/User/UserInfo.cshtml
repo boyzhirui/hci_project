@@ -16,7 +16,7 @@ $('#bt-edit-phone-ok').click(function (e) {
     e.preventDefault();
     $.ajax({
         type:"POST",
-        url: "/User/UserUpdateInfo",
+        url: "/HCI/User/UserUpdateInfo",
         data: {phone:$('#user-new-phone').val()},
         success: function (result) {
 
@@ -33,7 +33,7 @@ $('#user-new-phone').keyup(function (e) {
     if (e.keyCode == 13) {
         $.ajax({
             type: "POST",
-            url: "/User/UserUpdateInfo",
+            url: "/HCI/User/UserUpdateInfo",
             data: { phone: $('#user-new-phone').val() },
             success: function (result) {
 
@@ -61,7 +61,7 @@ $('#bt-edit-address-ok').click(function (e) {
     e.preventDefault();
     $.ajax({
         type: "POST",
-        url: "/User/UserUpdateInfo",
+        url: "/HCI/User/UserUpdateInfo",
         data: { address: $('#user-new-address').val() },
         success: function (result) {
 
@@ -78,7 +78,7 @@ $('#user-new-address').keyup(function (e) {
     if (e.keyCode == 13) {
         $.ajax({
             type: "POST",
-            url: "/User/UserUpdateInfo",
+            url: "/HCI/User/UserUpdateInfo",
             data: { address: $('#user-new-address').val() },
             success: function (result) {
 
@@ -185,7 +185,7 @@ $('#user-new-address').keyup(function (e) {
             <div class="row">
                 <div class="col-md-4">
                     <form action="~/Account/Manage">
-                        <button type="submit" class="btn btn-default" style="min-width:150px" data-toggle="modal" data-target="#QuitGroupConfirmation" onclick="quitGroupPreparation(this)">
+                        <button type="submit" class="btn btn-default" style="min-width:150px">
                             Change Password
                         </button>
                         </form>
