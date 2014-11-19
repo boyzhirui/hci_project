@@ -21,9 +21,41 @@ namespace HCI.Models
 
     public class SearchGroupQuery
     {
-        public string SearchType { get; set; }
-        public string CombineType { get; set; }
+        private string searchType;
+        public string SearchType
+        {
+            get
+            {
+                if (searchType == null) searchType = string.Empty; return searchType;
+            }
+            set
+            {
+                searchType = value;
+            }
+        }
 
-        public string SearchValue { get; set; }
+        private string combineType;
+        public string CombineType {
+            get
+            {
+                if (combineType == null) combineType = string.Empty; return combineType;
+            }
+            set
+            {
+                combineType = value;
+            }
+        }
+
+        private string searchValue;
+        public string SearchValue {
+            get
+            {
+                if (searchValue == null) searchValue = string.Empty; return searchValue;
+            }
+            set
+            {
+                searchValue = value;
+            }
+        }
     }
 }
