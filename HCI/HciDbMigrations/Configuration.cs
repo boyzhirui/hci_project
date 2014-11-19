@@ -145,7 +145,6 @@ namespace HCI.HciDbMigrations
                 context.Users.Add(user1);
                 context.SaveChanges();
             }
-
             User user2 = context.Users.Where(x => x.name == "test02").FirstOrDefault();
             if (user2 == null)
             {
@@ -204,20 +203,22 @@ namespace HCI.HciDbMigrations
                 new RelGroupsStudyfield { group_id = grp1.id, study_field_id = ceSF.id },
                 new RelGroupsStudyfield { group_id = grp2.id, study_field_id = csSF.id },
                 new RelGroupsStudyfield { group_id = grp2.id, study_field_id = ceSF.id },
-                new RelGroupsStudyfield { group_id = grp3.id, study_field_id = mathSF.id });
+                new RelGroupsStudyfield { group_id = grp3.id, study_field_id = mathSF.id },
+                new RelGroupsStudyfield { group_id = grp4.id, study_field_id = csSF.id },
+                new RelGroupsStudyfield { group_id = grp4.id, study_field_id = mathSF.id });
             context.SaveChanges();
             #endregion
             #region GroupMembership
             context.GroupMemberships.AddOrUpdate(x => new { x.group_id, x.user_id }, 
-                new GroupMembership { group_id = grp1.id, user_id = user1.id },
-                new GroupMembership { group_id = grp1.id, user_id = user2.id },
-                new GroupMembership { group_id = grp1.id, user_id = user3.id },
-                new GroupMembership { group_id = grp2.id, user_id = user1.id },
-                new GroupMembership { group_id = grp2.id, user_id = user2.id },
-                new GroupMembership { group_id = grp2.id, user_id = user3.id },
-                new GroupMembership { group_id = grp3.id, user_id = user1.id },
-                new GroupMembership { group_id = grp3.id, user_id = user2.id },
-                new GroupMembership { group_id = grp3.id, user_id = user3.id });
+                new GroupMembership { group_id = grp1.id, user_id = user1.id, approval = "Yes" },
+                new GroupMembership { group_id = grp1.id, user_id = user2.id, approval = "Yes" },
+                new GroupMembership { group_id = grp1.id, user_id = user3.id, approval = "Yes" },
+                new GroupMembership { group_id = grp2.id, user_id = user1.id, approval = "Yes" },
+                new GroupMembership { group_id = grp2.id, user_id = user2.id, approval = "Yes" },
+                new GroupMembership { group_id = grp2.id, user_id = user3.id, approval = "Yes" },
+                new GroupMembership { group_id = grp3.id, user_id = user1.id, approval = "Yes" },
+                new GroupMembership { group_id = grp3.id, user_id = user2.id, approval = "Yes" },
+                new GroupMembership { group_id = grp3.id, user_id = user3.id, approval = "Yes" });
             #endregion
 
             #region Location init
