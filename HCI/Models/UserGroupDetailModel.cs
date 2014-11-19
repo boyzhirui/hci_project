@@ -28,7 +28,7 @@ namespace HCI.Models
             EventModel=new UserEventListModel(ctx);
         }
 
-        public void InitLiset(int groupID,DateTime start,DateTime end,int maxEventNumber)
+        public void InitLiset(int groupID,DateTime start,DateTime end)
         {
             Group group = Context.Groups
                                 .Include("GroupMemberships")
@@ -46,7 +46,7 @@ namespace HCI.Models
                     MeetingModel = group.Meetings.ToList();
                     EventModel.InitGroupMeetingList(MeetingModel, start, end);
                     DateTime startDay, endTime;
-                    for (int i = 0; i < maxEventNumber && i < EventModel.Events.Count; i++)
+                    for (int i = 0; i < EventModel.Events.Count; i++)
                     {
                         startDay = DateTime.Parse(EventModel.Events[i].Start);
                         EventModel.Events[i].Start = String.Format("{0:MM/dd/yyyy HH:mm}", startDay);

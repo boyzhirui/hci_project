@@ -246,7 +246,7 @@
     <Content Include="Content\datepicker3.css" />
     <Content Include="Content\fullcalendar.css" />
     <Content Include="Content\fullcalendar.print.css" />
-    <Content Include="Content\img\index-background2.jpg" />
+    <Content Include="Content\img\index-background.jpg" />
     <Content Include="Content\img\index-icon.png" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />

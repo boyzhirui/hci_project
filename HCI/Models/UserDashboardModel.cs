@@ -22,12 +22,12 @@ namespace HCI.Models
             GroupModel = new UserGroupListModel(ctx);
         }
 
-        public void Init(string userName, DateTime start, DateTime end,int maxEventNumber)
+        public void Init(string userName, DateTime start, DateTime end)
         {
             EventModel.InitList(userName, start, end);
             GroupModel.InitList(userName);
             DateTime startDay;
-            for(int i=0;i<maxEventNumber&&i<EventModel.Events.Count;i++)
+            for(int i=0;i<EventModel.Events.Count;i++)
             {
                startDay=DateTime.Parse(EventModel.Events[i].Start);
                EventModel.Events[i].Start = String.Format("{0:MM/dd/yyyy HH:mm}", startDay);
