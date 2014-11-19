@@ -17,6 +17,8 @@ namespace HCI.Models.Database
 
         public int user_id { get; set; }
 
+        public string approval { get; set; }
+
         public virtual Group Group { get; set; }
 
         public virtual User User { get; set; }

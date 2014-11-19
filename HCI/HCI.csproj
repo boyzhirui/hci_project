@@ -194,6 +194,10 @@
     <Compile Include="HciDbMigrations\201411152239280_add_location.Designer.cs">
       <DependentUpon>201411152239280_add_location.cs</DependentUpon>
     </Compile>
+    <Compile Include="HciDbMigrations\201411191909240_add_approval.cs" />
+    <Compile Include="HciDbMigrations\201411191909240_add_approval.Designer.cs">
+      <DependentUpon>201411191909240_add_approval.cs</DependentUpon>
+    </Compile>
     <Compile Include="HciDbMigrations\Configuration.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.Designer.cs">
@@ -426,6 +430,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HciDbMigrations\201411152239280_add_location.resx">
       <DependentUpon>201411152239280_add_location.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HciDbMigrations\201411191909240_add_approval.resx">
+      <DependentUpon>201411191909240_add_approval.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411140119031_InitialCreate.resx">
       <DependentUpon>201411140119031_InitialCreate.cs</DependentUpon>
