@@ -1,0 +1,57 @@
+﻿@model HCI.Models.UserEvent
+
+<style>
+    .list-item-min-height {
+        height: 50px;
+    }
+
+    .edit-input {
+        display: none;
+    }
+</style>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h1 class="panel-title">Event Information</h1>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list-group">
+                    <li class="list-group-item list-item-min-height">
+                        <div class="col-md-4">
+                            Title:
+                        </div>
+                        <div class="col-md-8">
+                            <label>@Model.Title</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item list-item-min-height">
+                        <div class="col-md-4">
+                            Time:
+                        </div>
+                        <div class="col-md-8">
+                            <label>@Model.Start&nbsp;~&nbsp;@Model.End</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item list-item-min-height">
+                        <div class="col-md-4">
+                            Location:
+                        </div>
+                        <div class="col-md-8">
+                            <label>@Model.Location</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item list-item-min-height">
+                        <div class="col-md-4">
+                            Note:
+                        </div>
+                        <div class="col-md-8">
+                            <label>Today we will talk about the NP-Complete Problems.</label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
