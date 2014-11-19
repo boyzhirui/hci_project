@@ -49,5 +49,7 @@ namespace HCI.Models.Database
         public virtual Location Location { get; set; }
 
         public virtual ICollection<MeetingAttender> MeetingAttenders { get; set; }
+
+        public string description { get; set; }
     }
 }

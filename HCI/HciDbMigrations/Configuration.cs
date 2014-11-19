@@ -269,6 +269,11 @@ namespace HCI.HciDbMigrations
                 context.Meetings.Add(meeting1_1);
                 context.SaveChanges();
             }
+            else
+            {
+                meeting1_1.description = "The description of Group 1's meeting 1.";
+                context.SaveChanges();
+            }
 
             Meeting meeting1_2 = context.Meetings.Where(x => x.name == "Group 1's meeting 2").FirstOrDefault();
             if (meeting1_2 == null)
@@ -287,6 +292,11 @@ namespace HCI.HciDbMigrations
                 };
 
                 context.Meetings.Add(meeting1_2);
+                context.SaveChanges();
+            }
+            else
+            {
+                meeting1_2.description = "The description of Group 1's meeting 2.";
                 context.SaveChanges();
             }
 
@@ -309,6 +319,11 @@ namespace HCI.HciDbMigrations
                 context.Meetings.Add(meeting2_1);
                 context.SaveChanges();
             }
+            else
+            {
+                meeting2_1.description = "The description of Group 2's meeting 1.";
+                context.SaveChanges();
+            }
 
             Meeting meeting3_1 = context.Meetings.Where(x => x.name == "Group 3's meeting 1").FirstOrDefault();
             if (meeting3_1 == null)
@@ -327,6 +342,11 @@ namespace HCI.HciDbMigrations
                 };
 
                 context.Meetings.Add(meeting3_1);
+                context.SaveChanges();
+            }
+            else
+            {
+                meeting3_1.description = "The description of Group 3's meeting 1.";
                 context.SaveChanges();
             }
             #endregion

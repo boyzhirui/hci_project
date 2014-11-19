@@ -119,12 +119,12 @@ namespace HCI.Models
             return dates;
         }
 
-        private IList<UserEvent> GenerateUserEvents(IList<DateTime> dateTimes, TimeSpan startTime, TimeSpan endTime, string title, int eventID,bool isMeeting = false, string locnName = "", string address  = "")
+        private IList<UserEvent> GenerateUserEvents(IList<DateTime> dateTimes, TimeSpan startTime, TimeSpan endTime, string title, int eventID,bool isMeeting = false, string locnName = "", string address  = "", string desc = "")
         {
             List<UserEvent> events = new List<UserEvent>();
             foreach(var dt in dateTimes)
             {
-                events.Add(new UserEvent { IsMeeting = isMeeting, Title = title, Start = (dt + startTime).ToString("o"), End = (dt + endTime).ToString("o"), Location = locnName, LocationAddress = address, EventID = eventID });
+                events.Add(new UserEvent { IsMeeting = isMeeting, Title = title, Start = (dt + startTime).ToString("o"), End = (dt + endTime).ToString("o"), Location = locnName, LocationAddress = address, EventID = eventID, Description = desc });
             }
 
             return events;
@@ -144,20 +144,20 @@ namespace HCI.Models
 
                 if (evt.interval_type == Consts.IntervalType.Day)
                 {
-                    events.AddRange(GenerateUserEvents(GetDatesFromEveryDay(actualStart, actualEnd), evt.start_time, evt.end_time, evt.name, evt.id, false, string.Empty, string.Empty));
+                    events.AddRange(GenerateUserEvents(GetDatesFromEveryDay(actualStart, actualEnd), evt.start_time, evt.end_time, evt.name, evt.id, false, string.Empty, string.Empty, string.Empty));
                 }
                 else if(evt.interval_type == Consts.IntervalType.Week)
                 {
                     foreach (var dayOfWeek in ParseDay(evt.occur_day))
                     {
-                        events.AddRange(GenerateUserEvents(GetDatesFromDayOfWeek(actualStart, actualEnd, dayOfWeek), evt.start_time, evt.end_time, evt.name, evt.id, false, string.Empty, string.Empty));
+                        events.AddRange(GenerateUserEvents(GetDatesFromDayOfWeek(actualStart, actualEnd, dayOfWeek), evt.start_time, evt.end_time, evt.name, evt.id, false, string.Empty, string.Empty, string.Empty));
                     }
                 }
                 else if (evt.interval_type == Consts.IntervalType.Month)
                 {
                     foreach (var days in ParseMonthDay(evt.occur_day))
                     {
-                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, evt.id, false, string.Empty, string.Empty));
+                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, evt.id, false, string.Empty, string.Empty, string.Empty));
                     }
                 }
                 else if (evt.interval_type == Consts.IntervalType.OneDay)
@@ -170,7 +170,8 @@ namespace HCI.Models
                         IsMeeting = false,
                         Start = (evt.start_date + evt.start_time).ToString("o"),
                         End = (evt.end_date + evt.end_time).ToString("o"),
-                        EventID = evt.id
+                        EventID = evt.id,
+                        Description = string.Empty
                     });
                 }
             }
@@ -189,20 +190,20 @@ namespace HCI.Models
 
                 if (evt.interval_type == Consts.IntervalType.Day)
                 {
-                    events.AddRange(GenerateUserEvents(GetDatesFromEveryDay(actualStart, actualEnd), evt.start_time, evt.end_time, evt.name,evt.id, true, evt.Location.name, evt.Location.address));
+                    events.AddRange(GenerateUserEvents(GetDatesFromEveryDay(actualStart, actualEnd), evt.start_time, evt.end_time, evt.name,evt.id, true, evt.Location.name, evt.Location.address, evt.description));
                 }
                 else if (evt.interval_type == Consts.IntervalType.Week)
                 {
                     foreach (var dayOfWeek in ParseDay(evt.occur_day))
                     {
-                        events.AddRange(GenerateUserEvents(GetDatesFromDayOfWeek(actualStart, actualEnd, dayOfWeek), evt.start_time, evt.end_time, evt.name, evt.id, true, evt.Location.name, evt.Location.address));
+                        events.AddRange(GenerateUserEvents(GetDatesFromDayOfWeek(actualStart, actualEnd, dayOfWeek), evt.start_time, evt.end_time, evt.name, evt.id, true, evt.Location.name, evt.Location.address, evt.description));
                     }
                 }
                 else if (evt.interval_type == Consts.IntervalType.Month)
                 {
                     foreach (var days in ParseMonthDay(evt.occur_day))
                     {
-                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, evt.id, true, evt.Location.name, evt.Location.address));
+                        events.AddRange(GenerateUserEvents(GetDatesFromEveryMonth(actualStart, actualEnd, days), evt.start_time, evt.end_time, evt.name, evt.id, true, evt.Location.name, evt.Location.address, evt.description));
                     }
                 }
                 else if (evt.interval_type == Consts.IntervalType.OneDay)
@@ -215,7 +216,8 @@ namespace HCI.Models
                         IsMeeting = false,
                         Start = (evt.start_date + evt.start_time).ToString("o"),
                         End = (evt.end_date + evt.end_time).ToString("o"),
-                        EventID = evt.id
+                        EventID = evt.id,
+                        Description = evt.description
                     });
                 }
             }
@@ -279,6 +281,8 @@ namespace HCI.Models
         public bool IsMeeting { get; set; }
 
         public int EventID { get; set; }
+
+        public string Description { get; set; }
     }
 
     /*public class UserEvent
