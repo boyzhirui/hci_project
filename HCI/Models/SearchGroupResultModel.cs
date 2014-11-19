@@ -125,23 +125,101 @@ namespace HCI.Models
 
             if (query.SearchType == "Group Name")
             {
-                expr = x => x.name.Contains(query.SearchValue);
+                if (query.SearchVerbType == "Equals")
+                {
+                    expr = x => x.name.Equals(query.SearchValue, StringComparison.InvariantCultureIgnoreCase);
+                }
+                else if (query.SearchVerbType == "Not Equals")
+                {
+                    expr = x => !(x.name.Equals(query.SearchValue, StringComparison.InvariantCultureIgnoreCase));
+                }
+                else if (query.SearchVerbType == "Contains")
+                {
+                    expr = x => x.name.Contains(query.SearchValue);
+                }
+                else if (query.SearchVerbType == "Not Contains")
+                {
+                    expr = x => !(x.name.Contains(query.SearchValue));
+                }
             }
             else if (query.SearchType == "Study Field")
             {
-                expr = x => x.RelGroupsStudyfields.Any(y=>y.StudyField.name.Contains(query.SearchValue));
+                if (query.SearchVerbType == "Equals")
+                {
+                    expr = x => x.RelGroupsStudyfields.Any(y => y.StudyField.name.Equals(query.SearchValue, StringComparison.InvariantCultureIgnoreCase));
+                }
+                else if (query.SearchVerbType == "Not Equals")
+                {
+                    expr = x => !(x.RelGroupsStudyfields.Any(y => y.StudyField.name.Equals(query.SearchValue, StringComparison.InvariantCultureIgnoreCase)));
+                }
+                else if (query.SearchVerbType == "Contains")
+                {
+                    expr = x => x.RelGroupsStudyfields.Any(y => y.StudyField.name.Contains(query.SearchValue));
+                }
+                else if (query.SearchVerbType == "Not Contains")
+                {
+                    expr = x => !(x.RelGroupsStudyfields.Any(y => y.StudyField.name.Contains(query.SearchValue)));
+                }
+
+                
             }
             else if (query.SearchType == "Course ID")
             {
-                expr = x => x.course_no.Contains(query.SearchValue);
+                if (query.SearchVerbType == "Equals")
+                {
+                    expr = x => x.course_no.Equals(query.SearchValue, StringComparison.InvariantCultureIgnoreCase);
+                }
+                else if (query.SearchVerbType == "Not Equals")
+                {
+                    expr = x => !(x.course_no.Equals(query.SearchValue, StringComparison.InvariantCultureIgnoreCase));
+                }
+                else if (query.SearchVerbType == "Contains")
+                {
+                    expr = x => x.course_no.Contains(query.SearchValue);
+                }
+                else if (query.SearchVerbType == "Not Contains")
+                {
+                    expr = x => !(x.course_no.Contains(query.SearchValue));
+                }
             }
             else if (query.SearchType == "Description")
             {
-                expr = x => x.description.Contains(query.SearchValue);
+                if (query.SearchVerbType == "Equals")
+                {
+                    expr = x => x.description.Equals(query.SearchValue, StringComparison.InvariantCultureIgnoreCase);
+                }
+                else if (query.SearchVerbType == "Not Equals")
+                {
+                    expr = x => !(x.description.Equals(query.SearchValue, StringComparison.InvariantCultureIgnoreCase));
+                }
+                else if (query.SearchVerbType == "Contains")
+                {
+                    expr = x => x.description.Contains(query.SearchValue);
+                }
+                else if (query.SearchVerbType == "Not Contains")
+                {
+                    expr = x => !(x.description.Contains(query.SearchValue));
+                }
+
             }
             else if (query.SearchType == "Group Owner")
             {
-                expr = x => x.Owner.name.Contains(query.SearchValue);
+                if (query.SearchVerbType == "Equals")
+                {
+                    expr = x => x.Owner.name.Equals(query.SearchValue, StringComparison.InvariantCultureIgnoreCase);
+                }
+                else if (query.SearchVerbType == "Not Equals")
+                {
+                    expr = x => !(x.Owner.name.Equals(query.SearchValue, StringComparison.InvariantCultureIgnoreCase));
+                }
+                else if (query.SearchVerbType == "Contains")
+                {
+                    expr = x => x.Owner.name.Contains(query.SearchValue);
+                }
+                else if (query.SearchVerbType == "Not Contains")
+                {
+                    expr = x => !(x.Owner.name.Contains(query.SearchValue));
+                }
             }
 
             return expr;

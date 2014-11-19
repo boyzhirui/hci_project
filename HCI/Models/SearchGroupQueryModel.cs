@@ -46,6 +46,19 @@ namespace HCI.Models
             }
         }
 
+        private string searchVerbType;
+        public string SearchVerbType
+        {
+            get
+            {
+                if (searchVerbType == null) searchVerbType = string.Empty; return searchVerbType;
+            }
+            set
+            {
+                searchVerbType = value;
+            }
+        }
+
         private string searchValue;
         public string SearchValue {
             get

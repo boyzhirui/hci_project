@@ -66,6 +66,9 @@
             jnode = jsection.find('#SearchType');
             jnode.prop('name', 'QueryList[' + id + '].SearchType');
 
+            jnode = jsection.find('#SearchVerbType');
+            jnode.prop('name', 'QueryList[' + id + '].SearchVerbType');
+
             jnode = jsection.find('#SearchValue');
             jnode.prop('name', 'QueryList[' + id + '].SearchValue');
         }
@@ -121,10 +124,10 @@
     <div class="form-group" id="conditionGroup-0">
         <div class="col-md-2">
         </div>
-        <div class="col-md-1" style="padding-left:0px">
+        <div class="col-md-1" style="max-width: 80px;padding-left:0px;padding-right: 0px;">
             <input type="hidden" class="form-control" id="CombineType" name="QueryList[0].CombineType" value="And"/>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" style="max-width: 170px;">
             <select class="form-control" id="SearchType" name="QueryList[0].SearchType" style="min-width:100%">
                 <option value="Group Name" selected>Group Name</option>
                 <option value="Study Field">Study Field</option>
@@ -133,7 +136,14 @@
                 <option value="Group Owner">Group Owner</option>
             </select>
         </div>
-        <label class="col-md-1 control-label" style="max-width: 80px; padding-left: 0px; padding-right: 8px;">Contains </label>
+        <div class="col-md-2" style="max-width: 135px; padding-left:0px; padding-right:0px">
+            <select class="form-control" id="SearchVerbType" name="QueryList[0].SearchVerbType" style="min-width:100%">
+                <option value="Equals" selected>Equals</option>
+                <option value="Not Equals">Not Equals</option>
+                <option value="Contains">Contains</option>
+                <option value="Not Contains">Not Contains</option>
+            </select>
+        </div>
         <div class="col-md-4">
             <input class="form-control" id="SearchValue" name="QueryList[0].SearchValue" style="min-width:100%" type="text" value=""/>
         </div>
@@ -142,13 +152,13 @@
     <div class="form-group" id="conditionGroup-1">
         <div class="col-md-2">
         </div>
-        <div class="col-md-1" style="padding-left:0px">
+        <div class="col-md-1" style="max-width: 80px;padding-left:0px;padding-right: 0px;">
             <select class="form-control" id="CombineType" name="QueryList[1].CombineType" style="min-width:100%">
                 <option value="And" selected>And</option>
                 <option value="Or">Or</option>
             </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" style="max-width: 170px;">
             <select class="form-control" id="SearchType" name="QueryList[1].SearchType" style="min-width:100%">
                 <option value="Group Name" selected>Group Name</option>
                 <option value="Study Field">Study Field</option>
@@ -157,7 +167,14 @@
                 <option value="Group Owner">Group Owner</option>
             </select>
         </div>
-        <label class="col-md-1 control-label" style="max-width: 80px; padding-left: 0px; padding-right: 8px;">Contains </label>
+        <div class="col-md-2" style="max-width: 135px; padding-left:0px; padding-right:0px">
+            <select class="form-control" id="SearchVerbType" name="QueryList[1].SearchVerbType" style="min-width:100%">
+                <option value="Equals" selected>Equals</option>
+                <option value="Not Equals">Not Equals</option>
+                <option value="Contains">Contains</option>
+                <option value="Not Contains">Not Contains</option>
+            </select>
+        </div>
         <div class="col-md-4">
             <input class="form-control" id="SearchValue" name="QueryList[1].SearchValue" style="min-width:100%" type="text" value="" />
         </div>
@@ -170,13 +187,13 @@
     <div class="form-group" id="conditionGroup-index" hidden>
         <div class="col-md-2">
         </div>
-        <div class="col-md-1" style="padding-left:0px">
+        <div class="col-md-1" style="max-width: 80px;padding-left:0px;padding-right: 0px;">
             <select class="form-control" id="CombineType" name="QueryList[index].CombineType" style="min-width:100%">
                 <option value="And" selected>And</option>
                 <option value="Or">Or</option>
             </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" style="max-width: 170px;">
             <select class="form-control" id="SearchType" name="QueryList[index].SearchType" style="min-width:100%">
                 <option value="Group Name" selected>Group Name</option>
                 <option value="Study Field">Study Field</option>
@@ -185,7 +202,14 @@
                 <option value="Group Owner">Group Owner</option>
             </select>
         </div>
-        <label class="col-md-1 control-label" style="max-width: 80px; padding-left: 0px; padding-right: 8px;">Contains </label>
+        <div class="col-md-2" style="max-width: 135px; padding-left:0px; padding-right:0px">
+            <select class="form-control" id="SearchVerbType" name="QueryList[1].SearchVerbType" style="min-width:100%">
+                <option value="Equals" selected>Equals</option>
+                <option value="Not Equals">Not Equals</option>
+                <option value="Contains">Contains</option>
+                <option value="Not Contains">Not Contains</option>
+            </select>
+        </div>
         <div class="col-md-4">
             <input class="form-control" id="SearchValue" name="QueryList[index].SearchValue" style="min-width:100%" type="text" value="" />
         </div>
