@@ -153,6 +153,19 @@ namespace HCI.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult GetUserInfo(string userName = "")
+        {
+
+            UserInfoModel model;
+            using (HciDb ctx = new HciDb())
+            {
+                model = new UserInfoModel(ctx);
+                model.getUserInfo(userName);
+            }
+            return PartialView("GetUserInfo", model);
+        }
+        
         public ActionResult Dashboard()
         {
 
@@ -185,5 +198,6 @@ namespace HCI.Controllers
            }
             return View(model);
         }
+
     }
 }
