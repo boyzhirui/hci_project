@@ -25,7 +25,8 @@ namespace HCI.Models
         {
             Queries = queries;
             Groups = new List<Group>();
-            var groupIDs = Context.Users.Where(x => x.name == userName).SelectMany(x => x.GroupMemberships).Select(x => x.group_id);
+            var user = Context.Users.Include("GroupMemberships").Where(x => x.name == userName).First();
+            UserID = user.id;
 
             if (!queries.IsAdvancedSearch)
             {
@@ -34,12 +35,13 @@ namespace HCI.Models
                 Groups = Context.Groups.Include("Owner")
                               .Include("RelGroupsStudyfields.StudyField")
                               .Include("Meetings")
-                              .Where(x => !groupIDs.Contains(x.id) && (x.course_no.Contains(keyword) 
+                              .Include("GroupMemberships")
+                              .Where(x => x.course_no.Contains(keyword) 
                                   || x.name.Contains(keyword) 
                                   || x.Owner.name.Contains(keyword)
                                   || x.RelGroupsStudyfields.Any(s=>s.StudyField.name.Contains(keyword))
                                   || x.description.Contains(keyword)
-                                  || x.course_no.Contains(keyword)))
+                                  || x.course_no.Contains(keyword))
                               .ToList();
             }
             else
@@ -92,14 +94,14 @@ namespace HCI.Models
                         }
                     }
 
-                    Groups = Groups.Where(x => !groupIDs.Contains(x.id)).Distinct(new GroupComparer()).ToList();
+                    Groups = Groups.Distinct(new GroupComparer()).ToList();
 
                 }
             }
 
         }
 
-
+        public int UserID { get; set; }
         public IList<Group> Groups
         {
             get;

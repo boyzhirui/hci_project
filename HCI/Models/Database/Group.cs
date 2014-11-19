@@ -6,8 +6,7 @@ namespace HCI.Models.Database
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
-
-    
+    using System.Linq;
 
     [Table("groups")]
     public partial class Group
@@ -60,7 +59,11 @@ namespace HCI.Models.Database
             }
 
             return false;
+        }
 
+        public bool IsMember(int userID)
+        {
+            return GroupMemberships.Any(x => x.user_id == userID);
         }
     }
 }
