@@ -399,7 +399,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\User\GetGroups.cshtml" />
     <Content Include="Views\User\GetSchedules.cshtml" />
-    <Content Include="Views\User\UserUpdateInfo.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
     <Content Include="Views\User\QuitGroupResult.cshtml" />
     <Content Include="Views\Shared\_IndexLayout.cshtml" />
