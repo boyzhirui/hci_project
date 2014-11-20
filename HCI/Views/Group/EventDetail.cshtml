@@ -1,4 +1,4 @@
-﻿@model HCI.Models.UserEvent
+﻿@model HCI.Models.UserGroupDetailModel
 
 <style>
     .list-item-min-height {
@@ -14,44 +14,48 @@
         <h1 class="panel-title">Event Information</h1>
     </div>
     <div class="panel-body">
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="list-group">
-                    <li class="list-group-item list-item-min-height">
-                        <div class="col-md-4">
-                            Title:
-                        </div>
-                        <div class="col-md-8">
-                            <label>@Model.Title</label>
-                        </div>
-                    </li>
-                    <li class="list-group-item list-item-min-height">
-                        <div class="col-md-4">
-                            Time:
-                        </div>
-                        <div class="col-md-8">
-                            <label>@Model.Start&nbsp;~&nbsp;@Model.End</label>
-                        </div>
-                    </li>
-                    <li class="list-group-item list-item-min-height">
-                        <div class="col-md-4">
-                            Location:
-                        </div>
-                        <div class="col-md-8">
-                            <label>@Model.Location</label>
-                        </div>
-                    </li>
-                    <li class="list-group-item list-item-min-height">
-                        <div class="col-md-4">
-                            Note:
-                        </div>
-                        <div class="col-md-8">
-                            <label>Today we will talk about the NP-Complete Problems.</label>
-                        </div>
-                    </li>
-                </ul>
+        @foreach (var EventModel in Model.EventModel.Events.OrderBy(x => x.Start).Take(7))
+        {
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="list-group">
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Title:
+                            </div>
+                            <div class="col-md-8">
+                                <label>@EventModel.Title</label>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Time:
+                            </div>
+                            <div class="col-md-8">
+                                <label>@EventModel.Start&nbsp;~&nbsp;@EventModel.End</label>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Location:
+                            </div>
+                            <div class="col-md-8">
+                                <label>@EventModel.LocationAddress</label>
+                            </div>
+                        </li>
+                        <li class="list-group-item list-item-min-height">
+                            <div class="col-md-4">
+                                Note:
+                            </div>
+                            <div class="col-md-8">
+                                <label>@EventModel.Description</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
+        }
     </div>
 </div>
 
