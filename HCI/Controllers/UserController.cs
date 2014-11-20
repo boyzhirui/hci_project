@@ -197,7 +197,7 @@ namespace HCI.Controllers
                model.InitLiset(ID,start,end);
            }
             return View(model);
-        }
-
+        }     
+       
     }
 }
