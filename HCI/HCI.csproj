@@ -178,6 +178,7 @@
     <Compile Include="Controllers\GroupMembershipWebAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Controllers\MailBoxController.cs" />
     <Compile Include="Controllers\TestWebAPIController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -257,6 +258,7 @@
     <Content Include="Content\datepicker3.css" />
     <Content Include="Content\fullcalendar.css" />
     <Content Include="Content\fullcalendar.print.css" />
+    <Content Include="Content\img\inbox-32.jpg" />
     <Content Include="Content\img\index-background.jpg" />
     <Content Include="Content\img\index-icon.png" />
     <Content Include="Content\standalone.css" />
@@ -425,6 +427,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\MailBox\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
