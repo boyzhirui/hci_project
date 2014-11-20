@@ -59,5 +59,28 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+@if (Request.IsAuthenticated)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var mailBoxBadge = $('#badge');
+
+            $.ajax({
+                url: '/HCI/api/MailBoxWebAPI?userName=' + "@User.Identity.Name",
+                dataType: 'json',
+                success: function (data) {
+                    
+                    if (Number(data) > 0)
+                    {
+                        mailBoxBadge.text(data);
+                    }
+                }
+            });
+
+
+        });
+    </script>
+}
 </body>
 </html>

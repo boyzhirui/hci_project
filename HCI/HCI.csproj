@@ -179,6 +179,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\MailBoxController.cs" />
+    <Compile Include="Controllers\MailBoxWebAPIController.cs" />
     <Compile Include="Controllers\TestWebAPIController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
