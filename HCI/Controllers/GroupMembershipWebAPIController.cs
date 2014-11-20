@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using HCI.Utils;
 
 namespace HCI.Controllers
 {
@@ -16,11 +17,11 @@ namespace HCI.Controllers
             string retStr = "success";
             using(HciDb ctx = new HciDb())
             {
-                string aprvl = "Yes";
+                string aprvl = Consts.ApprovalValue.Yes;
                 Group group = ctx.Groups.Where(x => x.id == groupId).FirstOrDefault();
                 if (group.is_closed == Utils.YesNo.Yes)
                 {
-                    aprvl = "Pending";
+                    aprvl = Consts.ApprovalValue.Pending;
                     retStr = "waiting";
                 }
 

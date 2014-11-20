@@ -204,6 +204,10 @@
     <Compile Include="HciDbMigrations\201411192057151_add_meeting_description.Designer.cs">
       <DependentUpon>201411192057151_add_meeting_description.cs</DependentUpon>
     </Compile>
+    <Compile Include="HciDbMigrations\201411201717025_add_mails.cs" />
+    <Compile Include="HciDbMigrations\201411201717025_add_mails.Designer.cs">
+      <DependentUpon>201411201717025_add_mails.cs</DependentUpon>
+    </Compile>
     <Compile Include="HciDbMigrations\Configuration.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.Designer.cs">
@@ -221,6 +225,7 @@
     <Compile Include="Models\Database\Group.cs" />
     <Compile Include="Models\Database\GroupMembership.cs" />
     <Compile Include="Models\Database\HciDb.cs" />
+    <Compile Include="Models\Database\Mail.cs" />
     <Compile Include="Models\Database\Location.cs" />
     <Compile Include="Models\Database\Major.cs" />
     <Compile Include="Models\Database\Meeting.cs" />
@@ -451,6 +456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HciDbMigrations\201411192057151_add_meeting_description.resx">
       <DependentUpon>201411192057151_add_meeting_description.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HciDbMigrations\201411201717025_add_mails.resx">
+      <DependentUpon>201411201717025_add_mails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411140119031_InitialCreate.resx">
       <DependentUpon>201411140119031_InitialCreate.cs</DependentUpon>

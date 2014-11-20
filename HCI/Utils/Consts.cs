@@ -26,6 +26,12 @@ namespace HCI.Utils
             public static readonly string Sunday = "Sun";
         }
 
+        public static class ApprovalValue
+        {
+            public static readonly string Yes = "Yes";
+            public static readonly string Pending = "Pending";
+        }
+
         public static IDictionary<string, DayOfWeek> DayOfWeek = new Dictionary<string, DayOfWeek>(7);
         public static IList<SelectableTime> MeetingTimeOptions = new List<SelectableTime>();
         public static IDictionary<string, string> MeetingTimeOptionsDic = new Dictionary<string, string>();
@@ -70,5 +76,13 @@ namespace HCI.Utils
     {
         No = 0,
         Yes = 1
+    }
+
+    public enum MailType
+    {
+        JoinRequest = 0,
+        MeetingRequest = 1,
+        MeetingApproval = 2,
+        MeetingRejected = 3
     }
 }
