@@ -47,6 +47,8 @@ namespace HCI
                 .Include("~/Scripts/bootstrap-clockpicker.css")
                 .Include("~/Scripts/clockpicker.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/io-sound")
+                .Include("~/Scripts/ion.sound.js"));
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;

@@ -267,6 +267,7 @@
     <Content Include="Content\img\inbox-32.jpg" />
     <Content Include="Content\img\index-background.jpg" />
     <Content Include="Content\img\index-icon.png" />
+    <Content Include="Content\sound\bell_ring.mp3" />
     <Content Include="Content\standalone.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -320,6 +321,7 @@
     <Content Include="Scripts\fullcalendar.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\gcal.js" />
+    <Content Include="Scripts\ion.sound.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

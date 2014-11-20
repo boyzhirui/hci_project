@@ -62,7 +62,21 @@
 
 @if (Request.IsAuthenticated)
 {
+    <script src="@Url.Content("~/Scripts/ion.sound.js")"></script>
+    
     <script type="text/javascript">
+
+        ion.sound({
+            sounds: [
+                {
+                    name: "bell_ring"
+                }
+            ],
+            volume: 0.5,
+            path: "@Url.Content("~/Content/sound/")",
+            preload: true
+        });
+
         $(document).ready(function () {
             var mailBoxBadge = $('#badge');
 
@@ -74,6 +88,7 @@
                     if (Number(data) > 0)
                     {
                         mailBoxBadge.text(data);
+                        ion.sound.play("bell_ring");
                     }
                 }
             });
