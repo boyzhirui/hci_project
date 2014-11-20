@@ -1,0 +1,31 @@
+﻿@model HCI.Models.MailModel
+
+@{
+    ViewBag.Title = "Messages";
+}
+
+<h2>Messages</h2>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><input type="checkbox" id="checkAll"></th>
+            <th>Sender Name</th>
+            <th>Received Time</th>
+            <th>Subject</th>
+        </tr>
+    </thead>
+    <tbody >
+        @foreach (var mail in Model.MailList)
+        { 
+        <tr>
+            <td><input type="checkbox" id="@mail.MailID"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
