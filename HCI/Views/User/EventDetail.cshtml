@@ -1,5 +1,7 @@
 ﻿@model HCI.Models.UserGroupDetailModel
-
+@{
+    int event_detail_id = 0;
+}
 <style>
     .list-item-min-height {
         height: 50px;
@@ -9,25 +11,21 @@
         display: none;
     }
 </style>
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h1 class="panel-title">Event Information</h1>
-    </div>
-    <div class="panel-body">
-        @foreach (var EventModel in Model.EventModel.Events.OrderBy(x => x.Start).Take(7))
-        {
-            
-            <div hidden class="row" id="eventID">
+@{
+    string event_detail_id_str = "EventDetail" + @event_detail_id++.ToString();
+
+}
+<div hidden class="panel panel-primary" id="@event_detail_id_str">
+    @foreach (var EventModel in Model.EventModel.Events.OrderBy(x => x.Start).Take(7))
+    {
+        <div class="panel-heading">
+            <h1 class="panel-title">@EventModel.Title</h1>
+        </div>
+        <div class="panel-body" id="event-panel-body">
+
+            <div hidden class="row">
                 <div class="col-md-12">
                     <ul class="list-group">
-                        <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4">
-                                Title:
-                            </div>
-                            <div class="col-md-8">
-                                <label>@EventModel.Title</label>
-                            </div>
-                        </li>
                         <li class="list-group-item list-item-min-height">
                             <div class="col-md-4">
                                 Time:
@@ -55,7 +53,8 @@
                     </ul>
                 </div>
             </div>
-        }
-    </div>
+
+        </div>
+    }
 </div>
 
