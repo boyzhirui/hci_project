@@ -209,6 +209,10 @@
     <Compile Include="HciDbMigrations\201411201717025_add_mails.Designer.cs">
       <DependentUpon>201411201717025_add_mails.cs</DependentUpon>
     </Compile>
+    <Compile Include="HciDbMigrations\201411201927145_add_send_time.cs" />
+    <Compile Include="HciDbMigrations\201411201927145_add_send_time.Designer.cs">
+      <DependentUpon>201411201927145_add_send_time.cs</DependentUpon>
+    </Compile>
     <Compile Include="HciDbMigrations\Configuration.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.Designer.cs">
@@ -238,6 +242,7 @@
     <Compile Include="Models\Database\User.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LocationModel.cs" />
+    <Compile Include="Models\MailModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\QuitGroupResultModel.cs" />
     <Compile Include="Models\ScheduleMeetingModel.cs" />
@@ -264,7 +269,7 @@
     <Content Include="Content\datepicker3.css" />
     <Content Include="Content\fullcalendar.css" />
     <Content Include="Content\fullcalendar.print.css" />
-    <Content Include="Content\img\inbox-32.jpg" />
+    <Content Include="Content\img\inbox-white-64.png" />
     <Content Include="Content\img\index-background.jpg" />
     <Content Include="Content\img\index-icon.png" />
     <Content Include="Content\sound\bell_ring.mp3" />
@@ -431,11 +436,12 @@
     <Content Include="Views\Group\AdvancedSearchGroup.cshtml" />
     <Content Include="Views\User\GetUserInfo.cshtml" />
     <Content Include="Views\User\UserUpdateInfo.cshtml" />
+    <Content Include="Views\Group\EventDetail.cshtml" />
+    <Content Include="Views\MailBox\Index.cshtml" />
     <Content Include="Views\User\EventDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\MailBox\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -462,6 +468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HciDbMigrations\201411201717025_add_mails.resx">
       <DependentUpon>201411201717025_add_mails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HciDbMigrations\201411201927145_add_send_time.resx">
+      <DependentUpon>201411201927145_add_send_time.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411140119031_InitialCreate.resx">
       <DependentUpon>201411140119031_InitialCreate.cs</DependentUpon>

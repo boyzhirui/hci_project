@@ -1,4 +1,5 @@
 ﻿using HCI.Models.Database;
+using HCI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,32 @@ namespace HCI.Controllers
                 }
             }
             return unreadCnt;
+        }
+
+        public void Post(int mailID, int readed)
+        {
+            using (HciDb ctx = new HciDb())
+            {
+                Mail mail = ctx.Mails.Where(x => x.id == mailID).FirstOrDefault();
+                if (mail != null)
+                {
+                    mail.readed = (YesNo)readed;
+                    ctx.SaveChanges();
+                }
+            }
+        }
+
+        public void Delete(int mailID)
+        {
+            using (HciDb ctx = new HciDb())
+            {
+                Mail mail = ctx.Mails.Where(x => x.id == mailID).FirstOrDefault();
+                if (mail != null)
+                {
+                    ctx.Mails.Remove(mail);
+                    ctx.SaveChanges();
+                }
+            }
         }
     }
 }
