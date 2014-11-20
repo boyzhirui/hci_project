@@ -6,26 +6,243 @@
 
 <h2>Messages</h2>
 
+@Html.Hidden("userName", User.Identity.Name)
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th><input type="checkbox" id="checkAll"></th>
-            <th>Sender Name</th>
-            <th>Received Time</th>
-            <th>Subject</th>
-        </tr>
-    </thead>
-    <tbody >
-        @foreach (var mail in Model.MailList)
-        { 
-        <tr>
-            <td><input type="checkbox" id="@mail.MailID"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+<ul class="nav nav-tabs nav-justified">
+    <li role="presentation" class="active" id="joinRequestsTab"><a href="javascript:void(0)">Join Group Requests</a></li>
+    <li role="presentation" id="meetingRequestsTab"><a href="javascript:void(0)">Meeting Requests</a></li>
+</ul>
+
+<div id="joinRequests">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="checkAll"></th>
+                <th style="text-align: center;">Sender Name</th>
+                <th style="text-align: center;">Received Time</th>
+                <th style="text-align: center;">Message</th>
+                <th style="text-align: center;">Action</th>
+            </tr>
+        </thead>
+        <tbody id="mailList">
+            @foreach (var mail in Model.MailList)
+            {
+                if (mail.MailType != MailType.JoinRequest)
+                {
+                    continue;
+                }
+                
+                string boldStyle = string.Empty;
+                string disabled = string.Empty;
+                if (mail.Readed == YesNo.No)
+                {
+                    boldStyle = "bold";
+                }
+                <tr class="@boldStyle">
+                    <td>
+                        <input type="checkbox" id="check">
+                        @Html.Hidden("mailID", mail.MailID)
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" id="sender">@mail.Sender</a>
+                        @Html.Hidden("senderID", mail.SenderID)
+                    </td>
+                    <td id="receivedTime">
+                        @mail.SendingTime
+                    </td>
+                    <td id="messageCell">
+                        <div>
+                            <a href="javascript:void(0)" id="user">
+                                @mail.Sender
+                                @Html.Hidden("userID", mail.SenderID)
+                            </a>
+                            &nbsp;is requesting to join your group
+                            <a href="javascript:void(0)" id="group">
+                                @mail.GroupName
+                                @Html.Hidden("groupID", mail.GroupID)
+                            </a>
+                        </div>
+                    </td>
+                    <td id="actionCell">
+                        @if (mail.Readed == YesNo.No)
+                        {
+                            @Html.Hidden("membershipId", mail.GroupMembershipID)
+                            <button type="button" class="btn btn-default" id="acceptBtn">Accept</button>
+                            <button type="button" class="btn btn-danger" id="rejectBtn">Reject</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4  col-md-push-4">
+                <button type="button" class="btn btn-default" id="acceptAllBtn">Accept Selected</button>
+            </div>
+            <div class="col-md-4 col-md-push-2">
+                <button type="button" class="btn btn-danger" id="rejectAllBtn">Reject Selected</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="invisible" id="meetingRequests">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="checkAll"></th>
+                <th style="text-align: center;">Sender Name</th>
+                <th style="text-align: center;">Received Time</th>
+                <th style="text-align: center;">Message</th>
+                <th style="text-align: center;">Action</th>
+            </tr>
+        </thead>
+        <tbody id="mailList">
+            @foreach (var mail in Model.MailList)
+            {
+                if (mail.MailType != MailType.MeetingRequest)
+                {
+                    continue;
+                }
+                
+                string boldStyle = string.Empty;
+                string disabled = string.Empty;
+                if (mail.Readed == YesNo.No)
+                {
+                    boldStyle = "bold";
+                }
+                <tr class="@boldStyle">
+                    <td>
+                        <input type="checkbox" id="check">
+                        @Html.Hidden("mailID", mail.MailID)
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" id="sender">@mail.Sender</a>
+                        @Html.Hidden("senderID", mail.SenderID)
+                    </td>
+                    <td id="receivedTime">
+                        @mail.SendingTime
+                    </td>
+                    <td id="messageCell">
+                        <div>
+                            <a href="javascript:void(0)" id="user">
+                                @mail.Sender
+                                @Html.Hidden("userID", mail.SenderID)
+                            </a>
+                            &nbsp;is scheduling a meeting&nbsp;
+                            <a href="javascript:void(0)" id="meeting">
+                                @mail.MeetingTitle
+                                @Html.Hidden("meetingID", mail.MeetingId)
+                            </a>
+                            &nbsp;in the group&nbsp;
+                            <a href="javascript:void(0)" id="group">
+                                @mail.GroupName
+                                @Html.Hidden("groupID", mail.GroupID)
+                            </a>
+                        </div>
+                    </td>
+                    <td id="actionCell">
+                        @if (mail.Readed == YesNo.No)
+                        {
+                            <button type="button" class="btn btn-default" id="readedBtn" style=" min-width: 140px; ">Mark Readed</button>
+                            <button type="button" class="btn btn-default invisible" id="readedBtn" style=" min-width: 140px; ">Mark Unreaded</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <div class="row">
+        <div class="col-md-12 col-md-push-5">
+            <div class="col-md-2">
+                <button type="button" class="btn btn-default" id="readedAllBtn">Mark Selected Readed</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css
+{
+    <style>
+        .bold {
+            font-weight: bold;
         }
-    </tbody>
-</table>
 
+        .invisible {
+            display: none;
+        }
+    
+        ul.nav.nav-tabs.nav-justified>li>a:not(.active):hover
+        {
+            background-color: rgb(238, 238, 238);
+        }
+
+        ul.nav.nav-tabs.nav-justified>li>a
+        {
+            color:#555;
+        }
+
+    </style>
+}
+
+    @section scripts {
+        <script type="text/javascript" > $(document).ready(function ($) {
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
+
+            $('.nav-tabs').on('click', '#joinRequestsTab', function () {
+                if (!$(this).hasClass('active')) {
+                    $(this).addClass('active');
+                    $(this).siblings('#meetingRequestsTab').removeClass('active');
+                    $('#meetingRequests').addClass('invisible');
+                    $('#joinRequests').removeClass('invisible');
+                }
+                
+            });
+
+            $('.nav-tabs').on('click', '#meetingRequestsTab', function () {
+                if (!$(this).hasClass('active')) {
+                    $(this).addClass('active');
+                    $(this).siblings('#joinRequestsTab').removeClass('active');
+                    $('#joinRequests').addClass('invisible');
+                    $('#meetingRequests').removeClass('invisible');
+                }
+            });
+
+            $('#joinRequests').on('click', '#acceptBtn', function () {
+
+                var msg = $(this).parent().parent();
+                msg.removeClass('bold');
+
+                var acceptBtn = $(this);
+                var rejectBtn = $(this).siblings('#rejectBtn');
+                var mailId = msg.find('#mailID').prop('value');
+
+                //.prop('disabled', true)
+                $.ajax({
+                    url: '/HCI/api/GroupApprovalWebAPI?' + 'userId=' + userId + '&groupId=' + groupId + '&status=Yes',
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function (data) {
+
+                        acceptBtn.prop('disabled', true);
+                        rejectBtn.prop('disabled', true);
+
+                        if (data == 'waiting') {
+                            currentBtn.parent().parent().children("#waitingInfo").text("Waiting for the group owner's approval.");
+                        }
+                        else {
+                            currentBtn.parent().parent().children("#waitingInfo").text("You succeeded in joining the group");
+                        }
+                    }
+                });
+            });
+        }); </script >
+    }

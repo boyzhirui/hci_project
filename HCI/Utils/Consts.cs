@@ -29,6 +29,7 @@ namespace HCI.Utils
         public static class ApprovalValue
         {
             public static readonly string Yes = "Yes";
+            public static readonly string No = "No";
             public static readonly string Pending = "Pending";
         }
 

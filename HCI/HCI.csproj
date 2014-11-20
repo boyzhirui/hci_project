@@ -175,6 +175,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AvailableLocationController.cs" />
     <Compile Include="Controllers\EventListController.cs" />
+    <Compile Include="Controllers\GroupApprovalWebAPIController.cs" />
     <Compile Include="Controllers\GroupMembershipWebAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />

@@ -9,7 +9,7 @@ using HCI.Utils;
 
 namespace HCI.Controllers
 {
-    public class GroupMembershipWebAPIController : ApiController
+    public class GroupApprovalWebAPIController : ApiController
     {
 
         public string Post(int userId, int groupId)
