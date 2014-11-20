@@ -371,7 +371,8 @@ namespace HCI.HciDbMigrations
                     mail_type = MailType.JoinRequest,
                     subject = "A new user is requesting to join your group [Group1]",
                     readed = YesNo.No,
-                    related_id_01 = groupMembership_grp01_usr02.id
+                    related_id_01 = groupMembership_grp01_usr02.id,
+                    send_time = DateTime.Now
                 };
                 context.Mails.Add(mail_usr01_join01);
                 context.SaveChanges();
@@ -394,7 +395,8 @@ namespace HCI.HciDbMigrations
                     mail_type = MailType.MeetingRequest,
                     subject = "A new meeting of group [Group2] is scheduled",
                     readed = YesNo.No,
-                    related_id_01 = meeting2_1.id
+                    related_id_01 = meeting2_1.id,
+                    send_time = DateTime.Now
                 };
                 context.Mails.Add(mail_usr02_mtg01);
                 context.SaveChanges();
