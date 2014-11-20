@@ -431,7 +431,7 @@
     <Content Include="Views\Group\AdvancedSearchGroup.cshtml" />
     <Content Include="Views\User\GetUserInfo.cshtml" />
     <Content Include="Views\User\UserUpdateInfo.cshtml" />
-    <Content Include="Views\Group\EventDetail.cshtml" />
+    <Content Include="Views\User\EventDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
