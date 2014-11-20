@@ -43,5 +43,7 @@
 
         public int related_id_02 { get; set; }
 
+        public DateTime send_time { get; set; }
+
     }
 }
