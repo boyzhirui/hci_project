@@ -17,7 +17,7 @@
         @foreach (var EventModel in Model.EventModel.Events.OrderBy(x => x.Start).Take(7))
         {
             
-            <div class="row">
+            <div hidden class="row" id="eventID">
                 <div class="col-md-12">
                     <ul class="list-group">
                         <li class="list-group-item list-item-min-height">
