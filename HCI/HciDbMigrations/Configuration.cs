@@ -210,15 +210,15 @@ namespace HCI.HciDbMigrations
             #endregion
             #region GroupMembership
             context.GroupMemberships.AddOrUpdate(x => new { x.group_id, x.user_id }, 
-                new GroupMembership { group_id = grp1.id, user_id = user1.id, approval = "Yes" },
-                new GroupMembership { group_id = grp1.id, user_id = user2.id, approval = "Yes" },
-                new GroupMembership { group_id = grp1.id, user_id = user3.id, approval = "Yes" },
-                new GroupMembership { group_id = grp2.id, user_id = user1.id, approval = "Yes" },
-                new GroupMembership { group_id = grp2.id, user_id = user2.id, approval = "Yes" },
-                new GroupMembership { group_id = grp2.id, user_id = user3.id, approval = "Yes" },
-                new GroupMembership { group_id = grp3.id, user_id = user1.id, approval = "Yes" },
-                new GroupMembership { group_id = grp3.id, user_id = user2.id, approval = "Yes" },
-                new GroupMembership { group_id = grp3.id, user_id = user3.id, approval = "Yes" });
+                new GroupMembership { group_id = grp1.id, user_id = user1.id, approval = Consts.ApprovalValue.Yes },
+                new GroupMembership { group_id = grp1.id, user_id = user2.id, approval = Consts.ApprovalValue.Yes },
+                new GroupMembership { group_id = grp1.id, user_id = user3.id, approval = Consts.ApprovalValue.Yes },
+                new GroupMembership { group_id = grp2.id, user_id = user1.id, approval = Consts.ApprovalValue.Yes },
+                new GroupMembership { group_id = grp2.id, user_id = user2.id, approval = Consts.ApprovalValue.Pending },
+                new GroupMembership { group_id = grp2.id, user_id = user3.id, approval = Consts.ApprovalValue.Yes },
+                new GroupMembership { group_id = grp3.id, user_id = user1.id, approval = Consts.ApprovalValue.Yes },
+                new GroupMembership { group_id = grp3.id, user_id = user2.id, approval = Consts.ApprovalValue.Yes },
+                new GroupMembership { group_id = grp3.id, user_id = user3.id, approval = Consts.ApprovalValue.Yes });
             #endregion
 
             #region Location init
@@ -350,7 +350,59 @@ namespace HCI.HciDbMigrations
                 context.SaveChanges();
             }
             #endregion
-           
+
+            #region
+            GroupMembership groupMembership_grp01_usr02 = context.GroupMemberships.Where(x => x.group_id == grp1.id && x.user_id == user2.id).First();
+
+            Mail mail_usr01_join01 = context.Mails.Where(x => x.sender_id == user2.id
+                                                        && x.receiver_id == user1.id
+                                                        && x.mail_type == MailType.JoinRequest
+                                                        && x.subject == "A new user is requesting to join your group [Group1]"
+                                                        && x.readed == YesNo.No
+                                                        && x.related_id_01 == groupMembership_grp01_usr02.id
+                                                        ).FirstOrDefault();
+
+            if (mail_usr01_join01 == null)
+            {
+                mail_usr01_join01 = new Mail
+                {
+                    sender_id = user2.id,
+                    receiver_id = user1.id,
+                    mail_type = MailType.JoinRequest,
+                    subject = "A new user is requesting to join your group [Group1]",
+                    readed = YesNo.No,
+                    related_id_01 = groupMembership_grp01_usr02.id
+                };
+                context.Mails.Add(mail_usr01_join01);
+                context.SaveChanges();
+            }
+
+            Mail mail_usr02_mtg01 = context.Mails.Where(x=> x.sender_id == user2.id 
+                                                        && x.receiver_id == user1.id 
+                                                        && x.mail_type == MailType.MeetingRequest 
+                                                        && x.subject == "A new meeting of group [Group2] is scheduled"
+                                                        && x.readed == YesNo.No
+                                                        && x.related_id_01 == meeting2_1.id
+                                                        ).FirstOrDefault();
+
+            if (mail_usr02_mtg01 == null)
+            {
+                mail_usr02_mtg01 = new Mail
+                {
+                    sender_id = user2.id,
+                    receiver_id = user1.id,
+                    mail_type = MailType.MeetingRequest,
+                    subject = "A new meeting of group [Group2] is scheduled",
+                    readed = YesNo.No,
+                    related_id_01 = meeting2_1.id
+                };
+                context.Mails.Add(mail_usr02_mtg01);
+                context.SaveChanges();
+            }
+
+            
+
+            #endregion
         }
     }
 }

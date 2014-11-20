@@ -39,6 +39,16 @@ namespace HCI
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker")
                 .Include("~/Scripts/bootstrap-datepicker.js"));
 
+            bundles.Add(new StyleBundle("~/Content/bootstrap-clockpicker")
+                .Include("~/Content/bootstrap-clockpicker.css")
+                .Include("~/Content/clockpicker.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-clockpicker")
+                .Include("~/Scripts/bootstrap-clockpicker.css")
+                .Include("~/Scripts/clockpicker.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/io-sound")
+                .Include("~/Scripts/ion.sound.js"));
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;

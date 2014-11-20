@@ -178,6 +178,8 @@
     <Compile Include="Controllers\GroupMembershipWebAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Controllers\MailBoxController.cs" />
+    <Compile Include="Controllers\MailBoxWebAPIController.cs" />
     <Compile Include="Controllers\TestWebAPIController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -203,6 +205,10 @@
     <Compile Include="HciDbMigrations\201411192057151_add_meeting_description.Designer.cs">
       <DependentUpon>201411192057151_add_meeting_description.cs</DependentUpon>
     </Compile>
+    <Compile Include="HciDbMigrations\201411201717025_add_mails.cs" />
+    <Compile Include="HciDbMigrations\201411201717025_add_mails.Designer.cs">
+      <DependentUpon>201411201717025_add_mails.cs</DependentUpon>
+    </Compile>
     <Compile Include="HciDbMigrations\Configuration.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.cs" />
     <Compile Include="Migrations\201411140119031_InitialCreate.Designer.cs">
@@ -220,6 +226,7 @@
     <Compile Include="Models\Database\Group.cs" />
     <Compile Include="Models\Database\GroupMembership.cs" />
     <Compile Include="Models\Database\HciDb.cs" />
+    <Compile Include="Models\Database\Mail.cs" />
     <Compile Include="Models\Database\Location.cs" />
     <Compile Include="Models\Database\Major.cs" />
     <Compile Include="Models\Database\Meeting.cs" />
@@ -247,16 +254,21 @@
     <Compile Include="Utils\Consts.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-clockpicker.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\clockpicker.css" />
     <Content Include="Content\datepicker.css" />
     <Content Include="Content\datepicker3.css" />
     <Content Include="Content\fullcalendar.css" />
     <Content Include="Content\fullcalendar.print.css" />
+    <Content Include="Content\img\inbox-32.jpg" />
     <Content Include="Content\img\index-background.jpg" />
     <Content Include="Content\img\index-icon.png" />
+    <Content Include="Content\sound\bell_ring.mp3" />
+    <Content Include="Content\standalone.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -301,12 +313,15 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\Debug.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\bootstrap-clockpicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\clockpicker.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\gcal.js" />
+    <Content Include="Scripts\ion.sound.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -420,6 +435,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\MailBox\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -443,6 +459,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HciDbMigrations\201411192057151_add_meeting_description.resx">
       <DependentUpon>201411192057151_add_meeting_description.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HciDbMigrations\201411201717025_add_mails.resx">
+      <DependentUpon>201411201717025_add_mails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411140119031_InitialCreate.resx">
       <DependentUpon>201411140119031_InitialCreate.cs</DependentUpon>

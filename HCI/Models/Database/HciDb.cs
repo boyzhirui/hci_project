@@ -4,6 +4,7 @@ namespace HCI.Models.Database
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using System.Data.Entity.Infrastructure.Annotations;
 
     public partial class HciDb : DbContext
     {
@@ -27,6 +28,8 @@ namespace HCI.Models.Database
         public virtual DbSet<User> Users { get; set; }
 
         public virtual DbSet<Location> Locations { get; set; }
+
+        public virtual DbSet<Mail> Mails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -183,6 +186,17 @@ namespace HCI.Models.Database
                 .HasForeignKey(e => e.location_id)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.SentMails)
+                .WithRequired(e => e.Sender)
+                .HasForeignKey(e => e.sender_id)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.ReceivedMails)
+                .WithRequired(e => e.Receiver)
+                .HasForeignKey(e => e.receiver_id)
+                .WillCascadeOnDelete(false);
         }
     }
 }

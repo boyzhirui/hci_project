@@ -24,8 +24,9 @@
             $(function () {
                 $('#groupList').on('click', '#joinBtn', function()
                 {
-                    var groupId = $(this).parent().parent().children('#groupId');
-                    var userId = $(this).parent().parent().children('#userId');
+                    var groupId = $(this).parent().parent().children('#groupId').prop('value');
+                    var userId = $(this).parent().parent().children('#userId').prop('value');
+                    var currentBtn = $(this);
 
                     $.ajax({
                         url: '/HCI/api/GroupMembershipWebAPI?' + 'userId=' + userId + '&groupId=' + groupId,
@@ -33,29 +34,35 @@
                         type: 'POST',
                         success: function (data) {
 
-                            $(this).prop('hidden', true);
-                            $(this).siblings('#quitBtn').prop('hidden', false);
+                            currentBtn.hide();
+                            currentBtn.siblings('#quitBtn').show();
 
                             if (data == 'waiting')
                             {
-                                $(this).parent().parent().children("watingInfo").prop('hidden', false);
+                                currentBtn.parent().parent().children("#waitingInfo").text("Waiting for the group owner's approval.");
+                            }
+                            else
+                            {
+                                currentBtn.parent().parent().children("#waitingInfo").text("You succeeded in joining the group");
                             }
                         }
                     });
                 });
 
                 $('#groupList').on('click', '#quitBtn', function () {
-                    var groupId = $(this).parent().parent().children('#groupId');
-                    var userId = $(this).parent().parent().children('#userId');
-
+                    var groupId = $(this).parent().parent().children('#groupId').prop('value');
+                    var userId = $(this).parent().parent().children('#userId').prop('value');
+                    var currentBtn = $(this);
                     $.ajax({
                         url: '/HCI/api/GroupMembershipWebAPI?' + 'userId=' + userId + '&groupId=' + groupId,
                         dataType: 'json',
                         type: 'DELETE',
                         success: function (data) {
 
-                            $(this).prop('hidden', false);
-                            $(this).siblings('#quitBtn').prop('hidden', true);
+                            currentBtn.hide();
+                            currentBtn.siblings('#joinBtn').show();
+                            currentBtn.parent().parent().children("#waitingInfo").text("");
+
 
                         }
                     });
@@ -104,45 +111,36 @@
     <div class="row">
         <div class="panel panel-primary" id="groupPanel">
             <div class="panel-body">
-                <div class="col-md-1" style="min-width:15%"></div>
-                <div class="col-md-8">
+                <div class="col-md-1" style="min-width:10%"></div>
+                <div class="col-md-9">
                     <ul class="list-group">
                         <li class="list-group-item list-item-min-height" style="background-color:#e3e3e3;padding-top: 5px;">
-                            <div class="col-md-4" id="nameLabel" style="padding-top: 5px;">
-                                <strong>
-                                    Group Name:
-                                </strong>
-                            </div>
-                            <div class="col-md-5" id="nameValue" style="padding-top: 5px;">
-                                <strong>
+                            <div class="col-md-4" id="nameValue" style="padding-top: 5px;font-weight: bold;font-size: 16px;">
                                     @Html.ActionLink(group.name, actionName: "GroupDetail", controllerName: "User", routeValues: new { ID = group.id }, htmlAttributes: new object())
-                                </strong>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-7">
                                 @Html.Hidden("groupId", group.id)
                                 @Html.Hidden("userId", Model.UserID)
-                                <div class="col-md-5">
+                                <div class="col-md-9" id="waitingInfo" style="padding-left: 0px;padding-top: 5px;font-weight: bold;min-width: 310px;"></div>
+                                <div class="col-md-3">
                                     @if (group.IsMember(Model.UserID))
                                     {
-                                        <button id="quitBtn" type="button" class="btn btn-danger" style="min-width:100px; height:30px;padding-top: 3px;">
-                                            Quit
+                                        <button id="quitBtn" type="button" class="btn btn-danger" style="min-width: 180px; height:30px;padding-top: 3px;">
+                                            Undo Join
                                         </button>
-                                        <button id="joinBtn" type="button" class="btn btn-default" style="min-width:100px; height:30px;padding-top: 3px;" hidden>
+                                        <button id="joinBtn" type="button" class="btn btn-default" style="min-width: 180px; height:30px;padding-top: 3px;display:none">
                                             Join
                                         </button>
                                     }
                                     else
                                     {
-                                        <button id="quitBtn" type="button" class="btn btn-danger" style="min-width:100px; height:30px;padding-top: 3px;" hidden>
-                                            Quit
+                                        <button id="quitBtn" type="button" class="btn btn-danger" style="min-width: 180px; height:30px;padding-top: 3px;display:none">
+                                            Undo Join
                                         </button>
-                                        <button id="joinBtn" type="button" class="btn btn-default" style="min-width:100px; height:30px;padding-top: 3px;">
+                                        <button id="joinBtn" type="button" class="btn btn-default" style="min-width: 180px; height:30px;padding-top: 3px;">
                                             Join
                                         </button>
                                     }
-                                </div>
-                                <div class="col-md-2" id="waitingInfo">
-                                    Waiting for the group owner's approval...
                                 </div>
                              </div>
                         </li>

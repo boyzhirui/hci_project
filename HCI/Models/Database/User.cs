@@ -52,5 +52,9 @@ namespace HCI.Models.Database
         public virtual ICollection<Request> Requests { get; set; }
 
         public virtual Schedule Schedule { get; set; }
+
+        public virtual ICollection<Mail> SentMails { get; set; }
+
+        public virtual ICollection<Mail> ReceivedMails { get; set; }
     }
 }
