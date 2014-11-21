@@ -9,16 +9,39 @@
 @section css
 {
     @Styles.Render("~/Content/bootstrap-datepicker")
+    @Styles.Render("~/Content/bootstrap-clockpicker")
 }
 
 @section Scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap-datepicker")
+    @Scripts.Render("~/bundles/bootstrap-clockpicker")
     <script type="text/javascript">
 
 
         var editRepeat = false;
+        var modalOKclick = false;
+        var modalCancelclick = false;
+
+        function getNowTime()
+        {
+            var date = new Date();
+            var hour = date.getHours();
+            var min = date.getMinutes();
+            
+            if (hour < 10)
+            {
+                hour = '0' + hour;
+            }
+
+            if (min < 10)
+            {
+                min = '0' + min;
+            }
+
+            return hour + ':' + min;
+        }
 
         function setModalError(id ,msg)
         {
@@ -255,6 +278,12 @@
 
         $(document).ready(function ($) {
             $(function () {
+                $('.clockpicker').clockpicker({
+                    autoclose: true,
+                });
+
+                $('#StartTime').prop('value', getNowTime());
+
                 $('#StartDate').datepicker({
                     format: "yyyy-mm-dd",
                     weekStart: 0,
@@ -299,8 +328,6 @@
                         else {
                             $("#repeatText").prop('hidden',true);
                         }
-
-
                     });
 
                     $('#repeatEdit').click(function (event) {
@@ -364,6 +391,7 @@
                     });
 
                     $('#modalOK').click(function (event) {
+                        modalOKclick = true;
                         var result = validateModal(true, true);
                         if(!result.error)
                         {
@@ -374,13 +402,25 @@
                     });
 
                     $('#modalCancel').click(function (event) {
-
+                        modalCancelclick = true;
                         if (!editRepeat) {
                             $('#Repeat').prop('checked', false);
                             $("#repeatText").prop('hidden', true);
                         }
                         getLocation();
                     });
+
+                    $('#RepeatSetup').on('shown.bs.modal', function (e) {
+                        modalCancelclick = false;
+                        modalOKclick = false;
+                    })
+
+                    $('#RepeatSetup').on('hidden.bs.modal', function (e) {
+                        if (!modalCancelclick && !modalOKclick && !editRepeat) {
+                            $('#Repeat').prop('checked', false);
+                            $("#repeatText").prop('hidden', true);
+                        }
+                    })
 
                     $('#StartDate').change(function (event) {
 
@@ -470,9 +510,14 @@
                                     @Html.TextBoxFor(m => m.StartDate, "", new { @class = "form-control", @placeholder = "YYYY-MM-DD" })
                                     @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-md-4" style="padding-left:0px; width:130px">
-                                    @Html.DropDownListFor(m => m.StartTime, new SelectList(HCI.Utils.Consts.MeetingTimeOptions, "Index", "Text"), new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
+                                <div class="col-md-4 input-group clockpicker" style="padding-left:0px; width:130px">
+                                    <input type="text" class="form-control" id="StartTime">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                    
+                                    @*@@Html.DropDownListFor(m => m.StartTime, new SelectList(HCI.Utils.Consts.MeetingTimeOptions, "Index", "Text"), new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })*@
                                 </div>
                             </div>
                         </li>
@@ -485,9 +530,15 @@
                                     @Html.TextBoxFor(m => m.EndDate, "", new { @class = "form-control", @placeholder = "YYYY-MM-DD" })
                                     @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-md-2" style="padding-left:0px; width:130px">
-                                    @Html.DropDownListFor(m => m.EndTime, new SelectList(HCI.Utils.Consts.MeetingTimeOptions, "Index", "Text"), new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
+                                <div class="col-md-2 input-group clockpicker" style="padding-left:0px; width:130px">
+                                    <input type="text" class="form-control" value="23:59" id="EndTime">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                                    @*
+            @Html.DropDownListFor(m => m.EndTime, new SelectList(HCI.Utils.Consts.MeetingTimeOptions, "Index", "Text"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
+                                    *@
                                 </div>
                             </div>
                         </li>
