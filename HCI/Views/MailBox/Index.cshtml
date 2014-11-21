@@ -9,18 +9,31 @@
 @Html.Hidden("userName", User.Identity.Name)
 
 <ul class="nav nav-tabs nav-justified">
-    <li role="presentation" class="active" id="joinRequestsTab"><a href="javascript:void(0)">Join Group Requests</a></li>
-    <li role="presentation" id="meetingRequestsTab"><a href="javascript:void(0)">Meeting Requests</a></li>
+    <li role="presentation" class="active" id="joinRequestsTab"><a href="javascript:void(0)">Join Group Requests<span class="badge" id="joinRequestsTabBadge"></span></a></li>
+    <li role="presentation" id="meetingRequestsTab"><a href="javascript:void(0)">Meeting Requests<span class="badge" id="meetingRequestsTabBadge"></span></a></li>
 </ul>
 
 <div id="joinRequests">
     <table class="table table-striped">
         <thead>
             <tr>
-                <th><input type="checkbox" id="checkAll"></th>
+                <th style="text-align: center;">
+                    <div class="dropdown" id="batchSelection">
+                        <a id="drop6" href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                            Batch Selection<span class="caret"></span>
+                        </a>
+                        <ul id="batchSelectionMenu" class="dropdown-menu" role="menu" aria-labelledby="batchSelectionMenu">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" id="selectAll">Select All</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" id="unselectAll">Unselect All</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" id="selectAllUnprocessed">Select All Unprocessed</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" id="selectAllProcessed">Select All Processed</a></li>
+                        </ul>
+                    </div>
+                </th>
                 <th style="text-align: center;">Sender Name</th>
                 <th style="text-align: center;">Received Time</th>
                 <th style="text-align: center;">Message</th>
+                <th style="text-align: center;">Status</th>
                 <th style="text-align: center;">Action</th>
             </tr>
         </thead>
@@ -39,37 +52,47 @@
                     boldStyle = "bold";
                 }
                 <tr class="@boldStyle">
-                    <td>
-                        <input type="checkbox" id="check">
-                        @Html.Hidden("mailID", mail.MailID)
-                    </td>
-                    <td>
+                    @Html.Hidden("senderID", mail.SenderID)
+                    @Html.Hidden("mailID", mail.MailID)
+                    @Html.Hidden("groupID", mail.GroupID)
+                    @Html.Hidden("membershipID", mail.GroupMembershipID)
+                    @Html.Hidden("readed", (int)mail.Readed)
+                    <td style="text-align: center;">
+                        <input type="checkbox" id="check" name="check"></td>
+                    <td style="text-align: center;">
                         <a href="javascript:void(0)" id="sender">@mail.Sender</a>
-                        @Html.Hidden("senderID", mail.SenderID)
                     </td>
-                    <td id="receivedTime">
+                    <td id="receivedTime" style="text-align: center;">
                         @mail.SendingTime
                     </td>
-                    <td id="messageCell">
+                    <td id="messageCell" >
                         <div>
                             <a href="javascript:void(0)" id="user">
                                 @mail.Sender
-                                @Html.Hidden("userID", mail.SenderID)
                             </a>
                             &nbsp;is requesting to join your group
                             <a href="javascript:void(0)" id="group">
                                 @mail.GroupName
-                                @Html.Hidden("groupID", mail.GroupID)
                             </a>
                         </div>
                     </td>
-                    <td id="actionCell">
+                    <td id="status">
+                        @mail.ApprovalStatus
+                    </td>
+                    <td id="actionCell" style="text-align: center;">
                         @if (mail.Readed == YesNo.No)
                         {
-                            @Html.Hidden("membershipId", mail.GroupMembershipID)
-                            <button type="button" class="btn btn-default" id="acceptBtn">Accept</button>
+                            <button type="button" class="btn btn-success" id="acceptBtn">Accept</button>
                             <button type="button" class="btn btn-danger" id="rejectBtn">Reject</button>
+                            <button type="button" class="btn btn-default invisible" id="undoBtn">Revert to Pending</button>
                         }
+                        else
+                        {
+                            <button type="button" class="btn btn-success invisible" id="acceptBtn">Accept</button>
+                            <button type="button" class="btn btn-danger invisible" id="rejectBtn">Reject</button>
+                            <button type="button" class="btn btn-default" id="undoBtn">Revert to Pending</button>
+                        }
+
                     </td>
                 </tr>
             }
@@ -77,16 +100,14 @@
 
     </table>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-4  col-md-push-4">
-                <button type="button" class="btn btn-default" id="acceptAllBtn">Accept Selected</button>
-            </div>
-            <div class="col-md-4 col-md-push-2">
-                <button type="button" class="btn btn-danger" id="rejectAllBtn">Reject Selected</button>
-            </div>
-        </div>
+    <div class="row" style="text-align: center;">
+        <button type="button" class="btn btn-success" id="acceptAllBtn" disabled>Accept Selected</button>
+        <span style="padding-left:10px"></span>
+        <button type="button" class="btn btn-danger" id="rejectAllBtn" disabled>Reject Selected</button>
+        <span style="padding-left:30px"></span>
+        <button type="button" class="btn btn-default" id="undoAllBtn" disabled>Revert Selected to Pending</button>
     </div>
+
 </div>
 
 
@@ -94,7 +115,19 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th><input type="checkbox" id="checkAll"></th>
+                <th style="text-align: center;">
+                    <div class="dropdown" id="batchSelection">
+                        <a id="drop6" href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                            Batch Selection<span class="caret"></span>
+                        </a>
+                        <ul id="batchSelectionMenu" class="dropdown-menu" role="menu" aria-labelledby="batchSelectionMenu">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" id="selectAll">Select All</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" id="unselectAll">Unselect All</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" id="selectAllUnprocessed">Select All Unprocessed</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" id="selectAllProcessed">Select All Processed</a></li>
+                        </ul>
+                    </div>
+                </th>
                 <th style="text-align: center;">Sender Name</th>
                 <th style="text-align: center;">Received Time</th>
                 <th style="text-align: center;">Message</th>
@@ -116,13 +149,16 @@
                     boldStyle = "bold";
                 }
                 <tr class="@boldStyle">
-                    <td>
+                    @Html.Hidden("mailID", mail.MailID)
+                    @Html.Hidden("readed", (int)mail.Readed)
+                    @Html.Hidden("senderID", mail.SenderID)
+                    @Html.Hidden("meetingID", mail.MeetingId)
+                    @Html.Hidden("groupID", mail.GroupID)
+                    <td style="text-align: center;">
                         <input type="checkbox" id="check">
-                        @Html.Hidden("mailID", mail.MailID)
                     </td>
                     <td>
                         <a href="javascript:void(0)" id="sender">@mail.Sender</a>
-                        @Html.Hidden("senderID", mail.SenderID)
                     </td>
                     <td id="receivedTime">
                         @mail.SendingTime
@@ -131,25 +167,22 @@
                         <div>
                             <a href="javascript:void(0)" id="user">
                                 @mail.Sender
-                                @Html.Hidden("userID", mail.SenderID)
                             </a>
                             &nbsp;is scheduling a meeting&nbsp;
                             <a href="javascript:void(0)" id="meeting">
                                 @mail.MeetingTitle
-                                @Html.Hidden("meetingID", mail.MeetingId)
                             </a>
                             &nbsp;in the group&nbsp;
                             <a href="javascript:void(0)" id="group">
                                 @mail.GroupName
-                                @Html.Hidden("groupID", mail.GroupID)
                             </a>
                         </div>
                     </td>
-                    <td id="actionCell">
+                    <td id="actionCell" style="text-align: center;">
                         @if (mail.Readed == YesNo.No)
                         {
-                            <button type="button" class="btn btn-default" id="readedBtn" style=" min-width: 140px; ">Mark Readed</button>
-                            <button type="button" class="btn btn-default invisible" id="readedBtn" style=" min-width: 140px; ">Mark Unreaded</button>
+                            <button type="button" class="btn btn-primary" id="readedBtn" style=" min-width: 140px; ">Mark Readed</button>
+                            <button type="button" class="btn btn-info invisible" id="readedBtn" style=" min-width: 140px; ">Mark Unreaded</button>
                         }
                     </td>
                 </tr>
@@ -158,12 +191,10 @@
 
     </table>
 
-    <div class="row">
-        <div class="col-md-12 col-md-push-5">
-            <div class="col-md-2">
-                <button type="button" class="btn btn-default" id="readedAllBtn">Mark Selected Readed</button>
-            </div>
-        </div>
+    <div class="row" style="text-align: center;">
+        <button type="button" class="btn btn-primary" id="markAllReadedBtn">Mark Selected Readed</button>
+        <span style="padding-left:10px"></span>
+        <button type="button" class="btn btn-info" id="markAllUnreadedBtn">Mark Selected Unreaded</button>
     </div>
 </div>
 
@@ -177,9 +208,8 @@
         .invisible {
             display: none;
         }
-    
-        ul.nav.nav-tabs.nav-justified>li>a:not(.active):hover
-        {
+
+        ul.nav.nav-tabs.nav-justified > li:not(.active) > a:hover {
             background-color: rgb(238, 238, 238);
         }
 
@@ -192,57 +222,334 @@
 }
 
     @section scripts {
-        <script type="text/javascript" > $(document).ready(function ($) {
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip()
-            });
+        <script type="text/javascript" >
 
-            $('.nav-tabs').on('click', '#joinRequestsTab', function () {
-                if (!$(this).hasClass('active')) {
-                    $(this).addClass('active');
-                    $(this).siblings('#meetingRequestsTab').removeClass('active');
-                    $('#meetingRequests').addClass('invisible');
-                    $('#joinRequests').removeClass('invisible');
-                }
-                
-            });
 
-            $('.nav-tabs').on('click', '#meetingRequestsTab', function () {
-                if (!$(this).hasClass('active')) {
-                    $(this).addClass('active');
-                    $(this).siblings('#joinRequestsTab').removeClass('active');
-                    $('#joinRequests').addClass('invisible');
-                    $('#meetingRequests').removeClass('invisible');
-                }
-            });
+            $(document).ready(function ($) {
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                });
 
-            $('#joinRequests').on('click', '#acceptBtn', function () {
+                $('.nav-tabs').on('click', '#joinRequestsTab', function () {
+                    if (!$(this).hasClass('active')) {
+                        $(this).addClass('active');
+                        $(this).siblings('#meetingRequestsTab').removeClass('active');
+                        $('#meetingRequests').addClass('invisible');
+                        $('#joinRequests').removeClass('invisible');
+                    }
 
-                var msg = $(this).parent().parent();
-                msg.removeClass('bold');
+                });
 
-                var acceptBtn = $(this);
-                var rejectBtn = $(this).siblings('#rejectBtn');
-                var mailId = msg.find('#mailID').prop('value');
+                $('.nav-tabs').on('click', '#meetingRequestsTab', function () {
+                    if (!$(this).hasClass('active')) {
+                        $(this).addClass('active');
+                        $(this).siblings('#joinRequestsTab').removeClass('active');
+                        $('#joinRequests').addClass('invisible');
+                        $('#meetingRequests').removeClass('invisible');
+                    }
+                });
 
-                //.prop('disabled', true)
-                $.ajax({
-                    url: '/HCI/api/GroupApprovalWebAPI?' + 'userId=' + userId + '&groupId=' + groupId + '&status=Yes',
-                    dataType: 'json',
-                    type: 'POST',
-                    success: function (data) {
+                $('#joinRequests').on('click', "input[name='check']", function () {
+                    refreshJoinRequestTab();
+                });
 
-                        acceptBtn.prop('disabled', true);
-                        rejectBtn.prop('disabled', true);
+                $('#joinRequests').on('click', '#selectAll', function () {
 
-                        if (data == 'waiting') {
-                            currentBtn.parent().parent().children("#waitingInfo").text("Waiting for the group owner's approval.");
+                    var joinRequests = $('#joinRequests');
+
+                    joinRequests.find("input[name='check']").each(function (ind, node) {
+                        $(node).prop('checked', true);
+                    });
+
+                    refreshJoinRequestTab();
+                });
+
+                $('#joinRequests').on('click', '#unselectAll', function () {
+
+                    var joinRequests = $('#joinRequests');
+
+                    joinRequests.find("input[name='check']").each(function (ind, node) {
+                        $(node).prop('checked', false);
+                    });
+
+                    refreshJoinRequestTab();
+                });
+
+                $('#joinRequests').on('click', '#selectAllUnprocessed', function () {
+
+                    var joinRequests = $('#joinRequests');
+
+                    joinRequests.find("input[name='check']").each(function (ind, node) {
+                        var jnode = $(node);
+                        var readed = jnode.parent().parent().find('#readed');
+                        if (readed.prop('value') == '0') {
+                            jnode.prop('checked', true);
                         }
                         else {
-                            currentBtn.parent().parent().children("#waitingInfo").text("You succeeded in joining the group");
+                            jnode.prop('checked', false);
+                        }
+                    });
+
+                    refreshJoinRequestTab();
+                });
+
+                $('#joinRequests').on('click', '#selectAllProcessed', function () {
+
+                    var joinRequests = $('#joinRequests');
+
+                    joinRequests.find("input[name='check']").each(function (ind, node) {
+                        var jnode = $(node);
+                        var readed = jnode.parent().parent().find('#readed');
+                        if (readed.prop('value') == '1') {
+                            jnode.prop('checked', true);
+                        }
+                        else {
+                            jnode.prop('checked', false);
+                        }
+                    });
+                    refreshJoinRequestTab();
+                });
+
+                $('#joinRequests').on('click', '#acceptBtn', function () {
+
+                    var msg = $(this).parent().parent();
+                    processJoinRequest(msg, 'Yes');
+                });
+
+                $('#joinRequests').on('click', '#rejectBtn', function () {
+
+                    var msg = $(this).parent().parent();
+                    processJoinRequest(msg, 'No');
+                });
+
+                $('#joinRequests').on('click', '#undoBtn', function () {
+                    var msg = $(this).parent().parent();
+                    processJoinRequest(msg, 'Pending');
+                });
+
+                $('#joinRequests').on('click', '#acceptAllBtn', function () {
+
+                    $('#joinRequests').find("input[name='check']:checked").each(function (ind, node) {
+                        var jnode = $(node);
+                        var msg = jnode.parent().parent();
+                        processJoinRequest(msg, 'Yes');
+                    });
+
+
+                });
+
+                $('#joinRequests').on('click', '#rejectAllBtn', function () {
+
+                    $('#joinRequests').find("input[name='check']:checked").each(function (ind, node) {
+                        var jnode = $(node);
+                        var msg = jnode.parent().parent();
+                        processJoinRequest(msg, 'No');
+                    });
+
+                });
+
+                $('#joinRequests').on('click', '#undoAllBtn', function () {
+
+                    $('#joinRequests').find("input[name='check']:checked").each(function (ind, node) {
+                        var jnode = $(node);
+                        var msg = jnode.parent().parent();
+                        processJoinRequest(msg, 'Pending');
+                    });
+
+                    
+                });
+
+
+            });
+
+            $(document).ready(function () {
+                var joinRequestsTabBadge = $('#joinRequestsTabBadge');
+                var meetingRequestsTabBadge = $('#meetingRequestsTabBadge');
+
+                $.ajax({
+                    url: '/HCI/api/MailBoxWebAPI?userName=' + "@User.Identity.Name" + "&type=JoinRequest",
+                    dataType: 'json',
+                    success: function (data) {
+
+                        if (Number(data) > 0) {
+                            joinRequestsTabBadge.text(data);
+                        }
+                    }
+                });
+
+                $.ajax({
+                    url: '/HCI/api/MailBoxWebAPI?userName=' + "@User.Identity.Name" + "&type=MeetingRequest",
+                    dataType: 'json',
+                    success: function (data) {
+
+                        if (Number(data) > 0) {
+                            meetingRequestsTabBadge.text(data);
                         }
                     }
                 });
             });
-        }); </script >
+
+            function processJoinRequest(msg, status)
+            {
+                var membershipID = msg.find('#membershipID').prop('value');
+
+                var readed = msg.find("#readed");
+                var acceptBtn = msg.find("#acceptBtn");
+                var rejectBtn = msg.find('#rejectBtn');
+                var undoBtn = msg.find('#undoBtn');
+                var statusCell = msg.find('#status');
+                var mailID = msg.find('#mailID').prop('value');
+                var url1 = '/HCI/api/GroupApprovalWebAPI?' + 'membershipID=' + membershipID + '&status=' + status;
+                var url2;
+                
+                if (status != 'Pending') {
+                    url2 = '/HCI/api/MailBoxWebAPI?' + 'mailID=' + mailID + '&readed=1';
+                }
+                else
+                {
+                    url2 = '/HCI/api/MailBoxWebAPI?' + 'mailID=' + mailID + '&readed=0';
+                }
+
+                $.ajax({
+                    url: url1,
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function (data) {
+                        $.ajax({
+                            url: url2,
+                            dataType: 'json',
+                            type: 'POST',
+                            success: function (data) {
+
+                                
+
+                                if (status != 'Pending') {
+                                    msg.removeClass('bold');
+                                    acceptBtn.addClass('invisible');
+                                    rejectBtn.addClass('invisible');
+                                    undoBtn.removeClass('invisible');
+                                    readed.prop('value', '1');
+
+                                    if (status == 'Yes') {
+                                        statusCell.text('Accepted');
+                                    }
+                                    else {
+                                        statusCell.text('Rejected');
+                                    }
+                                }
+                                else
+                                {
+                                    msg.addClass('bold');
+                                    acceptBtn.removeClass('invisible');
+                                    rejectBtn.removeClass('invisible');
+                                    undoBtn.addClass('invisible');
+                                    readed.prop('value', '0');
+
+                                    statusCell.text('Pending');
+                                }
+
+                                refreshJoinRequestTab();
+                            }
+                        });
+                    }
+                });
+
+
+            }
+        
+            function refreshJoinRequestTab()
+            {
+                var acceptAllBtn = $('#joinRequests').find('#acceptAllBtn')
+                acceptAllBtn.prop('disabled', true);
+
+                var rejectAllBtn = $('#joinRequests').find('#rejectAllBtn');
+                rejectAllBtn.prop('disabled', true);
+
+                var undoAllBtn = $('#joinRequests').find('#undoAllBtn');
+                undoAllBtn.prop('disabled', true);
+
+                var undoEnabled = false;
+                var acceptRejectEnabled = false;
+
+                var mailBoxBadge = $('#badge');
+                var joinRequestsTabBadge = $('#joinRequestsTabBadge');
+                var meetingRequestsTabBadge = $('#meetingRequestsTabBadge');
+
+                var unprocessedCnt = 0;
+                $('#joinRequests').find("input[name='check']").each(function (ind, node) {
+                    
+                    
+                    var jnode = $(node);
+                    
+                    var msg = jnode.parent().parent();
+                    var readed = msg.find('#readed').prop('value');
+
+                    if (jnode.prop('checked')) {
+                        if (readed == '0') {
+                            acceptAllBtn.prop('disabled', false);
+                            rejectAllBtn.prop('disabled', false);
+                            acceptRejectEnabled = true;
+                            
+                        }
+                        else {
+                            undoAllBtn.prop('disabled', false);
+                            undoEnabled = true;
+                        }
+                    }
+                    if (readed == '0') {
+                        unprocessedCnt++;
+                    }
+                });
+
+                if (unprocessedCnt > 0)
+                {
+                    joinRequestsTabBadge.text(unprocessedCnt);
+                }
+                else
+                {
+                    joinRequestsTabBadge.text("");
+                }
+
+                refreshInboxBadge();
+            }
+
+            function refreshInboxBadge()
+            {
+                var mailBoxBadge = $('#badge');
+                var joinRequestsTabBadge = $('#joinRequestsTabBadge');
+                var meetingRequestsTabBadge = $('#meetingRequestsTabBadge');
+
+                var unprocessedJoinRequestCnt = joinRequestsTabBadge.text();
+
+                if (typeof unprocessedJoinRequestCnt == 'undefined' || unprocessedJoinRequestCnt == "")
+                {
+                    unprocessedJoinRequestCnt = 0;
+                }
+                else
+                {
+                    unprocessedJoinRequestCnt = Number(unprocessedJoinRequestCnt);
+                }
+
+                var unprocessedMeetingRequestsCnt = meetingRequestsTabBadge.text();
+
+                if (typeof unprocessedMeetingRequestsCnt == 'undefined' || unprocessedMeetingRequestsCnt == "")
+                {
+                    unprocessedMeetingRequestsCnt = 0;
+                }
+                else
+                {
+                    unprocessedMeetingRequestsCnt = Number(unprocessedMeetingRequestsCnt);
+                }
+
+                var totalUnreadedCnt = unprocessedJoinRequestCnt + unprocessedMeetingRequestsCnt;
+                if (totalUnreadedCnt > 0)
+                {
+                    mailBoxBadge.text(totalUnreadedCnt);
+                }
+                else
+                {
+                    mailBoxBadge.text('');
+                }
+            }
+        </script >
     }

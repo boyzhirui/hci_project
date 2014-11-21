@@ -64,6 +64,19 @@ namespace HCI.Models
                     {
                         userMail.GroupID = groupMembership.Group.id;
                         userMail.GroupName = groupMembership.Group.name;
+
+                        if (groupMembership.approval == "Yes")
+                        {
+                            userMail.ApprovalStatus = "Accepted";
+                        }
+                        else if (groupMembership.approval == "No")
+                        {
+                            userMail.ApprovalStatus = "Rejected";
+                        }
+                        else
+                        {
+                            userMail.ApprovalStatus = groupMembership.approval;
+                        }
                     }
                 }
                 else if(mail.mail_type == MailType.MeetingRequest)
@@ -104,6 +117,7 @@ namespace HCI.Models
         public int GroupID { get; set; }
         public string GroupName { get; set; }
 
+        public string ApprovalStatus { get; set; }
         public int MeetingId { get; set; }
         public string MeetingTitle { get; set; }
         public int GroupMembershipID { get; set; }

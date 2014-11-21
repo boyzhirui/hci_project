@@ -9,16 +9,16 @@ using HCI.Utils;
 
 namespace HCI.Controllers
 {
-    public class GroupMembershipWebAPIController : ApiController
+    public class GroupApprovalWebAPIController : ApiController
     {
 
-        public void Post(int userId, int groupId, string status)
+        public void Post(int membershipID, string status)
         {
             using(HciDb ctx = new HciDb())
             {
                 string aprvl = status;
 
-                GroupMembership membership = ctx.GroupMemberships.Where(x => x.user_id == userId && x.group_id == groupId).FirstOrDefault();
+                GroupMembership membership = ctx.GroupMemberships.Where(x => x.id == membershipID).FirstOrDefault();
                 if (membership != null)
                 {
                     membership.approval = aprvl;
