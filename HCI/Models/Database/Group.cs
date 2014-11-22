@@ -7,6 +7,7 @@ namespace HCI.Models.Database
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
     using System.Linq;
+    using System.Text;
 
     [Table("groups")]
     public partial class Group
@@ -64,6 +65,83 @@ namespace HCI.Models.Database
         public bool IsMember(int userID)
         {
             return GroupMemberships.Any(x => x.user_id == userID);
+        }
+
+        [NotMapped]
+        public IList<string> MeetingDescriptions
+        {
+            get
+            {
+                List<string> list = new List<string>();
+                StringBuilder sb = new StringBuilder();
+                foreach (var mtg in this.Meetings.Where(x=> x.interval_type != Consts.IntervalType.OneDay))
+                {
+                    sb.Clear();
+                    string start = string.Empty;
+                    string end = string.Empty;
+
+                    if (mtg.start_time.Hours < 10)
+                    {
+                        start = "0" + mtg.start_time.Hours.ToString();
+                    }
+                    else
+                    {
+                        start = mtg.start_time.Hours.ToString();
+                    }
+
+                    if (mtg.start_time.Minutes < 10)
+                    {
+                        start = start + ":0" + mtg.start_time.Minutes.ToString();
+                    }
+                    else
+                    {
+                        start = start + ":" + mtg.start_time.Minutes.ToString();
+                    }
+
+                    if (mtg.end_time.Hours < 10)
+                    {
+                        end = "0" + mtg.end_time.Hours.ToString();
+                    }
+                    else
+                    {
+                        end = mtg.end_time.Hours.ToString();
+                    }
+
+                    if (mtg.end_time.Minutes < 10)
+                    {
+                        end = end + ":0" + mtg.end_time.Minutes.ToString();
+                    }
+                    else
+                    {
+                        end = end + ":" + mtg.end_time.Minutes.ToString();
+                    }
+
+                    sb.Append(mtg.name).Append(": ");
+                    sb.Append(start).Append(" ~ ").Append(end).Append(" (");
+                    if (mtg.interval_type == Consts.IntervalType.Week)
+                    {
+                        sb.Append("Weekly on ").Append(mtg.occur_day);
+                    }
+                    else if (mtg.interval_type == Consts.IntervalType.Month)
+                    {
+                        sb.Append("Monthly on day ").Append(mtg.occur_day);
+                    }
+                    else
+                        {
+                        sb.Append("Daily");
+                    }
+
+                    
+                    if (mtg.end_date < DateTime.MaxValue.Date)
+                    {
+                        sb.Append(" until ").Append(mtg.end_date.ToString("yyyy-MM-dd"));
+                    }
+
+                    sb.Append(")");
+                    list.Add(sb.ToString());
+                }
+                return list;
+            }
         }
     }
 }

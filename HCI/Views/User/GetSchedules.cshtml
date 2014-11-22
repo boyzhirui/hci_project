@@ -135,7 +135,7 @@
                     var modalWin = $('#meetingModal');
                     modalWin.find('#title').text(calEvent.title);
 
-                    var time = calEvent.start.format('YYYY-MM-DD HH:mm') + ' ~ ' + calEvent.end.format('YYYY-MM-DD HH:mm');
+                    var time = calEvent.start.format('YYYY-MM-DD HH:mm') + ' ~ ' + calEvent.end.format('HH:mm');
                     modalWin.find('#time').text(time);
 
                     modalWin.find('#location').text(location);
@@ -245,7 +245,7 @@
             <div class="modal-footer">
                 <div class="col-md-12">
                     <button type="button" class="btn btn-danger col-md-5" data-dismiss="modal" id="cancelSeriesBtn">Cancel the Meeting Series</button>
-                    <button type="button" class="btn btn-danger col-md-4" data-dismiss="modal" id="cancelBtn">Cancel the Meeting</button>
+                    <button type="button" class="btn btn-warning col-md-4" data-dismiss="modal" id="cancelBtn">Cancel the Meeting</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal" id="closeBtn">Close</button>
                 </div>
             </div>
