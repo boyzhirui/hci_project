@@ -36,5 +36,52 @@ namespace HCI.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public ActionResult CreateGroup()
+        {
+            CreateGroupModel model;
+            using (HciDb ctx = new HciDb())
+            {
+                model = new CreateGroupModel();
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult CreateGroup(CreateGroupModel model)
+        {
+            string userName = User.Identity.Name;
+            bool success = false;
+            Exception e = null;
+            try
+            {
+
+                using (HciDb ctx = new HciDb())
+                {
+                    model.Save(ctx, userName);
+                }
+                success = true;
+            }
+            catch (Exception ex)
+            {
+                e = ex;
+            }
+
+            CreateGroupResultModel rstModel = new CreateGroupResultModel
+            {
+                Success = success,
+                GroupName = model.newGroup.name,
+                ErrorMessage = success ? string.Empty : e.ToString()
+            };
+
+            return RedirectToAction("CreateGroupResult", rstModel);
+        }
+
+        [HttpGet]
+        public ActionResult CreateGroupResult(CreateGroupResultModel model)
+        {
+            return View(model);
+        }
     }
 }
