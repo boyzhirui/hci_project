@@ -7,12 +7,12 @@ using HCI.Models.Database;
 
 namespace HCI.Models
 {
-    public class UserGroupDetailModel:ModelBase
+    public class UserGroupDetailModel : ModelBase
     {
 
         //1.get all group member
         public IList<User> UserModel { get; set; }
-        
+
         //2.get all group events
         public IList<Meeting> MeetingModel { get; set; }
 
@@ -24,12 +24,13 @@ namespace HCI.Models
 
         }
 
-        public UserGroupDetailModel(HciDb ctx): base(ctx)
+        public UserGroupDetailModel(HciDb ctx)
+            : base(ctx)
         {
-            EventModel=new UserEventListModel(ctx);
+            EventModel = new UserEventListModel(ctx);
         }
 
-        public void InitLiset(int groupID,DateTime start,DateTime end)
+        public void InitLiset(int groupID, DateTime start, DateTime end)
         {
             Group group = Context.Groups
                                 .Include("GroupMemberships")
@@ -39,7 +40,7 @@ namespace HCI.Models
                                 .Include("GroupMemberships.Group.RelGroupsStudyfields")
                                 .Include("GroupMemberships.Group.RelGroupsStudyfields.StudyField")
                                 .Where(x => x.id == groupID).FirstOrDefault();
-            if(group!=null)
+            if (group != null)
             {
                 Group = group;
                 if (group.Meetings != null)
@@ -73,7 +74,23 @@ namespace HCI.Models
             else
             {
                 Group = new Group();
-            }     
+            }
         }
+
+        public void InitGroup(int groupID)
+        {
+            Group = Context.Groups
+                                .Include("GroupMemberships")
+                                .Include("GroupMemberShips.User")
+                                .Include("GroupMemberships.Group")
+                                .Include("GroupMemberships.Group.Owner")
+                                .Include("GroupMemberships.Group.RelGroupsStudyfields")
+                                .Include("GroupMemberships.Group.RelGroupsStudyfields.StudyField")
+                                .Where(x => x.id == groupID).FirstOrDefault();
+
+             
+        }
+
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using HCI.Models.Database;
+﻿using HCI.Models;
+using HCI.Models.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,19 @@ namespace HCI.Controllers
 {
     public class MeetingWebAPIController : ApiController
     {
-        public void Post(int eventID, string start, string end)
+        public MeetingInfo Get(int meetingID)
         {
+            MeetingModel model = null;
 
+            using (HciDb ctx = new HciDb())
+            {
+                model = new MeetingModel(ctx);
+                model.InitMeeting(meetingID);
+            }
+
+            return model.MeetingInfo;
         }
+
 
         public void Delete(int eventID)
         {

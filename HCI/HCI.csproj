@@ -177,6 +177,7 @@
     <Compile Include="Controllers\EventListController.cs" />
     <Compile Include="Controllers\GroupApprovalWebAPIController.cs" />
     <Compile Include="Controllers\GroupMembershipWebAPIController.cs" />
+    <Compile Include="Controllers\GroupWebAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\MailBoxController.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Controllers\MeetingWebAPIController.cs" />
     <Compile Include="Controllers\TestWebAPIController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserWebAPIController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -245,6 +247,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LocationModel.cs" />
     <Compile Include="Models\MailModel.cs" />
+    <Compile Include="Models\MeetingModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\QuitGroupResultModel.cs" />
     <Compile Include="Models\ScheduleMeetingModel.cs" />

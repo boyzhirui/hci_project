@@ -31,6 +31,14 @@ namespace HCI.Models
                         .Where(x => x.name == userName).First();          
         }
 
+        public void getUserInfo(int userID)
+        {
+            user = Context.Users
+                       .Include("Major")
+                       .Include("DegreeLevel")
+                       .Where(x => x.id == userID).First();
+        }
+
         public User getUserInfo(string userName,int id)
         {
             user = Context.Users
