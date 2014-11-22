@@ -1,0 +1,254 @@
+﻿@model HCI.Models.CreateGroupModel
+@{
+    ViewBag.Title = "CreateGroup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create New Group</h2>
+
+<style>
+    .list-item-min-height {
+        height: 40px;
+        padding-top: 5px;
+    }
+
+    .list-item-max-height {
+        height: 100px;
+        padding-top: 5px;
+    }
+
+    .form-control {
+        height: 30px;
+    }
+
+    input {
+        max-width: 270px;
+    }
+
+    textarea {
+        max-width: 560px;
+        resize:none;
+    }
+    .input-group-btn{
+        padding-left:0px;
+    }
+    .dropdown-toggle{
+        padding-top:4px;
+        padding-bottom:4px;
+    }
+    .study-field-hight{
+        height:120px;
+    }
+</style>
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap-datepicker")
+    <script type="text/javascript">
+        function getStudyField(sender)
+        {
+            var sf = sender.textContent;
+            $('#studyField').val(sf);
+        }
+        function getStudyField2(sender) {
+            var sf = sender.textContent;
+            $('#studyField2').val(sf);
+        }
+        function getStudyField3(sender) {
+            var sf = sender.textContent;
+            $('#studyField3').val(sf);
+        }
+
+        $(document).ready(function ($) {
+            $(function () {
+                $("#studyField-container").delegate("#addLink", "click",
+                    function (evt) {
+                        var newCondtionGroup = $('#studyField-container-model').clone(true);
+                        var conditionGroup = $(this).parent().parent();
+
+                        conditionGroup.after(newCondtionGroup);
+                        newCondtionGroup.prop('hidden', false);
+
+                    });
+
+                $("#studyField-container").delegate("#removeLink", "click",
+                    function (evt) {
+                        var conditionGroup = $(this).parent().parent();
+                        conditionGroup.remove();
+                    });
+            })
+        });
+    </script>
+}
+<div class="container body-content">
+
+    <div class="row">
+        <div class="panel panel-primary" id="panel">
+            <div class="panel-heading" id="heading">
+                GROUP INFORMATION
+            </div>
+            @using (Html.BeginForm("CreateGroup", "Group", FormMethod.Post))
+            {
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <ul class="list-group">
+                            <li class="list-group-item list-item-min-height">
+                                <div class="col-md-2" id="groupName">
+                                    <b>Group Name(*):</b>
+                                </div>
+                                <div class="col-md-10" id="groupNameValue">
+                                    <div class="col-md-4" style="padding-left:0px">
+                                        @Html.TextBoxFor(m => m.newGroup.name, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.ValidationMessageFor(m => m.newGroup.name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-item-max-height">
+                                <div class="col-md-2">
+                                    <b>Description (*):</b>
+                                    <p>(Less than 500 characters)</p>
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="col-md-4" style="padding-left:0px">
+                                        @Html.TextAreaFor(m => m.newGroup.description, htmlAttributes: new { @class = "form-control", @rows = "3" })
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.ValidationMessageFor(m => m.newGroup.description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item study-field-hight">
+                                <div class="row">
+                                    <div id="studyField-container">
+                                        <div class="col-md-2">
+                                            <b>Study Fields (*):</b>
+                                        </div>
+                                        <div class="col-md-4" style="padding-left:23px">
+                                            <div class="input-group">
+                                                <input type="text" id="studyField" name="fieldName" class="col-md-6 form-control" style="padding-left:12px; width:170px;">
+                                                <div class="input-group-btn col-md-4">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Study Field<span class="caret"></span></button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a onclick="getStudyField(this)">Computer Engineering</a></li>
+                                                        <li><a onclick="getStudyField(this)">Computer Science</a></li>
+                                                        <li><a onclick="getStudyField(this)">Mathematics</a></li>
+                                                    </ul>
+                                                </div><!-- /btn-group -->
+                                            </div><!-- /input-group -->
+                                            <div class="col-md-8">
+                                                @Html.ValidationMessageFor(m => m.newGroup.description, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top: 7px;">
+                                            <a href="javascript:void(0)" id="addLink" hidden>Add another Study Field</a>
+                                            <a href="javascript:void(0)" id="removeLink" hidden>Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div>
+                                        <div class="col-md-2">
+                                            <b></b>
+                                        </div>
+                                        <div class="col-md-4" style="padding-left:23px">
+                                            <div class="input-group">
+                                                <input type="text" id="studyField2" class="col-md-6 form-control" style="padding-left:12px; width:170px;">
+                                                <div class="input-group-btn col-md-4">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Study Field<span class="caret"></span></button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a onclick="getStudyField2(this)">Computer Engineering</a></li>
+                                                        <li><a onclick="getStudyField2(this)">Computer Science</a></li>
+                                                        <li><a onclick="getStudyField2(this)">Mathematics</a></li>
+                                                    </ul>
+                                                </div><!-- /btn-group -->
+                                            </div><!-- /input-group -->
+                                            <div class="col-md-8">
+                                                @Html.ValidationMessageFor(m => m.newGroup.description, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top: 7px;">
+                                            <a href="javascript:void(0)" id="addLink" hidden>Add another Study Field</a>
+                                            <a href="javascript:void(0)" id="removeLink" hidden>Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="studyField-container-model">
+                                    <div>
+                                        <div class="col-md-2">
+                                            <b></b>
+                                        </div>
+                                        <div class="col-md-4" style="padding-left:23px">
+                                            <div class="input-group">
+                                                <input type="text" id="studyField3"  class="col-md-6 form-control" style="padding-left:12px; width:170px;">
+                                                <div class="input-group-btn col-md-4">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Study Field<span class="caret"></span></button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a onclick="getStudyField3(this)">Computer Engineering</a></li>
+                                                        <li><a onclick="getStudyField3(this)">Computer Science</a></li>
+                                                        <li><a onclick="getStudyField3(this)">Mathematics</a></li>
+                                                    </ul>
+                                                </div><!-- /btn-group -->
+                                            </div><!-- /input-group -->
+                                            <div class="col-md-8">
+                                                @Html.ValidationMessageFor(m => m.newGroup.description, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="padding-top: 7px;">
+                                            <a href="javascript:void(0)" id="addLink" hidden>Add another Study Field</a>
+                                            <a href="javascript:void(0)" id="removeLink" hidden>Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-item-min-height">
+                                <div class="col-md-2">
+                                   Course Number:
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="col-md-4" style="padding-left:0px">
+                                        @Html.TextBoxFor(m => m.newGroup.course_no, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item list-item-min-height">
+                                <div class="col-md-2">
+                                   Group Type:
+                                </div>
+                                <div class="col-md-10">
+                                    <select class="form-control" name="newGroup.is_closed">
+                                        <option value="0">Open</option>
+                                        <option value="1">Close</option>
+                                    </select>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item list-item-min-height">
+                                <div class="col-md-2">
+                                    Maximum Number:
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="col-md-4" style="padding-left:0px">
+                                        <input type="text" value="10" name="newGroup.max_member_number" class="form-control" />
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-offset-2 col-md-7">
+                            <button type="submit" class="col-md-2 btn btn-success">Create</button>
+                            <div class="col-md-2">
+                            </div><button type="reset" id="btReset" class="col-md-2 btn btn-danger">Reset</button>
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

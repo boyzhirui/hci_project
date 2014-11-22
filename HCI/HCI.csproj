@@ -228,7 +228,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CreateGroupModel.cs" />
     <Compile Include="Models\Database\AspNetUser.cs" />
+    <Compile Include="Models\CreateGroupResultModel.cs" />
     <Compile Include="Models\Database\DegreeLevels.cs" />
     <Compile Include="Models\Database\Event.cs" />
     <Compile Include="Models\Database\Group.cs" />
@@ -444,6 +446,8 @@
     <Content Include="Views\User\UserUpdateInfo.cshtml" />
     <Content Include="Views\MailBox\Index.cshtml" />
     <Content Include="Views\User\EventDetail.cshtml" />
+    <Content Include="Views\Group\CreateGroup.cshtml" />
+    <Content Include="Views\Group\CreateGroupResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
