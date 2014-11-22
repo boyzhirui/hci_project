@@ -175,11 +175,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AvailableLocationController.cs" />
     <Compile Include="Controllers\EventListController.cs" />
+    <Compile Include="Controllers\GroupApprovalWebAPIController.cs" />
     <Compile Include="Controllers\GroupMembershipWebAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\MailBoxController.cs" />
     <Compile Include="Controllers\MailBoxWebAPIController.cs" />
+    <Compile Include="Controllers\MeetingWebAPIController.cs" />
     <Compile Include="Controllers\TestWebAPIController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -390,6 +392,7 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

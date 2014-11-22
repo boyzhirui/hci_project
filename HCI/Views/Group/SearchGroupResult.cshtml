@@ -1,4 +1,6 @@
-﻿@model HCI.Models.SearchGroupResultModel
+﻿@using System.Text
+@model HCI.Models.SearchGroupResultModel
+
 
 @{
     ViewBag.Title = "Search Group Result";
@@ -167,6 +169,35 @@
                             <div class="col-md-8">
                                 @group.course_no
                             </div>
+                        </li>
+
+                        @{
+                        int height = 20 * (group.MeetingDescriptions.Count + 1);
+                        if (height < 40)
+                        { 
+                            height = 40;
+                        }
+                        string heightPx = height.ToString() + "px";
+                        }                               
+                        <li class="list-group-item list-item-min-height" style="height:@heightPx">
+                            
+                            <div class="col-md-4">
+                                Regular meetings:
+                            </div>
+                            <span class="col-md-8">
+                                @{
+                                    StringBuilder mtgDesc = new StringBuilder();
+                                    foreach(var desc in group.MeetingDescriptions)
+                                    {
+                                        if (mtgDesc.Length > 0)
+                                        {
+                                            mtgDesc.Append("<br>");
+                                        }
+                                        mtgDesc.Append(desc);
+                                    }
+                                }
+                                @Html.Raw(mtgDesc.ToString())
+                            </span>
                         </li>
                         <li class="list-group-item list-item-min-height">
                             <div class="col-md-4">

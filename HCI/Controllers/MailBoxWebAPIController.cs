@@ -11,7 +11,7 @@ namespace HCI.Controllers
 {
     public class MailBoxWebAPIController : ApiController
     {
-        public int Get(string userName)
+        public int Get(string userName, string type)
         {
             int unreadCnt = 0;
             using (HciDb ctx = new HciDb())
@@ -19,7 +19,18 @@ namespace HCI.Controllers
                 User user = ctx.Users.Where(x => x.name == userName).FirstOrDefault();
                 if (user != null)
                 {
-                    unreadCnt = ctx.Mails.Where(x => x.receiver_id == user.id && x.readed == Utils.YesNo.No).Count();
+                    if (type == "ALL")
+                    {
+                        unreadCnt = ctx.Mails.Where(x => x.receiver_id == user.id && x.readed == Utils.YesNo.No).Count();
+                    }
+                    else if (type == "JoinRequest")
+                    {
+                        unreadCnt = ctx.Mails.Where(x => x.receiver_id == user.id && x.mail_type == MailType.JoinRequest && x.readed == Utils.YesNo.No).Count();
+                    }
+                    else if (type == "MeetingRequest")
+                    {
+                        unreadCnt = ctx.Mails.Where(x => x.receiver_id == user.id && x.mail_type == MailType.MeetingRequest && x.readed == Utils.YesNo.No).Count();
+                    }
                 }
             }
             return unreadCnt;

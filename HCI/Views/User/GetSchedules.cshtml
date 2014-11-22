@@ -6,18 +6,47 @@
 <h2>My Schedules</h2>
 
 @section css{
-    @Styles.Render("~/Content/fullcalendar_css")
+    @*Styles.Render("~/Content/fullcalendar_css")*@
+    
+    <link rel='stylesheet' href="@Url.Content("~/Content/fullcalendar.css")" />
+
+    <style>
+    .list-item-min-height {
+        height: 40px;
+        padding-right:0px;
+        }
+
+    .invisible {
+        display:none;
+    }
+    </style>
+
 }
 
 @section scripts{
-    @Scripts.Render("~/bundles/fullcalendar_js")
+    <script src="@Url.Content("~/Scripts/moment.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/fullcalendar.js")"></script>
+    @*Scripts.Render("~/bundles/fullcalendar_js")*@
 
 <script>
+    var meetingPatt = /^meeting_/;
+    var userName = $('#userName').text();
+
     function getDateString(date)
     {
-        var dd = date.getDate();
-        var mm = date.getMonth() + 1; //January is 0!
-        var yyyy = date.getFullYear();
+        var dd, mm, yyyy;
+
+        if (date.getDate) {
+            dd = date.getDate();
+            mm = date.getMonth() + 1; //January is 0!
+            yyyy = date.getYear();
+        }
+        else
+        {
+            dd = date.date();
+            mm = date.month() + 1; //January is 0!
+            yyyy = date.year();
+        }
 
         if (dd < 10) {
             dd = '0' + dd
@@ -33,8 +62,8 @@
 
     $(document).ready(function () {
         
-        today = getDateString(new Date());
-
+        //today = getDateString(new Date());
+        var today = new moment(new Date());
         $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -45,7 +74,7 @@
             defaultDate: today,
             editable: true,
             eventLimit: true, // allow "more" link when too many events
-            events: function (start, end, callback) {
+            events: function (start, end, timezone, callback) {
                 var startStr = getDateString(start);
                 var endStr = getDateString(end);
                 $.ajax({
@@ -61,6 +90,8 @@
                         var events = [];
                         var i =0;
                         var color = "#9A9CFF";
+                        var eventlist = $('#eventList');
+                        eventlist.empty();
 
                         for (i = 0; i < data.length; i++)
                         {
@@ -69,29 +100,158 @@
                             }
                             else
                             {
-                                color = "#9A9CFF"
+                                color = "#9A9CFF";
                             }
                             events.push({
                                 title: data[i].Title,
                                 start: data[i].Start,
                                 end: data[i].End,
                                 color: color,
-                                allDay: false
-                            })
+                                allDay: false,
+                                id: data[i].UniqueID
+                            });
+                            var uid = data[i].UniqueID;
+                            var eventDiv = $('<div id="' + uid + '"/>');
+                            eventDiv.append($('<span id="location"/>').text(data[i].LocationAddress));
+                            eventDiv.append($('<span id="description"/>').text(data[i].Description));
+                            eventDiv.append($('<span id="peroidic"/>').text(data[i].IsPeriodic));
+                            eventDiv.append($('<span id="eventID"/>').text(data[i].EventID));
+                            eventDiv.append($('<span id="ownerName"/>').text(data[i].OwnerName));
+                            eventDiv.appendTo(eventlist);
                         }
                         callback(events);
                     }
                 });
+            },
+            eventClick: function (calEvent, jsEvent, view) {
+                if (meetingPatt.test(calEvent.id))
+                {
+                    var location = $('#eventList #' + calEvent.id + ' #location').text();
+                    var description = $('#eventList #' + calEvent.id + ' #description').text();
+                    var peroidic = $('#eventList #' + calEvent.id + ' #peroidic').text();
+                    var eventID = $('#eventList #' + calEvent.id + ' #eventID').text();
+                    var ownerName = $('#eventList #' + calEvent.id + ' #ownerName').text();
+
+                    var modalWin = $('#meetingModal');
+                    modalWin.find('#title').text(calEvent.title);
+
+                    var time = calEvent.start.format('YYYY-MM-DD HH:mm') + ' ~ ' + calEvent.end.format('HH:mm');
+                    modalWin.find('#time').text(time);
+
+                    modalWin.find('#location').text(location);
+                    modalWin.find('#description').text(description);
+                    modalWin.find('#peroidic').text(peroidic);
+                    modalWin.find('#eventID').text(eventID);
+                    modalWin.find('#uid').text(calEvent.id);
+
+                    modalWin.find('#cancelBtn').addClass('invisible');
+                    modalWin.find('#cancelSeriesBtn').addClass('invisible');
+
+                    if (ownerName == userName) {
+                        if (peroidic == 'true') {
+                            modalWin.find('#cancelSeriesBtn').removeClass('invisible');
+                        }
+                        modalWin.find('#cancelBtn').removeClass('invisible');
+                    }
+                    
+                    modalWin.modal('show');
+                }
+                
+
             }
         });
 
+        $('#meetingModal').on('click', '#cancelBtn', function () {
+            var uid = $('#meetingModal #uid').text();
+
+            $('#calendar').fullCalendar('removeEvents', uid);
+        });
+
+        $('#meetingModal').on('click', '#cancelSeriesBtn', function () {
+            var eventID = $('#meetingModal #eventID').text();
+
+            $.ajax({
+                url: '/HCI/api/MeetingWebAPI?eventID=' + eventID,
+                dataType: 'json',
+                type: 'DELETE',
+                success: function (data) {
+                    $('#calendar').fullCalendar('refetchEvents');
+                }
+            });
+
+        });
     });
 
 </script>
 }
+<div id="userName" class="invisible">@User.Identity.Name</div>
 
 <div id='calendar'></div>
 
+<div id="eventList" style="display:none">
+
+</div>
+
+
+<div class="modal" id="meetingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="invisible" id="uid"></div>
+    <div class="invisible" id="peroidic"></div>
+    <div class="invisible" id="eventID"></div>
+    <div class="modal-backdrop fade in"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Meeting Information</h4>
+            </div>
+            <div class="modal-body" id="event-modalBody">
+
+                <div class="panel panel-primary" id="meetingDetails">
+
+                    <div class="panel-heading">
+                        <h1 class="panel-title" id="title"></h1>
+                    </div>
+                    <div class="panel-body" id="event-panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-4" style="font-weight:bold">
+                                            Time:
+                                        </div>
+                                        <div class="col-md-8" id="time">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-4" style="font-weight:bold">
+                                            Location:
+                                        </div>
+                                        <div class="col-md-8" id="location">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-4" style="font-weight:bold">
+                                            Meeting Description:
+                                        </div>
+                                        <div class="col-md-8" id="description">
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-danger col-md-5" data-dismiss="modal" id="cancelSeriesBtn">Cancel the Meeting Series</button>
+                    <button type="button" class="btn btn-warning col-md-4" data-dismiss="modal" id="cancelBtn">Cancel the Meeting</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="closeBtn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @*
 @foreach (var _event in Model.Events)
 {

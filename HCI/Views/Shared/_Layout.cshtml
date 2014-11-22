@@ -81,7 +81,7 @@
             var mailBoxBadge = $('#badge');
 
             $.ajax({
-                url: '/HCI/api/MailBoxWebAPI?userName=' + "@User.Identity.Name",
+                url: '/HCI/api/MailBoxWebAPI?userName=' + "@User.Identity.Name" + "&type=ALL",
                 dataType: 'json',
                 success: function (data) {
                     

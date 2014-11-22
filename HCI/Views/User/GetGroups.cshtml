@@ -1,4 +1,5 @@
-﻿@model HCI.Models.UserGroupListModel
+﻿@using System.Text
+@model HCI.Models.UserGroupListModel
 
 @{
     ViewBag.Title = "My Groups";
@@ -42,7 +43,7 @@
                     @Html.ActionLink(group.name, actionName: "GroupDetail", controllerName: "User", routeValues: new { ID = group.id }, htmlAttributes: new object())
                 </div>
                 <div class="panel-body">
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <ul class="list-group">
                             <li class="list-group-item list-item-min-height">
                                 <div class="col-md-4" id="descLabel">
@@ -68,10 +69,40 @@
                                     @group.course_no
                                 </div>
                             </li>
+
+                            @{
+                                int height = 20 * (group.MeetingDescriptions.Count + 1);
+                                if (height < 40)
+                                {
+                                    height = 40;
+                                }
+                                string heightPx = height.ToString() + "px";
+                            }
+                            <li class="list-group-item list-item-min-height" style="height:@heightPx">
+
+                                <div class="col-md-4">
+                                    Regular meetings:
+                                </div>
+                                <span class="col-md-8">
+                                    @{
+                                        StringBuilder mtgDesc = new StringBuilder();
+                                        foreach (var desc in group.MeetingDescriptions)
+                                        {
+                                            if (mtgDesc.Length > 0)
+                                            {
+                                                mtgDesc.Append("<br>");
+                                            }
+                                            mtgDesc.Append(desc);
+                                        }
+                                    }
+                                    @Html.Raw(mtgDesc.ToString())
+                                </span>
+                            </li>
+
+
                             <li class="list-group-item list-item-min-height">
                                 <div class="col-md-4">
                                     Closed Group:
-                                    
                                 </div>
                                 <div class="col-md-8">
                                     @group.is_closed.ToString()
@@ -101,7 +132,7 @@
                             
                         </ul>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div style="height:40px">
                             @if (group.IsOwner(User.Identity.Name))
                             {

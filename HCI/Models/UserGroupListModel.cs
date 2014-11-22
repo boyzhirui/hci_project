@@ -29,6 +29,7 @@ namespace HCI.Models
             User user = Context.Users
                                 .Include("GroupMemberships")
                                 .Include("GroupMemberships.Group")
+                                .Include("GroupMemberships.Group.Meetings")
                                 .Include("GroupMemberships.Group.Owner")
                                 .Include("GroupMemberships.Group.RelGroupsStudyfields")
                                 .Include("GroupMemberships.Group.RelGroupsStudyfields.StudyField")
