@@ -26,22 +26,22 @@ namespace HCI.Models
             Queries = queries;
             Groups = new List<Group>();
             var user = Context.Users.Include("GroupMemberships").Where(x => x.name == userName).First();
+            var groupIDs = user.GroupMemberships.Select(x => x.group_id).ToList();
             UserID = user.id;
 
             if (!queries.IsAdvancedSearch)
             {
-                
                 string keyword = Queries.GeneralSearchKeyword;
                 Groups = Context.Groups.Include("Owner")
                               .Include("RelGroupsStudyfields.StudyField")
                               .Include("Meetings")
                               .Include("GroupMemberships")
-                              .Where(x => x.course_no.Contains(keyword) 
+                              .Where(x => !groupIDs.Contains(x.id) && (x.course_no.Contains(keyword) 
                                   || x.name.Contains(keyword) 
                                   || x.Owner.name.Contains(keyword)
                                   || x.RelGroupsStudyfields.Any(s=>s.StudyField.name.Contains(keyword))
                                   || x.description.Contains(keyword)
-                                  || x.course_no.Contains(keyword))
+                                  || x.course_no.Contains(keyword)))
                               .ToList();
             }
             else
@@ -94,7 +94,7 @@ namespace HCI.Models
                         }
                     }
 
-                    Groups = Groups.Distinct(new GroupComparer()).ToList();
+                    Groups = Groups.Where(x=> !groupIDs.Contains(x.id)).Distinct(new GroupComparer()).ToList();
 
                 }
             }
@@ -112,6 +112,7 @@ namespace HCI.Models
         {
             return Context.Groups.Include("Owner")
                               .Include("RelGroupsStudyfields.StudyField")
+                              .Include("GroupMemberships")
                               .Include("Meetings")
                               .Where(GetLambda(query));
         }
