@@ -26,11 +26,14 @@ namespace HCI.Models
         {
             EventModel.InitList(userName, start, end);
             GroupModel.InitList(userName);
-            DateTime startDay;
+            DateTime startDay,endDay;
             for(int i=0;i<EventModel.Events.Count;i++)
             {
                startDay=DateTime.Parse(EventModel.Events[i].Start);
                EventModel.Events[i].Start = String.Format("{0:MM/dd/yyyy HH:mm}", startDay);
+
+               endDay = DateTime.Parse(EventModel.Events[i].End);
+               EventModel.Events[i].End = String.Format("{0:HH:mm}", endDay);
             }
         }
     }

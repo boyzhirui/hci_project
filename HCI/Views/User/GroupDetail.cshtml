@@ -116,8 +116,50 @@
                             <td>
                                 @group.Owner.name
                             </td>
-                        </tr>
+                        </tr>                                          
                 </table>
+                <div class="col-md-12">
+                    <div style="height:40px" id="quitGroupBtn">
+                        <div id="groupId" style="display:none">@group.id</div>
+
+                        @if (group.IsOwner(User.Identity.Name))
+                        {
+                                @Html.Hidden("groupId", group.id)
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary" style="min-width:150px" data-toggle="modal" data-target="#QuitGroupConfirmation" onclick="quitGroupPreparation(this)">
+                                    Edit
+                                </button>
+                            </div>
+
+                            <div class="col-md-offset-1 col-md-4">
+                                @using (Html.BeginForm("ScheduleMeeting", "User", FormMethod.Get))
+                                {
+                                        @Html.Hidden("groupId", group.id)
+                                        <button type="submit" class="btn btn-default" style="min-width:150px">
+                                            Schedule a Meeting
+                                        </button>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary"disabled style="min-width:150px" data-toggle="modal" data-target="#QuitGroupConfirmation" onclick="quitGroupPreparation(this)">
+                            Edit
+                            </button>
+                                </div>
+                            <div class="col-md-offset-1 col-md-4">
+                            <button type="submit" class="btn btn-default" style="min-width:150px" disabled>
+                                Schedule a Meeting
+                            </button>
+                                </div>
+                        }
+
+
+                        
+                    </div>    
+                </div>
+
             </div>
         </div>
     </div>
@@ -202,10 +244,7 @@
                             <div class="modal-body" id="event-modalBody">
                                
                                 @foreach (var EventModel in Model.EventModel.Events.OrderBy(x => x.Start).Take(7))
-                                {
-                                
-    
-                                       
+                                {                                                               
                                   
                                     string event_detail_id_str = "EventDetail" + @event_detail_id++.ToString();
 
@@ -253,6 +292,9 @@
                                     }
                             </div>
                             <div class="modal-footer">
+                                <button type="button" class="btn btn-danger col-md-5" data-dismiss="modal" id="cancelSeriesBtn">Cancel the Meeting Series</button>
+                                <button type="button" class="btn btn-warning col-md-4" data-dismiss="modal" id="cancelBtn">Cancel the Meeting</button>
+
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                         </div>

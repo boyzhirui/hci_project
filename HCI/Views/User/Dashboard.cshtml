@@ -4,6 +4,11 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@{
+    int event_id = 0;
+    int event_detail_id = 0;
+}
 <style>
     .row{
         margin-left:0;
@@ -13,7 +18,35 @@
     {
         padding-left:0;
     }
+        .list-item-min-height {
+        height: 50px;
+    }
+
+    .edit-input {
+        display: none;
+    }
 </style>
+@section scripts{
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#EventList").on("click", "#link-event", function () {
+            var id = $(this).prev("#eventID").text();
+            var EventDetail = "#EventDetail" + id;
+            $('.hide-all-event').hide();
+            $('#cancelSeriesBtn').addClass("edit-input");
+            $('#cancelBtn').addClass("edit-input");
+            $(EventDetail).show();
+            var eventOwner = '#eventOwner' + (Number(id) + 1);
+            if($(eventOwner).length > 0)
+            {
+                $('#cancelSeriesBtn').removeClass("edit-input");
+                $('#cancelBtn').removeClass("edit-input");
+            }
+        })
+    })
+</script>
+    }
+
 
 <h2>Dashboard</h2>
 
@@ -32,7 +65,7 @@
                             </td>
                         </tr>
                     }
-                    </table>
+                </table>
             </div>
             </div>
                 
@@ -40,7 +73,7 @@
     <div class="col-md-6" id="events">
         <div class="panel panel-primary">
             <div class="panel-heading" id="groupName">My Events</div>
-            <div class="panel-body" id="Eventlist">
+            <div class="panel-body" id="EventList">
                 <table class="table table-hover">
                     @foreach(var userEvent in Model.EventModel.Events.OrderBy(x=>x.Start).Take(7))
                     {
@@ -49,11 +82,87 @@
                                 <b>@userEvent.Start</b>
                             </td>
                             <td>
-                                <a href="#">@userEvent.Title</a>
+                                <p hidden id="eventID">@event_id</p>
+                                @{
+                        event_id++;
+                                }
+                                <a id="link-event" data-toggle="modal" data-target="#eventModal">@userEvent.Title</a>
                             </td>
                         </tr>
                     }
                 </table>
+
+                <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Event Information</h4>
+                            </div>
+                            <div class="modal-body" id="event-modalBody">
+
+                                @foreach (var EventModel in Model.EventModel.Events.OrderBy(x => x.Start).Take(7))
+                                {
+                                    string event_detail_id_str = "EventDetail" + @event_detail_id++.ToString();
+
+                                    <div hidden class="panel panel-primary hide-all-event" id="@event_detail_id_str">
+
+                                        <div class="panel-heading">
+                                            <h1 class="panel-title">@EventModel.Title</h1>
+                                        </div>
+                                        <div class="panel-body" id="event-panel-body">
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item list-item-min-height">
+                                                            <div class="col-md-4">
+                                                                Time:
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label>@EventModel.Start&nbsp;~&nbsp;@EventModel.End</label>
+                                                            </div>
+                                                        </li>
+                                                        <li class="list-group-item list-item-min-height">
+                                                            <div class="col-md-4">
+                                                                Location:
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label>@EventModel.LocationAddress</label>
+                                                            </div>
+                                                        </li>
+                                                        <li class="list-group-item list-item-min-height">
+                                                            <div class="col-md-4">
+                                                                Meeting Description:
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label>@EventModel.Description</label>
+                                                            </div>
+                                                        </li>
+                                                        @{
+                                                             string eventOwner = "eventOwner" + @event_detail_id.ToString();
+                                                        }
+                                                        @if(EventModel.OwnerName==User.Identity.Name)
+                                                        {
+                                                            <li hidden id="@eventOwner">
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                           
+                                }
+                            </div>
+                            <div class="modal-footer">                     
+                                <button type="button" class="btn btn-danger col-md-5 edit-input" data-dismiss="modal" id="cancelSeriesBtn" >Cancel the Meeting Series</button>
+                                <button type="button" class="btn btn-warning col-md-4 edit-input" data-dismiss="modal" id="cancelBtn" >Cancel the Meeting</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
