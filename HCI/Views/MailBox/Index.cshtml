@@ -51,7 +51,7 @@
                 {
                     boldStyle = "bold";
                 }
-                <tr class="@boldStyle">
+                <tr class="@boldStyle" id="message">
                     @Html.Hidden("senderID", mail.SenderID)
                     @Html.Hidden("mailID", mail.MailID)
                     @Html.Hidden("groupID", mail.GroupID)
@@ -67,7 +67,7 @@
                     </td>
                     <td id="messageCell" >
                         <div>
-                            <a href="javascript:void(0)" id="user">
+                            <a href="javascript:void(0)" id="sender">
                                 @mail.Sender
                             </a>
                             &nbsp;is requesting to join your group
@@ -110,7 +110,6 @@
 
 </div>
 
-
 <div class="invisible" id="meetingRequests">
     <table class="table table-striped">
         <thead>
@@ -148,7 +147,7 @@
                 {
                     boldStyle = "bold";
                 }
-                <tr class="@boldStyle">
+                <tr class="@boldStyle" id="message">
                     @Html.Hidden("mailID", mail.MailID)
                     @Html.Hidden("readed", (int)mail.Readed)
                     @Html.Hidden("senderID", mail.SenderID)
@@ -165,7 +164,7 @@
                     </td>
                     <td id="messageCell">
                         <div>
-                            <a href="javascript:void(0)" id="user">
+                            <a href="javascript:void(0)" id="sender">
                                 @mail.Sender
                             </a>
                             &nbsp;is scheduling a meeting&nbsp;
@@ -203,6 +202,204 @@
     </div>
 </div>
 
+<div class="modal" id="userModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-backdrop fade in"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">User Information</h4>
+            </div>
+            <div class="modal-body" id="user-modalBody">
+                <style>
+                </style>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">User Information</h1>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-4 bold">
+                                            Name:
+                                        </div>
+                                        <div class="col-md-8" id="name">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-4 bold">
+                                            Email:
+                                        </div>
+                                        <div class="col-md-8" id="email">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-4 bold">
+                                            Major:
+                                        </div>
+                                        <div class="col-md-8" id="major">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-4 bold">
+                                            Degree Level:
+                                        </div>
+                                        <div class="col-md-8" id="degree">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-4 bold">
+                                            Phone Number:
+                                        </div>
+                                        <div class="col-md-8" id="phone">
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-backdrop fade in"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Group Information</h4>
+            </div>
+            <div class="modal-body" id="user-modalBody">
+                <style>
+                </style>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Group Information</h1>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-5 bold">
+                                            Name:
+                                        </div>
+                                        <div class="col-md-7" id="name">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-5 bold">
+                                            Description:
+                                        </div>
+                                        <div class="col-md-7" id="description">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-5 bold">
+                                            Study Fields:
+                                        </div>
+                                        <div class="col-md-7" id="studyFields">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-5 bold">
+                                            Course Number:
+                                        </div>
+                                        <div class="col-md-7" id="courseNo">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-5 bold">
+                                            Max Member Number:
+                                        </div>
+                                        <div class="col-md-7" id="maxMemberNumber">
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="meetingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-backdrop fade in"></div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Meeting Information</h4>
+            </div>
+            <div class="modal-body" id="user-modalBody">
+                <style>
+                </style>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Meeting Information</h1>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-3 bold">
+                                            Name:
+                                        </div>
+                                        <div class="col-md-9" id="name">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-3 bold">
+                                            Description:
+                                        </div>
+                                        <div class="col-md-9" id="description">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-3 bold">
+                                            Time:
+                                        </div>
+                                        <div class="col-md-9" id="time">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item list-item-min-height">
+                                        <div class="col-md-3 bold">
+                                            Location:
+                                        </div>
+                                        <div class="col-md-9" id="location">
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section css
 {
     <style>
@@ -221,6 +418,10 @@
         ul.nav.nav-tabs.nav-justified>li>a
         {
             color:#555;
+        }
+
+        .list-item-min-height {
+            height: 40px;
         }
 
     </style>
@@ -253,8 +454,6 @@
                         $('#meetingRequests').removeClass('invisible');
                     }
                 });
-
-                
             });
 
             $(document).ready(function ($) {
@@ -496,6 +695,72 @@
                 });
             });
 
+            $(document).ready(function ($) {
+                
+
+                $('tbody').on('click', '#sender', function () {
+                    var msg = $(this).parents('#message');
+                    var senderID = msg.find('#senderID').prop('value');
+
+                    $.ajax({
+                        url: '/HCI/api/UserWebAPI?userID=' + senderID,
+                        dataType: 'json',
+                        success: function (data) {
+                            var userModal = $('#userModal');
+                            userModal.find('#name').text(data.userName);
+                            userModal.find('#degree').text(data.degree);
+                            userModal.find('#email').text(data.email);
+                            userModal.find('#phone').text(data.phone);
+                            userModal.find('#major').text(data.major);
+
+                            userModal.modal('show');
+
+                        }
+                    });
+                });
+
+                $('tbody').on('click', '#group', function () {
+                    var msg = $(this).parents('#message');
+                    var groupID = msg.find('#groupID').prop('value');
+
+                    $.ajax({
+                        url: '/HCI/api/GroupWebAPI?groupID=' + groupID,
+                        dataType: 'json',
+                        success: function (data) {
+                            var groupModal = $('#groupModal');
+                            groupModal.find('#name').text(data.name);
+                            groupModal.find('#description').text(data.description);
+                            groupModal.find('#studyFields').text(data.studyFields);
+                            groupModal.find('#courseNo').text(data.courseNo);
+                            groupModal.find('#maxMemberNumber').text(data.maxMemberNumber);
+
+                            groupModal.modal('show');
+
+                        }
+                    });
+                });
+
+                $('tbody').on('click', '#meeting', function () {
+                    var msg = $(this).parents('#message');
+                    var groupID = msg.find('#meetingID').prop('value');
+
+                    $.ajax({
+                        url: '/HCI/api/MeetingWebAPI?meetingID=' + groupID,
+                        dataType: 'json',
+                        success: function (data) {
+                            var meetingModal = $('#meetingModal');
+                            meetingModal.find('#name').text(data.name);
+                            meetingModal.find('#description').text(data.description);
+                            meetingModal.find('#location').text(data.location);
+                            meetingModal.find('#time').text(data.time);
+
+                            meetingModal.modal('show');
+
+                        }
+                    });
+                });
+            });
+
             function processJoinRequest(msg, status)
             {
                 var membershipID = msg.find('#membershipID').prop('value');
@@ -700,8 +965,7 @@
 
                 refreshInboxBadge();
             }
-
-
+            
             function refreshInboxBadge()
             {
                 var mailBoxBadge = $('#badge');
