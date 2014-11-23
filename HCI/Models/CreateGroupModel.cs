@@ -12,15 +12,14 @@ namespace HCI.Models
         public CreateGroupModel()
         {
             this.newGroup = new Group();
-            this.groupStudyField = new RelGroupsStudyfield();
             this.groupMemberShip = new GroupMembership();
         }
 
         public CreateGroupModel(HciDb ctx):base(ctx)
         {
             this.newGroup = new Group();
-            this.groupStudyField = new RelGroupsStudyfield();
             this.groupMemberShip = new GroupMembership();
+
         }
 
         public void Save(HciDb ctx,string userName)
@@ -40,9 +39,19 @@ namespace HCI.Models
 
             if (!isExist)
             {
+                foreach(string FName in this.fieldName)
+                {
+                    if (FName != "None" && FName != "")
+                    {
+                        this.studyField = Context.StudyFields.Where(x => x.name == FName).FirstOrDefault();
+                        this.groupStudyField=new RelGroupsStudyfield();
+                        this.groupStudyField.group_id = this.newGroup.id;
+                        this.groupStudyField.study_field_id = this.studyField.id;
+                        ctx.RelGroupsStudyfields.Add(this.groupStudyField);
+                    }
+                }
+             
 
-
-                this.studyField = Context.StudyFields.Where(x => x.name == this.fieldName).FirstOrDefault();
 
                 if (this.newGroup.max_member_number.ToString() == "")
                 {
@@ -51,20 +60,12 @@ namespace HCI.Models
 
 
                 this.newGroup.owner_id = user.id;
-                this.groupStudyField.Group = this.newGroup;
-                this.groupStudyField.group_id = this.newGroup.id;
-                this.groupStudyField.StudyField = this.studyField;
-                this.groupStudyField.study_field_id = this.studyField.id;
 
-
-                this.groupMemberShip.Group = this.newGroup;
                 this.groupMemberShip.group_id = this.newGroup.id;
-                this.groupMemberShip.User = user;
                 this.groupMemberShip.user_id = user.id;
 
                 ctx.Groups.Add(this.newGroup);
-                // ctx.RelGroupsStudyfields.Add(this.groupStudyField);
-                //ctx.GroupMemberships.Add(this.groupMemberShip);
+                ctx.GroupMemberships.Add(this.groupMemberShip);
                 ctx.SaveChanges();
             }
         }
@@ -73,7 +74,7 @@ namespace HCI.Models
         public GroupMembership groupMemberShip { get; set; }
         public StudyField studyField { get; set; }
 
-        public string fieldName { get; set; }
+        public List<string> fieldName { get; set; }
 
         public bool isExist { get; set; }
 
