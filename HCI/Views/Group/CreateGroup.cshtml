@@ -46,39 +46,81 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap-datepicker")
     <script type="text/javascript">
-        function getStudyField(sender)
+        function addList()
+        {
+            
+                var dropdown = "#SFdropMenu-0";
+                var ce = $('<li id="SF1"><a onclick="getStudyField1(this)">Computer Engineering</a></li>');
+                var cs = $('<li id="SF2"><a onclick="getStudyField1(this)">Computer Science</a></li>');
+                var math = $('<li id="SF3"><a onclick="getStudyField1(this)">Mathematics</a></li>');
+                var none = $('<li id="SFN"><a onclick="getStudyField1(this)">None</a></li>')                                                    
+                $(dropdown).empty();
+                $(dropdown).append(ce);
+                $(dropdown).append(cs);
+                $(dropdown).append(math);
+                $(dropdown).append(none);
+
+                var dropdown = "#SFdropMenu-1";
+                var ce = $('<li id="SF1"><a onclick="getStudyField2(this)">Computer Engineering</a></li>');
+                var cs = $('<li id="SF2"><a onclick="getStudyField2(this)">Computer Science</a></li>');
+                var math = $('<li id="SF3"><a onclick="getStudyField2(this)">Mathematics</a></li>');
+                var none = $('<li id="SFN"><a onclick="getStudyField2(this)">None</a></li>')
+                $(dropdown).empty();
+                $(dropdown).append(ce);
+                $(dropdown).append(cs);
+                $(dropdown).append(math);
+                $(dropdown).append(none);
+
+                var dropdown = "#SFdropMenu-3";
+                var ce = $('<li id="SF1"><a onclick="getStudyField3(this)">Computer Engineering</a></li>');
+                var cs = $('<li id="SF2"><a onclick="getStudyField3(this)">Computer Science</a></li>');
+                var math = $('<li id="SF3"><a onclick="getStudyField3(this)">Mathematics</a></li>');
+                var none = $('<li id="SFN"><a onclick="getStudyField3(this)">None</a></li>')
+                $(dropdown).empty();
+                $(dropdown).append(ce);
+                $(dropdown).append(cs);
+                $(dropdown).append(math);
+                $(dropdown).append(none);
+        }
+        function removeList(current)
+        {
+            for (var i = 0; i <= 2; i++) {
+                var dropdown = "#SFdropMenu-" + i;
+
+                for (var j = 1; j <= 3; j++) {
+                        var list = "#SF" + j;
+                        for (var k = 1; k <= 3; k++) {
+                            if (i != k - 1) {
+                                var inputBox = "#studyField" + k;
+                                var inputValue = $(inputBox).val();
+                                if ($(dropdown).children(list).text() == inputValue) {
+                                    $(dropdown).children(list).remove();
+                                }
+                            }
+                        }
+                }
+            }
+        }
+        function getStudyField1(sender)
         {
             var sf = sender.textContent;
-            $('#studyField').val(sf);
+            $('#studyField1').val(sf);
+            addList();
+            removeList(1);
         }
         function getStudyField2(sender) {
             var sf = sender.textContent;
             $('#studyField2').val(sf);
+            addList();
+            removeList(2);
         }
         function getStudyField3(sender) {
             var sf = sender.textContent;
             $('#studyField3').val(sf);
+            addList();
+            removeList(3);
         }
 
-        $(document).ready(function ($) {
-            $(function () {
-                $("#studyField-container").delegate("#addLink", "click",
-                    function (evt) {
-                        var newCondtionGroup = $('#studyField-container-model').clone(true);
-                        var conditionGroup = $(this).parent().parent();
-
-                        conditionGroup.after(newCondtionGroup);
-                        newCondtionGroup.prop('hidden', false);
-
-                    });
-
-                $("#studyField-container").delegate("#removeLink", "click",
-                    function (evt) {
-                        var conditionGroup = $(this).parent().parent();
-                        conditionGroup.remove();
-                    });
-            })
-        });
     </script>
 }
 <div class="container body-content">
@@ -122,84 +164,70 @@
                             </li>
                             <li class="list-group-item study-field-hight">
                                 <div class="row">
-                                    <div id="studyField-container">
+                                    <div id="studyField-container-0">
                                         <div class="col-md-2">
-                                            <b>Study Fields (*):</b>
+                                            <b style="padding-left:15px;">Study Fields (*):</b>
                                         </div>
                                         <div class="col-md-4" style="padding-left:23px">
                                             <div class="input-group">
-                                                <input type="text" id="studyField" name="fieldName" class="col-md-6 form-control" style="padding-left:12px; width:170px;">
-                                                <div class="input-group-btn col-md-4">
-                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Study Field<span class="caret"></span></button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li><a onclick="getStudyField(this)">Computer Engineering</a></li>
-                                                        <li><a onclick="getStudyField(this)">Computer Science</a></li>
-                                                        <li><a onclick="getStudyField(this)">Mathematics</a></li>
+                                               <div class="input-group-btn col-md-4">
+                                                   <input type="text" id="studyField1" value="None" name="fieldName[0]" class="col-md-6 form-control" style="padding-left:12px; width:170px;">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                                                    <ul class="dropdown-menu" role="menu" id="SFdropMenu-0">
+                                                        <li id="SF1"><a onclick="getStudyField1(this)">Computer Engineering</a></li>
+                                                        <li id="SF2"><a onclick="getStudyField1(this)">Computer Science</a></li>
+                                                        <li id="SF3"><a onclick="getStudyField1(this)">Mathematics</a></li>
+                                                        <li id="SFN"><a onclick="getStudyField1(this)">None</a></li>
                                                     </ul>
                                                 </div><!-- /btn-group -->
                                             </div><!-- /input-group -->
-                                            <div class="col-md-8">
-                                                @Html.ValidationMessageFor(m => m.newGroup.description, "", new { @class = "text-danger" })
-                                            </div>
+                                            
                                         </div>
-                                        <div class="col-md-6" style="padding-top: 7px;">
-                                            <a href="javascript:void(0)" id="addLink" hidden>Add another Study Field</a>
-                                            <a href="javascript:void(0)" id="removeLink" hidden>Remove</a>
+                                        <div class="col-md-6">
+                                            @Html.ValidationMessageFor(m => m.studyField, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <div class="row">
-                                    <div>
+                                    <div id="studyField-container-1">
                                         <div class="col-md-2">
-                                            <b></b>
                                         </div>
                                         <div class="col-md-4" style="padding-left:23px">
                                             <div class="input-group">
-                                                <input type="text" id="studyField2" class="col-md-6 form-control" style="padding-left:12px; width:170px;">
                                                 <div class="input-group-btn col-md-4">
-                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Study Field<span class="caret"></span></button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li><a onclick="getStudyField2(this)">Computer Engineering</a></li>
-                                                        <li><a onclick="getStudyField2(this)">Computer Science</a></li>
-                                                        <li><a onclick="getStudyField2(this)">Mathematics</a></li>
+                                                    <input type="text" id="studyField2" value="None" name="fieldName[1]" class="col-md-6 form-control" style="padding-left:12px; width:170px;">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                                                    <ul class="dropdown-menu" role="menu" id="SFdropMenu-1">
+                                                        <li id="SF1"><a onclick="getStudyField2(this)">Computer Engineering</a></li>
+                                                        <li id="SF2"><a onclick="getStudyField2(this)">Computer Science</a></li>
+                                                        <li id="SF3"><a onclick="getStudyField2(this)">Mathematics</a></li>
+                                                        <li id="SFN"><a onclick="getStudyField2(this)">None</a></li>
                                                     </ul>
                                                 </div><!-- /btn-group -->
                                             </div><!-- /input-group -->
-                                            <div class="col-md-8">
-                                                @Html.ValidationMessageFor(m => m.newGroup.description, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6" style="padding-top: 7px;">
-                                            <a href="javascript:void(0)" id="addLink" hidden>Add another Study Field</a>
-                                            <a href="javascript:void(0)" id="removeLink" hidden>Remove</a>
+                                            
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" id="studyField-container-model">
-                                    <div>
+
+                                <div class="row">
+                                    <div id="studyField-container-2">
                                         <div class="col-md-2">
-                                            <b></b>
                                         </div>
                                         <div class="col-md-4" style="padding-left:23px">
                                             <div class="input-group">
-                                                <input type="text" id="studyField3"  class="col-md-6 form-control" style="padding-left:12px; width:170px;">
                                                 <div class="input-group-btn col-md-4">
-                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Study Field<span class="caret"></span></button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li><a onclick="getStudyField3(this)">Computer Engineering</a></li>
-                                                        <li><a onclick="getStudyField3(this)">Computer Science</a></li>
-                                                        <li><a onclick="getStudyField3(this)">Mathematics</a></li>
+                                                    <input type="text" id="studyField3" value="None" name="fieldName[2]" class="col-md-6 form-control" style="padding-left:12px; width:170px;">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                                                    <ul class="dropdown-menu" role="menu" id="SFdropMenu-2">
+                                                        <li id="SF1"><a onclick="getStudyField3(this)">Computer Engineering</a></li>
+                                                        <li id="SF2"><a onclick="getStudyField3(this)">Computer Science</a></li>
+                                                        <li id="SF3"><a onclick="getStudyField3(this)">Mathematics</a></li>
+                                                        <li id="SFN"><a onclick="getStudyField3(this)">None</a></li>
                                                     </ul>
                                                 </div><!-- /btn-group -->
-                                            </div><!-- /input-group -->
-                                            <div class="col-md-8">
-                                                @Html.ValidationMessageFor(m => m.newGroup.description, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6" style="padding-top: 7px;">
-                                            <a href="javascript:void(0)" id="addLink" hidden>Add another Study Field</a>
-                                            <a href="javascript:void(0)" id="removeLink" hidden>Remove</a>
+                                            </div><!-- /input-group -->                                       
                                         </div>
                                     </div>
                                 </div>
