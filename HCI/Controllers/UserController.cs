@@ -31,8 +31,9 @@ namespace HCI.Controllers
         }
 
         [HttpGet]
-        public ActionResult ScheduleMeeting(string groupId)
+        public ActionResult ScheduleMeeting(string groupId, string meetingDate = "")
         {
+
             ScheduleMeetingModel model;
             using (HciDb ctx = new HciDb())
             {
@@ -41,6 +42,12 @@ namespace HCI.Controllers
                     groupId = "4";
                 int gid = Int32.Parse(groupId);
                 model.Init(gid);
+            }
+
+            if(!string.IsNullOrWhiteSpace(meetingDate))
+            {
+                model.StartDate = meetingDate;
+                model.EndDate = meetingDate;
             }
             return View(model);
         }
