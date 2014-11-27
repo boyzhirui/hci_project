@@ -62,6 +62,10 @@
 
 @if (Request.IsAuthenticated)
 {
+    if(string.IsNullOrWhiteSpace(Session["lastRing"] as string))
+    {
+        Session["lastRing"] = "1";
+        
     <script src="@Url.Content("~/Scripts/ion.sound.js")"></script>
     
     <script type="text/javascript">
@@ -96,6 +100,30 @@
 
         });
     </script>
+    }
+    else
+    {
+        
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                var mailBoxBadge = $('#badge');
+
+                $.ajax({
+                    url: '/HCI/api/MailBoxWebAPI?userName=' + "@User.Identity.Name" + "&type=ALL",
+                    dataType: 'json',
+                    success: function (data) {
+
+                        if (Number(data) > 0) {
+                            mailBoxBadge.text(data);
+                        }
+                    }
+                });
+
+
+            });
+        </script>
+    }
 }
 </body>
 </html>

@@ -470,6 +470,7 @@ namespace HCI.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
+            Session.Abandon();
             return RedirectToAction("Index", "Home");
         }
 
