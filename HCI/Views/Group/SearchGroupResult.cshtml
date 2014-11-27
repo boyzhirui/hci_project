@@ -80,6 +80,10 @@
         .list-item-min-height {
             height: 40px;
         }
+
+        .bold{
+            font-weight:bold;
+        }
     </style>
 }
 
@@ -90,7 +94,14 @@
 <div class="form-group">
     <label for="GeneralSearchKeyword" class="col-md-2 control-label">Search: </label>
     <div class="col-md-6">
-        <input class="form-control" id="GeneralSearchKeyword" name="GeneralSearchKeyword" placeholder="Input keywords here" style="min-width:100%" type="text" value="@Model.Queries.GeneralSearchKeyword" />
+        @if (Model.Queries != null && Model.Queries.IsAdvancedSearch)
+        {
+            <input class="form-control" id="GeneralSearchKeyword" name="GeneralSearchKeyword" placeholder="Input keywords here" style="min-width:100%" type="text" value="" />
+        }
+        else
+        { 
+            <input class="form-control" id="GeneralSearchKeyword" name="GeneralSearchKeyword" placeholder="Input keywords here" style="min-width:100%" type="text" value="@Model.Queries.GeneralSearchKeyword" />
+        }
         <input id="IsAdvancedSearch" name="IsAdvancedSearch" type="hidden" value="false" />
     </div>
     <div class="col-md-1">
@@ -102,6 +113,40 @@
         @Html.ActionLink("Advanced Search", "AdvancedSearchGroup", "Group")
     </div>
 </div>
+}
+
+@if (Model.Queries != null && Model.Queries.IsAdvancedSearch && Model.Queries.QueryList != null)
+{
+    <div class="alert alert-success" role="alert">
+        The below result is searched through "Advanced Search" using the queries: 
+            @{
+                bool first = true;
+            }
+        @foreach (var query in Model.Queries.QueryList)
+        {
+            if (string.IsNullOrEmpty(query.SearchValue))
+            {
+                continue;
+            }
+
+            if (!first)
+            {
+                <span class="bold">@query.CombineType</span>
+            }
+            else { 
+                first = false;
+            }
+            <span class="bold">
+                (@query.SearchType @query.SearchVerbType @query.SearchValue)
+            </span>
+        }
+</div>
+}
+else if (Model.Queries != null && !string.IsNullOrEmpty(Model.Queries.GeneralSearchKeyword))
+{
+    <div class="alert alert-success" role="alert">
+        The below result is searched using the keyword: <span class="bold">@Model.Queries.GeneralSearchKeyword</span>
+    </div>
 }
 
 @if (Model.Groups.FirstOrDefault() != null)
