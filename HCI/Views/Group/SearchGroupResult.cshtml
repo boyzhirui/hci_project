@@ -158,8 +158,8 @@ else if (Model.Queries != null && !string.IsNullOrEmpty(Model.Queries.GeneralSea
     <div class="row">
         <div class="panel panel-primary" id="groupPanel">
             <div class="panel-body">
-                <div class="col-md-1" style="min-width:10%"></div>
-                <div class="col-md-9">
+                <div class="col-md-1" style="min-width:5%"></div>
+                <div class="col-md-10">
                     <ul class="list-group">
                         <li class="list-group-item list-item-min-height" style="background-color:#e3e3e3;padding-top: 5px;">
                             <div class="col-md-4" id="nameValue" style="padding-top: 5px;font-weight: bold;font-size: 16px;">
@@ -192,26 +192,26 @@ else if (Model.Queries != null && !string.IsNullOrEmpty(Model.Queries.GeneralSea
                              </div>
                         </li>
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4" id="descLabel">
+                            <div class="col-md-3" id="descLabel">
                                 Description:
                             </div>
-                            <div class="col-md-8" id="descValue">
+                            <div class="col-md-9" id="descValue">
                                 @group.description
                             </div>
                         </li>
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 Study Fields:
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 @String.Join(",", group.RelGroupsStudyfields.Select(x => x.StudyField.name))
                             </div>
                         </li>
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 Course Number:
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 @group.course_no
                             </div>
                         </li>
@@ -226,10 +226,10 @@ else if (Model.Queries != null && !string.IsNullOrEmpty(Model.Queries.GeneralSea
                         }                               
                         <li class="list-group-item list-item-min-height" style="height:@heightPx">
                             
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 Regular meetings:
                             </div>
-                            <span class="col-md-8">
+                            <span class="col-md-9">
                                 @{
                                     StringBuilder mtgDesc = new StringBuilder();
                                     foreach(var desc in group.MeetingDescriptions)
@@ -239,16 +239,21 @@ else if (Model.Queries != null && !string.IsNullOrEmpty(Model.Queries.GeneralSea
                                             mtgDesc.Append("<br>");
                                         }
                                         mtgDesc.Append(desc);
+                                        if (group.course_no == "CSC 520")
+                                        {
+                                            mtgDesc.Append("<span style=\"color:red;\">&nbsp;(Conflict with your classes)</span>");
+                                            
+                                        }
                                     }
                                 }
                                 @Html.Raw(mtgDesc.ToString())
                             </span>
                         </li>
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 Closed Group:
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 @group.is_closed.ToString()
                                 @if (group.is_closed == HCI.Utils.YesNo.Yes)
                             {
@@ -257,18 +262,18 @@ else if (Model.Queries != null && !string.IsNullOrEmpty(Model.Queries.GeneralSea
                             </div>
                         </li>
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 Max Member Number:
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 @group.max_member_number
                             </div>
                         </li>
                         <li class="list-group-item list-item-min-height">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 Owner:
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 @group.Owner.name
                             </div>
                         </li>
