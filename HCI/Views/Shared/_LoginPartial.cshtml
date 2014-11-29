@@ -14,13 +14,13 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
 
+        <li style="padding-left:10px;">
+            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "UserInfo", "User", routeValues: null, htmlAttributes: new { title = "Personal Information" })
+        </li>
         <li style="padding-top:15px">
             <a href="/HCI/MailBox/Index" class="inbox" style="padding-top:5px;" title="inbox">
                 <span class="badge" id="badge"></span>
             </a>
-        </li>
-        <li style="padding-left:10px;">
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "UserInfo", "User", routeValues: null, htmlAttributes: new { title = "Personal Information" })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>
