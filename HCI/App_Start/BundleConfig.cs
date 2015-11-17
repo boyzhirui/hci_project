@@ -49,6 +49,37 @@ namespace HCI
 
             bundles.Add(new ScriptBundle("~/bundles/io-sound")
                 .Include("~/Scripts/ion.sound.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/general-search").Include(
+                        "~/Scripts/search-group/general-search.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/advanced-search").Include(
+                        "~/Scripts/groups/advanced-search.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/search-result").Include(
+                        "~/Scripts/groups/search-result.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/create-group").Include(
+                        "~/Scripts/groups/create-group.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/get-groups").Include(
+                       "~/Scripts/groups/get-groups.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/group-details").Include(
+                       "~/Scripts/groups/group-details.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/mailbox").Include(
+                        "~/Scripts/mailbox/mailbox.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/schedule-meetings").Include(
+                        "~/Scripts/meetings/schedule-meetings.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/get-schedules").Include(
+                        "~/Scripts/meetings/get-schedules.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/dashboard").Include(
+                        "~/Scripts/dashboard/dashboard.js"));
+
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;

@@ -9,49 +9,17 @@
     int event_detail_id = 0;
 }
 
-@section scripts{
-    <script type="text/javascript">
-    $(document).ready(function ($) {
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-            
-        })
-    });
+@section css{
+    <style>
+        .list-item-min-height {
+            height: 50px;
+        }
 
-    $(document).ready(function () {
-        $("#UserList").on("click", "#link-userName", function () {
-            $.ajax({
-                type: "GET",
-                url: "/HCI/User/GetUserInfo",
-                data: { userName: $(this).text() }
-            })
-            .done(function (partialViewResult) {
-                $("#user-modalBody").html(partialViewResult);
-            });
-        });
-    });
-
-    $(document).ready(function () {
-        $("#EventList").on("click", "#link-event", function () {
-            var id = $(this).prev("#eventID").text();
-            var EventDetail = "#EventDetail" + id;
-            $('.hide-all-event').hide();
-            $(EventDetail).show();
-            
-        })
-    })
-    </script>
+        .edit-input {
+            display: none;
+        }
+    </style>
 }
-
-<style>
-    .list-item-min-height {
-        height: 50px;
-    }
-
-    .edit-input {
-        display: none;
-    }
-</style>
 
 <h2>Group Detail</h2>
 <div class="row">
@@ -306,3 +274,7 @@
 
 
 </div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/group-details")
+}

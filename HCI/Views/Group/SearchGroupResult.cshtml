@@ -8,72 +8,6 @@
 
 <h2>Search Group Result</h2>
 
-@section scripts
-{
-    <script type="text/javascript">
-        $(document).ready(function ($) {
-            $(function () {
-                $('#GeneralSearchKeyword').focus();
-            })
-        });
-
-        $(document).ready(function ($) {
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip()
-            })
-        });
-        $(document).ready(function ($) {
-            $(function () {
-                $('#groupList').on('click', '#joinBtn', function()
-                {
-                    var groupId = $(this).parent().parent().children('#groupId').prop('value');
-                    var userId = $(this).parent().parent().children('#userId').prop('value');
-                    var currentBtn = $(this);
-
-                    $.ajax({
-                        url: '/HCI/api/GroupMembershipWebAPI?' + 'userId=' + userId + '&groupId=' + groupId,
-                        dataType: 'json',
-                        type: 'POST',
-                        success: function (data) {
-
-                            currentBtn.hide();
-                            currentBtn.siblings('#quitBtn').show();
-
-                            if (data == 'waiting')
-                            {
-                                currentBtn.parent().parent().children("#waitingInfo").text("Waiting for the group owner's approval.");
-                            }
-                            else
-                            {
-                                currentBtn.parent().parent().children("#waitingInfo").text("You succeeded in joining the group");
-                            }
-                        }
-                    });
-                });
-
-                $('#groupList').on('click', '#quitBtn', function () {
-                    var groupId = $(this).parent().parent().children('#groupId').prop('value');
-                    var userId = $(this).parent().parent().children('#userId').prop('value');
-                    var currentBtn = $(this);
-                    $.ajax({
-                        url: '/HCI/api/GroupMembershipWebAPI?' + 'userId=' + userId + '&groupId=' + groupId,
-                        dataType: 'json',
-                        type: 'DELETE',
-                        success: function (data) {
-
-                            currentBtn.hide();
-                            currentBtn.siblings('#joinBtn').show();
-                            currentBtn.parent().parent().children("#waitingInfo").text("");
-
-
-                        }
-                    });
-                });
-            });
-        });
-
-    </script>
-}
 
 @section css{
     <style>
@@ -319,3 +253,8 @@ else
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/search-result")
+}

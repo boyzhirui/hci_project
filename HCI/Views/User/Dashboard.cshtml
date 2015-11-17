@@ -9,6 +9,9 @@
     int event_id = 0;
     int event_detail_id = 0;
 }
+
+@section css
+{
 <style>
     .row{
         margin-left:0;
@@ -26,26 +29,8 @@
         display: none;
     }
 </style>
-@section scripts{
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#EventList").on("click", "#link-event", function () {
-            var id = $(this).prev("#eventID").text();
-            var EventDetail = "#EventDetail" + id;
-            $('.hide-all-event').hide();
-            $('#cancelSeriesBtn').addClass("edit-input");
-            $('#cancelBtn').addClass("edit-input");
-            $(EventDetail).show();
-            var eventOwner = '#eventOwner' + (Number(id) + 1);
-            if($(eventOwner).length > 0)
-            {
-                $('#cancelSeriesBtn').removeClass("edit-input");
-                $('#cancelBtn').removeClass("edit-input");
-            }
-        })
-    })
-</script>
-    }
+}
+
 
 
 <h2>Dashboard</h2>
@@ -167,3 +152,7 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/dashboard")
+}

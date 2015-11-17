@@ -6,16 +6,6 @@
 
 <h2>Search Group</h2>
 
-@section scripts
-{
-    <script type="text/javascript">
-        $(document).ready(function ($) {
-            $(function () {
-                $('#GeneralSearchKeyword').focus();
-            })
-        });
-    </script>
-}
 
     <div style="height:30px"></div>
     @using (Html.BeginForm("SearchGroupResult", "Group", FormMethod.Post, htmlAttributes: new {@class="form-horizontal", @role="form"}))
@@ -37,3 +27,7 @@
             </div>
         }
 
+@section scripts
+{
+    @Scripts.Render("~/bundles/general-search")
+}
