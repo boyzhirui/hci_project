@@ -14,27 +14,53 @@ namespace HCI.Controllers
         // GET: SearchTeam
         public ActionResult GeneralSearchGroup()
         {
-            SearchGroupQueryModel model = new SearchGroupQueryModel();
+            TempData["SearchGroupResultData"] = null;
+            GeneralSearchGroupQueryModel model = new GeneralSearchGroupQueryModel();
             return View(model);
         }
 
         public ActionResult AdvancedSearchGroup()
         {
-            SearchGroupQueryModel model = new SearchGroupQueryModel();
+            TempData["SearchGroupResultData"] = null;
+            AdvancedSearchGroupQueryModel model = new AdvancedSearchGroupQueryModel();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult SearchGroupResult(SearchGroupQueryModel queryModel)
+        public ActionResult GeneralSearchGroupResult(GeneralSearchGroupQueryModel queryModel)
+        {
+            
+            SearchGroupResultModel model = null;
+            using (HciDb ctx = new HciDb())
+            {
+                model = new SearchGroupResultModel(ctx);
+                model.Fill(queryModel, User.Identity.Name);
+            }
+
+            TempData["SearchGroupResultData"] = model;
+
+            return RedirectToAction("SearchGroupResult");
+        }
+
+        [HttpPost]
+        public ActionResult AdvancedSearchGroupResult(AdvancedSearchGroupQueryModel queryModel)
         {
             SearchGroupResultModel model = null;
             using (HciDb ctx = new HciDb())
             {
                 model = new SearchGroupResultModel(ctx);
-                model.Search(queryModel, User.Identity.Name);
+                model.Fill(queryModel, User.Identity.Name);
             }
 
-            return View(model);
+            TempData["SearchGroupResultData"] = model;
+
+            return RedirectToAction("SearchGroupResult");
+        }
+
+        [HttpGet]
+        public ActionResult SearchGroupResult()
+        {
+            return View();
         }
 
         [HttpGet]

@@ -228,6 +228,8 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\SearchGroups\GeneralSearchGroupQueryModel.cs" />
+    <Compile Include="Models\SearchGroups\AdvancedSearchGroupQueryModel.cs" />
     <Compile Include="Models\CreateGroupModel.cs" />
     <Compile Include="Models\Database\AspNetUser.cs" />
     <Compile Include="Models\CreateGroupResultModel.cs" />
