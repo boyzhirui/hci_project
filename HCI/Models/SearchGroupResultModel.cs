@@ -27,7 +27,7 @@ namespace HCI.Models
             AdvancedSearchResult = false;
             GeneralSearchGroupQuery = queries;
             var user = Context.Users.Include("GroupMemberships").Where(x => x.name == userName).First();
-            var groupIDs = user.GroupMemberships.Select(x => x.group_id).ToList();
+            var joinedGroupIDs = user.GroupMemberships.Select(x => x.group_id).ToList();
             UserID = user.id;
 
             string keyword = queries.Keyword;
@@ -37,7 +37,7 @@ namespace HCI.Models
                               .Include("RelGroupsStudyfields.StudyField")
                               .Include("Meetings")
                               .Include("GroupMemberships")
-                              .Where(x => !groupIDs.Contains(x.id))
+                              .Where(x => !joinedGroupIDs.Contains(x.id))
                               .ToList();
             }
             else
@@ -46,7 +46,7 @@ namespace HCI.Models
                               .Include("RelGroupsStudyfields.StudyField")
                               .Include("Meetings")
                               .Include("GroupMemberships")
-                              .Where(x => !groupIDs.Contains(x.id) && (x.course_no.Contains(keyword)
+                              .Where(x => !joinedGroupIDs.Contains(x.id) && (x.course_no.Contains(keyword)
                                   || x.name.Contains(keyword)
                                   || x.Owner.name.Contains(keyword)
                                   || x.RelGroupsStudyfields.Any(s => s.StudyField.name.Contains(keyword))
@@ -62,7 +62,7 @@ namespace HCI.Models
             AdvancedSearchGroupQuery = queries;
             AdvancedSearchResult = true;
             var user = Context.Users.Include("GroupMemberships").Where(x => x.name == userName).First();
-            var groupIDs = user.GroupMemberships.Select(x => x.group_id).ToList();
+            var joinedGroupIDs = user.GroupMemberships.Select(x => x.group_id).ToList();
             UserID = user.id;
 
             if (queries.QueryList != null)
@@ -78,11 +78,11 @@ namespace HCI.Models
                     {
                         if (groups == null)
                         {
-                            groups = GetGroup(query);
+                            groups = GetGroup(query, joinedGroupIDs);
                         }
                         else
                         {
-                            groups = GetGroup(query, groups);
+                            groups = GetGroup(query, groups, joinedGroupIDs);
                         }
                     }
 
@@ -92,7 +92,7 @@ namespace HCI.Models
                     }
                 }
 
-                Groups = Groups.Where(x => !groupIDs.Contains(x.id)).Distinct(new GroupComparer()).ToList();
+                Groups = Groups.Distinct(new GroupComparer()).ToList();
 
             }
         }
@@ -110,17 +110,18 @@ namespace HCI.Models
             set;
         }
 
-        private IEnumerable<Group> GetGroup(IExecutableQuery query)
+        private IEnumerable<Group> GetGroup(IExecutableQuery query, IEnumerable<int> joinedGroupIDs)
         {
             return Context.Groups.Include("Owner")
                               .Include("RelGroupsStudyfields.StudyField")
                               .Include("GroupMemberships")
                               .Include("Meetings")
-                              .Where(query.GetLambda());
+                              .Where(query.GetLambda())
+                              .Where(x => !joinedGroupIDs.Contains(x.id));
         }
-        private IEnumerable<Group> GetGroup(IExecutableQuery query, IEnumerable<Group> groups)
+        private IEnumerable<Group> GetGroup(IExecutableQuery query, IEnumerable<Group> groups, IEnumerable<int> joinedGroupIDs)
         {
-            return groups.Where(query.GetLambda());
+            return groups.Where(query.GetLambda()).Where(x => !joinedGroupIDs.Contains(x.id));
         }
     }
 
